@@ -8,7 +8,7 @@ class TTextFieldTheme{
     prefixIconColor: Colors.grey,
     suffixIconColor: Colors.grey,
 
-    labelStyle: TextStyle().copyWith(fontSize: 14, color: Colors.black),
+    labelStyle: TextStyle().copyWith(fontSize: 14, color: const Color.fromARGB(186, 0, 0, 0)),
     hintStyle: TextStyle().copyWith(fontSize: 14, color: Colors.black),
     errorStyle: TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle: TextStyle().copyWith(color: Colors.black.withValues(alpha: 0.8)),
@@ -39,7 +39,7 @@ class TTextFieldTheme{
     prefixIconColor: Colors.grey,
     suffixIconColor: Colors.grey,
 
-    labelStyle: const TextStyle().copyWith(fontSize: 14, color: Colors.white),
+    labelStyle: const TextStyle().copyWith(fontSize: 14, color: const Color.fromARGB(191, 255, 255, 255)),
     hintStyle:const TextStyle().copyWith(fontSize: 14, color: Colors.white),
     errorStyle:const TextStyle().copyWith(fontStyle: FontStyle.normal),
     floatingLabelStyle: TextStyle().copyWith(color: Colors.white.withValues(alpha: 0.8)),

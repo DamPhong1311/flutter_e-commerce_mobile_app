@@ -1,14 +1,17 @@
 
 
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/appbar_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/bottom_sheet_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/check_box_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/chip_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/elevated_button_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/outlined_button_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/text_field_theme.dart';
-import 'package:e_commerce_mobile_app/utils/theme/custom_themes/text_theme.dart';
+
+
 import 'package:flutter/material.dart';
+
+import 'custom_themes/appbar_theme.dart';
+import 'custom_themes/bottom_sheet_theme.dart';
+import 'custom_themes/check_box_theme.dart';
+import 'custom_themes/chip_theme.dart';
+import 'custom_themes/elevated_button_theme.dart';
+import 'custom_themes/outlined_button_theme.dart';
+import 'custom_themes/text_field_theme.dart';
+import 'custom_themes/text_theme.dart';
 
 class TAppTheme{
   TAppTheme._();
@@ -33,7 +36,7 @@ class TAppTheme{
     fontFamily: 'Poppins',
     brightness: Brightness.dark,
     primaryColor: Colors.blue,
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: Color(0XFF1E1E1E),
     textTheme: TTextTheme.dartTextTheme,
     chipTheme: TChipTheme.dartChipTheme,
     appBarTheme: TAppBarTheme.dartAppBarTheme,
