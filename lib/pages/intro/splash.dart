@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:ecommerece_flutter_app/pages/intro/onboarding/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/constants/colors.dart';
+import '../../common/constants/colors.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -30,7 +30,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: TColors.kPrimaryColor,
+      backgroundColor: KColors.primaryColor,
       body: Align(
         child: Image.asset('assets/logos/logo_2x.png'),
       ),

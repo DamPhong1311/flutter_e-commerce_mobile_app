@@ -1,16 +1,13 @@
+import 'package:ecommerece_flutter_app/pages/intro/signin_signup/forgot_password.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dart';
-import 'package:ecommerece_flutter_app/utils/constants/colors.dart';
-import 'package:ecommerece_flutter_app/utils/constants/sized_box.dart';
+import 'package:ecommerece_flutter_app/common/constants/colors.dart';
+import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
+import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,20 +17,20 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TSizedBox.heightSpace,
-              Text('Login to ShopZen', style: Theme.of(context).textTheme.headlineLarge,),
-              TSizedBox.heightSpace,
+              KSizedBox.heightSpace,
+              Text('Sign In to ShopZen', style: Theme.of(context).textTheme.headlineLarge,),
+              KSizedBox.heightSpace,
               _textFormField(text: 'Email: ' ,label: 'Enter your email' ,context: context),
               _textFormField(text: 'Password: ',label: 'Enter your password'  ,context: context),
               _forgotPasswordButton(context),
-              TSizedBox.heightSpace,
+              KSizedBox.heightSpace,
               _loginButton(),
-              TSizedBox.smallHeightSpace,
-              TSizedBox.smallHeightSpace,
-              _registerButton(),
-              TSizedBox.heightSpace,
+              KSizedBox.smallHeightSpace,
+              KSizedBox.smallHeightSpace,
+              _registerButton(context),
+              KSizedBox.heightSpace,
               orText(context),
-              TSizedBox.heightSpace,
+              KSizedBox.heightSpace,
               _loginWithGGButton(),
               
             ],
@@ -45,14 +42,16 @@ class _LoginPageState extends State<LoginPage> {
 
   ElevatedButton _loginButton() => ElevatedButton(onPressed: (){}, child: Text('Sign In',));
 
-  OutlinedButton _registerButton() => OutlinedButton(onPressed: (){
+  OutlinedButton _registerButton(BuildContext context) => OutlinedButton(onPressed: (){
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
   }, child: Text('Create Account'));
 
   Align _forgotPasswordButton(BuildContext context) {
     return Align(
               alignment: Alignment(1, 0),
-              child: TextButton(onPressed: (){}, child: Text(
+              child: TextButton(onPressed: (){
+                Helper.navigateAndReplace(context, ForgotPasswordPage());
+              }, child: Text(
                 'Forgot password?',
                 style: Theme.of(context).textTheme.titleLarge
               )),
@@ -64,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/icons/google_icon.png'),
-                TSizedBox.smallWidthSpace,
+                KSizedBox.smallWidthSpace,
                 Text('Login with Google')
               ],
             ));
@@ -74,11 +73,11 @@ class _LoginPageState extends State<LoginPage> {
     return Row(
               children: [
                 Spacer(),
-                Expanded(child: Divider(thickness: 1,color: Theme.of(context).brightness == Brightness.dark  ? TColors.kDartModeColor : TColors.kLightModeColor,)),
+                Expanded(child: Divider(thickness: 1,color: Theme.of(context).brightness == Brightness.dark  ? KColors.dartModeColor : KColors.lightModeColor,)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text('Or', style: Theme.of(context).textTheme.labelMedium,)),
-                Expanded(child: Divider(thickness: 1,color: Theme.of(context).brightness == Brightness.dark  ? TColors.kDartModeColor : TColors.kLightModeColor,)),
+                Expanded(child: Divider(thickness: 1,color: Theme.of(context).brightness == Brightness.dark  ? KColors.dartModeColor : KColors.lightModeColor,)),
                 Spacer(),
               ],
             );
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(text ,style: Theme.of(context).textTheme.titleLarge),
-            TSizedBox.smallHeightSpace,
+            KSizedBox.smallHeightSpace,
             TextFormField(
               decoration: InputDecoration(
                 labelText: label,
