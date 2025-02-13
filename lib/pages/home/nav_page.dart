@@ -45,8 +45,8 @@ class _NavPageState extends State<NavPage> {
         },
         items: [
         BottomNavigationBarItem(icon: Icon(Icons.home,), label: 'Home', backgroundColor:  Colors.transparent),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Wishlist', backgroundColor: Colors.transparent),
         BottomNavigationBarItem(icon: Icon(Icons.store), label: 'Store', backgroundColor: Colors.transparent),
+        BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History', backgroundColor: Colors.transparent),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account', backgroundColor: Colors.transparent)
       ]),
     );

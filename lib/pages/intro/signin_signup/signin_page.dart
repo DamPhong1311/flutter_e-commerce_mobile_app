@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/forgot_password.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
@@ -24,7 +25,7 @@ class LoginPage extends StatelessWidget {
               _textFormField(text: 'Password: ',label: 'Enter your password'  ,context: context),
               _forgotPasswordButton(context),
               KSizedBox.heightSpace,
-              _loginButton(),
+              _loginButton(context),
               KSizedBox.smallHeightSpace,
               KSizedBox.smallHeightSpace,
               _registerButton(context),
@@ -40,7 +41,9 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  ElevatedButton _loginButton() => ElevatedButton(onPressed: (){}, child: Text('Sign In',));
+  ElevatedButton _loginButton(BuildContext context) => ElevatedButton(onPressed: (){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage()));
+  }, child: Text('Sign In',));
 
   OutlinedButton _registerButton(BuildContext context) => OutlinedButton(onPressed: (){
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> RegisterPage()));
