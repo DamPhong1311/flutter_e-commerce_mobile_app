@@ -8,6 +8,7 @@ import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
+import '../../common/widgets/gridview_products.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,8 +45,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -56,21 +56,17 @@ class _HomePageState extends State<HomePage> {
                   Center(
                       child: BannerIndicatorRow(currentBanner: currentBanner)),
                   KSizedBox.heightSpace,
-                  GridView.builder(
-                    itemCount: 8,
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: Helper.screenWidth(context) > 600 ? 4 : 2,
-                        mainAxisSpacing:Helper.screenWidth(context) > 600 ? 20 : 8,
-                        crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 8,
-                        mainAxisExtent: Helper.screenWidth(context) > 600 ?Helper.screenHeight(context)*0.35: Helper.screenHeight(context)*0.7,
-                      ),
-
-                      //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
-                      itemBuilder: (_, index) =>  InfoProductContainer(),),
-                 
+                  GridviewProductsContainer(
+                    imageProduct: 'assets/images/products/laptop.jpg',
+                    nameProduct:
+                        'Laptop HP 240 G9 i3 1215U/8GB/512GB/Win11 (6L1X8PA)',
+                    priceProduct: '10.480.000',
+                    isSale: true,
+                    oldPrice: '13.690.000',
+                    salePercent: '-23%',
+                    rateProduct: '4.8',
+               
+                  ),
                 ],
               ),
             )
@@ -188,168 +184,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class InfoProductContainer extends StatelessWidget {
-  const InfoProductContainer({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: Helper.screenWidth(context) * 0.5,
-      height: Helper.screenHeight(context) * 0.7,
-      padding: EdgeInsets.all(1),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                color:
-                    KColors.dartModeColor.withValues(alpha: 0.1),
-                blurRadius: 50,
-                spreadRadius: 7,
-                offset: Offset(0, 2)),
-          ],
-          borderRadius: BorderRadius.circular(16),
-          color: Helper.isDarkMode(context)
-              ? KColors.dartModeColor.withValues(alpha: 0.1)
-              : Colors.grey.withValues(alpha: 0.05)),
-      child: Stack(
-        children: [
-          ShowProduct(
-            imageProduct: 'assets/images/products/laptop.jpg',
-            nameProduct:
-                'Laptop HP 240 G9 i3 1215U/8GB/512GB/Win11 (6L1X8PA)',
-            priceProduct: '10.480.000',
-            isSale: true,
-            oldPrice: '13.690.000',
-            salePercent: '-23%',
-            rateProduct: '4.8',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ShowProduct extends StatelessWidget {
-  const ShowProduct({
-    super.key,
-    required this.nameProduct,
-    required this.priceProduct,
-    this.isSale = false,
-    this.salePercent,
-    this.oldPrice,
-    required this.imageProduct,
-    required this.rateProduct,
-  });
-
-  final String imageProduct;
-  final String nameProduct;
-  final String priceProduct;
-  final bool isSale;
-  final String? salePercent;
-  final String? oldPrice;
-  final String rateProduct;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: ImageContainer(image: imageProduct),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: KSpace.horizontalSmallSpace * 2),
-          child: ProductInfo(
-            name: nameProduct,
-            price: priceProduct,
-            isSale: isSale,
-            salePercent: ' $salePercent',
-            oldPrice: oldPrice,
-            rate: rateProduct,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ProductInfo extends StatelessWidget {
-  const ProductInfo({
-    super.key,
-    required this.name,
-    required this.price,
-    this.isSale = true,
-    this.oldPrice,
-    this.salePercent,
-    required this.rate,
-  });
-
-  final String name;
-  final String price;
-  final bool isSale;
-  final String? oldPrice;
-  final String? salePercent;
-  final String rate;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          name,
-          style: Theme.of(context).textTheme.bodyLarge,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ),
-        KSizedBox.smallHeightSpace,
-        Row(
-          children: [
-            TextPrice(
-              text: price,
-              color: Colors.red,
-            ),
-          ],
-        ),
-        isSale
-            ? Row(
-                children: [
-                  TextPrice(
-                    text: oldPrice??'',
-                    color: Colors.black,
-                    isLineThrough: true,
-                    getTextSmaller: true,
-                  ),
-                  Text(
-                    salePercent??'',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .apply(color: Colors.red),
-                  )
-                ],
-              )
-            : SizedBox(),
-        Row(
-          children: [
-            Icon(
-              Icons.star,
-              color: Colors.yellow,
-            ),
-            KSizedBox.smallWidthSpace,
-            Text(
-              rate,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .apply(color: Colors.orange),
-            )
-          ],
-        )
-      ],
-    );
-  }
-}
 
 class TextPrice extends StatelessWidget {
   const TextPrice(
@@ -430,7 +264,6 @@ class ImageContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-       
       child: Image(
         image: AssetImage(image),
         fit: BoxFit.contain,
