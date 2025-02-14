@@ -7,60 +7,7 @@ import '../constants/space.dart';
 import '../helper/helper.dart';
 
 class GridviewProductsContainer extends StatelessWidget {
-  const GridviewProductsContainer({
-    super.key,
-    this.isSale = false,
-    required this.imageProduct,
-    required this.nameProduct,
-    required this.priceProduct,
-    this.oldPrice,
-    this.salePercent,
-    required this.rateProduct,
-    this.isSmallDevice = false
-  });
-
-  final String imageProduct;
-  final String nameProduct;
-  final String priceProduct;
-  final bool isSale;
-  final String? oldPrice;
-  final String? salePercent;
-  final String rateProduct;
-  final bool isSmallDevice;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: 8,
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: Helper.screenWidth(context) > 600 ? 4 : 2,
-        mainAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 8,
-        crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 8,
-        mainAxisExtent: Helper.screenWidth(context) > 600
-            ? Helper.screenHeight(context) * 0.35
-            : Helper.screenHeight(context) * 0.7,
-      ),
-
-      //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
-      itemBuilder: (_, index) => InfoProductContainerVer(
-        imageProduct: imageProduct,
-        nameProduct: nameProduct,
-        priceProduct: priceProduct,
-        isSale: true,
-        oldPrice: oldPrice,
-        salePercent: salePercent,
-        rateProduct: rateProduct,
-        isSmallDevice: isSmallDevice,
-      ),
-    );
-  }
-}
-
-class InfoProductContainerVer extends StatelessWidget {
-  const InfoProductContainerVer(
+  const GridviewProductsContainer(
       {super.key,
       this.isSale = false,
       required this.imageProduct,
@@ -82,13 +29,48 @@ class InfoProductContainerVer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return GridView.builder(
+      itemCount: 8,
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: Helper.screenWidth(context) > 600 ? 4 : 2,
+        mainAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
+        crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
+        mainAxisExtent: Helper.screenWidth(context) > 600
+            ? Helper.screenHeight(context) * 0.35
+            : Helper.screenHeight(context) * 0.7,
+      ),
+
+      //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
+      itemBuilder: (_, index) => infoProductContainerVer(
+        context: context,
+        imageProduct: imageProduct,
+        nameProduct: nameProduct,
+        priceProduct: priceProduct,
+        isSale: true,
+        oldPrice: oldPrice,
+        salePercent: salePercent,
+        rateProduct: rateProduct,
+        isSmallDevice: isSmallDevice,
+      ),
+    );
+  }
+
+  Widget infoProductContainerVer(
+      {required BuildContext context,
+      required String imageProduct,
+      required String nameProduct,
+      required String priceProduct,
+      bool isSale = false,
+      String? oldPrice,
+      String? salePercent,
+      required String rateProduct,
+      bool isSmallDevice = false}) {
     return Container(
-      width: isSmallDevice
-          ? Helper.screenWidth(context) * 0.8
-          : Helper.screenWidth(context) * 0.5,
-      height: isSmallDevice
-          ? Helper.screenHeight(context) * 0.5
-          : Helper.screenHeight(context) * 0.7,
+      width: Helper.screenWidth(context) * 0.5,
+      height: Helper.screenHeight(context) * 0.7,
       padding: EdgeInsets.all(1),
       decoration: BoxDecoration(
           boxShadow: [
@@ -100,11 +82,11 @@ class InfoProductContainerVer extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(16),
           color: Helper.isDarkMode(context)
-              ? KColors.dartModeColor.withValues(alpha: 0.1)
-              : Colors.grey.withValues(alpha: 0.05)),
+              ? KColors.dartModeColor.withValues(alpha: 0.05)
+              : Colors.grey.withValues(alpha: 0.1)),
       child: Stack(
         children: [
-             Column(
+          Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8),
@@ -113,7 +95,8 @@ class InfoProductContainerVer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: KSpace.horizontalSmallSpace * 2),
-                child: ProductInfo(
+                child: productInfo(
+                  context: context,
                   name: nameProduct,
                   price: priceProduct,
                   isSale: isSale,
@@ -125,36 +108,21 @@ class InfoProductContainerVer extends StatelessWidget {
               ),
             ],
           ),
-         
         ],
       ),
     );
   }
-}
 
-
-class ProductInfo extends StatelessWidget {
-  const ProductInfo({
-    super.key,
-    required this.name,
-    required this.price,
-    this.isSale = true,
-    this.oldPrice,
-    this.salePercent,
-    required this.rate,
-    this.isSmallDevice = false
-  });
-
-  final String name;
-  final String price;
-  final bool isSale;
-  final String? oldPrice;
-  final String? salePercent;
-  final String rate;
-  final bool isSmallDevice;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget productInfo({
+    required BuildContext context,
+    required String name,
+    required String price,
+    bool isSale = false,
+    required String? oldPrice,
+    required String? salePercent,
+    required String rate,
+    bool isSmallDevice = false,
+  }) {
     return Column(
       children: [
         Text(
@@ -173,7 +141,7 @@ class ProductInfo extends StatelessWidget {
           ],
         ),
         isSale
-            ? isSmallDevice? Row(
+            ? Row(
                 children: [
                   TextPrice(
                     text: oldPrice ?? '',
@@ -181,27 +149,11 @@ class ProductInfo extends StatelessWidget {
                     isLineThrough: true,
                     getTextSmaller: true,
                   ),
-                  Text(
+                  isSmallDevice? SizedBox() : Text(
                     salePercent ?? '',
                     style: Theme.of(context)
                         .textTheme
-                        .titleMedium!
-                        .apply(color: Colors.red),
-                  )
-                ],
-              ): Column(
-                children: [
-                  TextPrice(
-                    text: oldPrice ?? '',
-                    color: Colors.black,
-                    isLineThrough: true,
-                    getTextSmaller: true,
-                  ),
-                  Text(
-                    salePercent ?? '',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
+                        .titleSmall!
                         .apply(color: Colors.red),
                   )
                 ],

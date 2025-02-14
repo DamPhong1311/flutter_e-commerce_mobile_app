@@ -65,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                     oldPrice: '13.690.000',
                     salePercent: '-23%',
                     rateProduct: '4.8',
-               
+                    isSmallDevice:
+                        Helper.screenWidth(context) < 390 ? true : false,
                   ),
                 ],
               ),
@@ -184,7 +185,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
 class TextPrice extends StatelessWidget {
   const TextPrice(
       {super.key,
@@ -199,9 +199,9 @@ class TextPrice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '$text VND',
+      '${text}VND',
       style: getTextSmaller
-          ? Theme.of(context).textTheme.bodySmall!.apply(
+          ? Theme.of(context).textTheme.bodyMedium!.apply(
               color: color,
               decoration: isLineThrough
                   ? TextDecoration.lineThrough
@@ -262,10 +262,10 @@ class ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      child: Image(
-        image: AssetImage(image),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Image.asset(
+        image,
         fit: BoxFit.contain,
       ),
     );
