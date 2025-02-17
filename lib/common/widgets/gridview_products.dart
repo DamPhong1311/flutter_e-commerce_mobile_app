@@ -149,13 +149,15 @@ class GridviewProductsContainer extends StatelessWidget {
                     isLineThrough: true,
                     getTextSmaller: true,
                   ),
-                  isSmallDevice? SizedBox() : Text(
-                    salePercent ?? '',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .apply(color: Colors.red),
-                  )
+                  isSmallDevice
+                      ? SizedBox()
+                      : Text(
+                          salePercent ?? '',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .apply(color: Colors.red),
+                        )
                 ],
               )
             : SizedBox(),
