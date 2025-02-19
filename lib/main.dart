@@ -1,5 +1,5 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:ecommerece_flutter_app/pages/home/nav_page.dart';
+import 'package:ecommerece_flutter_app/nav_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerece_flutter_app/pages/intro/splash.dart';
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.dartTheme,
       debugShowCheckedModeBanner: false,
-      // home: Splash(),
-      home: NavPage(),
+      home: Splash(),
+      // home: NavPage(),
     );
   }
 }

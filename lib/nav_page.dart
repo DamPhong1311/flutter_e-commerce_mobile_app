@@ -2,7 +2,7 @@ import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/pages/store/store.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
+import 'pages/home/home_page.dart';
 
 class NavPage extends StatefulWidget {
   const NavPage({super.key});
