@@ -8,12 +8,12 @@ import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
 import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
 import '../../common/widgets/title/main_title.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,20 +38,25 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   _textAndCartButton(context),
                   KSizedBox.mediumSpace,
-                  SearchContainer(onTap: (){
-                    //thay login() thành widget cần đi tới
-                    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context)=> LoginPage()));
-                  },),
+                  SearchContainer(
+                    onTap: () {
+                      //thay login() thành widget cần đi tới
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                  ),
                   KSizedBox.mediumSpace,
                   MainTitle(title: 'Popular Category'),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
-                  ListViewHorizontal(onTap: (){
-                    //thay login() thành widget cần đi tới
-                    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context)=> LoginPage()));
-                  },),
+                  ListViewHorizontal(
+                    onTap: () {
+                      //thay login() thành widget cần đi tới
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                  ),
                   KSizedBox.mediumSpace,
-               
                 ],
               ),
             ),
@@ -66,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                   Center(
                       child: BannerIndicatorRow(currentBanner: currentBanner)),
                   KSizedBox.heightSpace,
-                  MainTitleAndViewAllButton(title: 'Sale', onPressed: (){}),
+                  MainTitleAndViewAllButton(title: 'Sale', onPressed: () {}),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
                   GridviewProductsContainer(
@@ -80,10 +85,13 @@ class _HomePageState extends State<HomePage> {
                     rateProduct: '4.8',
                     isSmallDevice:
                         Helper.screenWidth(context) < 390 ? true : false,
-                    onTap:(){
-                        //thay login() thành widget cần đi tới
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
-                    } ,
+                    onTap: () {
+                      //thay login() thành widget cần đi tới
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetail()));
+                    },
                   ),
                 ],
               ),
@@ -291,10 +299,11 @@ class ImageContainer extends StatelessWidget {
 
 class ListViewHorizontal extends StatelessWidget {
   const ListViewHorizontal({
-    super.key, required this.onTap,
+    super.key,
+    required this.onTap,
   });
 
-  final VoidCallback onTap; 
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -306,9 +315,7 @@ class ListViewHorizontal extends StatelessWidget {
         itemCount: 6,
         scrollDirection: Axis.horizontal,
         itemBuilder: (_, index) {
-          return GestureDetector(
-            onTap: onTap,
-            child: ListViewChild());
+          return GestureDetector(onTap: onTap, child: ListViewChild());
         },
       ),
     );
