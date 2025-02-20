@@ -46,7 +46,7 @@ class BrandCard extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
 
             // Hiển thị danh sách ảnh sản phẩm
             Row(
