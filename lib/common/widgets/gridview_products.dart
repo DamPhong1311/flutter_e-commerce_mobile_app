@@ -16,16 +16,18 @@ class GridviewProductsContainer extends StatelessWidget {
       this.oldPrice,
       this.salePercent,
       required this.rateProduct,
-      this.isSmallDevice = false});
+      this.isSmallDevice = false, 
+      required this.onTap});
 
-  final String imageProduct;
-  final String nameProduct;
+  final String imageProduct; 
+  final String nameProduct; 
   final String priceProduct;
   final bool isSale;
   final String? oldPrice;
   final String? salePercent;
   final String rateProduct;
   final bool isSmallDevice;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +46,19 @@ class GridviewProductsContainer extends StatelessWidget {
       ),
 
       //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
-      itemBuilder: (_, index) => infoProductContainerVer(
-        context: context,
-        imageProduct: imageProduct,
-        nameProduct: nameProduct,
-        priceProduct: priceProduct,
-        isSale: true,
-        oldPrice: oldPrice,
-        salePercent: salePercent,
-        rateProduct: rateProduct,
-        isSmallDevice: isSmallDevice,
+      itemBuilder: (_, index) => GestureDetector(
+        onTap: onTap,
+        child: infoProductContainerVer(
+          context: context,
+          imageProduct: imageProduct,
+          nameProduct: nameProduct,
+          priceProduct: priceProduct,
+          isSale: true,
+          oldPrice: oldPrice,
+          salePercent: salePercent,
+          rateProduct: rateProduct,
+          isSmallDevice: isSmallDevice,
+        ),
       ),
     );
   }

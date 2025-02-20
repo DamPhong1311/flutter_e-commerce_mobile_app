@@ -9,6 +9,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/radix_icons.dart';
 
 import '../../common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
+import '../intro/signin_signup/signin_page.dart';
 
 class StoreScreen extends StatelessWidget {
   const StoreScreen({super.key});
@@ -56,7 +57,10 @@ class StoreScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SearchContainer(),
+              SearchContainer(onTap: (){
+                //thay login() thành widget cần đi tới
+                    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context)=> LoginPage()));
+              },),
               KSizedBox.smallHeightSpace,
               SizedBox(
                 height: 250,
@@ -76,6 +80,7 @@ class StoreScreen extends StatelessWidget {
                 salePercent: '-25%',
                 rateProduct: '5.0',
                 isSmallDevice: Helper.screenWidth(context) < 390 ? true : false,
+                onTap: (){},
               ),
             ],
           ),

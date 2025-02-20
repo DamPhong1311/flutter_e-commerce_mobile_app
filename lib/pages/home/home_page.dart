@@ -6,6 +6,7 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.dart';
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
+import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
@@ -37,12 +38,18 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   _textAndCartButton(context),
                   KSizedBox.mediumSpace,
-                  SearchContainer(),
+                  SearchContainer(onTap: (){
+                    //thay login() thành widget cần đi tới
+                    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context)=> LoginPage()));
+                  },),
                   KSizedBox.mediumSpace,
                   MainTitle(title: 'Popular Category'),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
-                  ListViewHorizontal(),
+                  ListViewHorizontal(onTap: (){
+                    //thay login() thành widget cần đi tới
+                    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context)=> LoginPage()));
+                  },),
                   KSizedBox.mediumSpace,
                
                 ],
@@ -73,6 +80,10 @@ class _HomePageState extends State<HomePage> {
                     rateProduct: '4.8',
                     isSmallDevice:
                         Helper.screenWidth(context) < 390 ? true : false,
+                    onTap:(){
+                        //thay login() thành widget cần đi tới
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                    } ,
                   ),
                 ],
               ),
@@ -280,8 +291,10 @@ class ImageContainer extends StatelessWidget {
 
 class ListViewHorizontal extends StatelessWidget {
   const ListViewHorizontal({
-    super.key,
+    super.key, required this.onTap,
   });
+
+  final VoidCallback onTap; 
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +306,9 @@ class ListViewHorizontal extends StatelessWidget {
         itemCount: 6,
         scrollDirection: Axis.horizontal,
         itemBuilder: (_, index) {
-          return ListViewChild();
+          return GestureDetector(
+            onTap: onTap,
+            child: ListViewChild());
         },
       ),
     );
