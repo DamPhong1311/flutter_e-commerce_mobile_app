@@ -25,12 +25,15 @@ Future<void> main() async {
   // .then(
   //  (FirebaseApp value) => Get.put(AuthenticationRepository()),
   // );
+  
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => MyApp(), // Wrap your app
     ),
+    
   );
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,8 +48,8 @@ class MyApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.dartTheme,
       debugShowCheckedModeBanner: false,
-      home: Splash(),
-      // home: NavPage(),
+      // home: Splash(),
+      home: NavPage(),
     );
   }
 }

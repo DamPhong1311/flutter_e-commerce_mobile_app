@@ -6,73 +6,28 @@ import '../constants/sized_box.dart';
 import '../constants/space.dart';
 import '../helper/helper.dart';
 
-class GridviewProductsContainer extends StatelessWidget {
-  const GridviewProductsContainer(
-      {super.key,
-      this.isSale = false,
-      required this.imageProduct,
-      required this.nameProduct,
-      required this.priceProduct,
-      this.oldPrice,
-      this.salePercent,
-      required this.rateProduct,
-      this.isSmallDevice = false, 
-      required this.onTap});
+class InfoProductContainerVer extends StatelessWidget {
+  const InfoProductContainerVer({
+    super.key,
+    this.isSale = false,
+    required this.imageProduct,
+    required this.nameProduct,
+    required this.priceProduct,
+    this.oldPrice,
+    this.salePercent,
+    required this.rateProduct,
+  });
 
-  final String imageProduct; 
-  final String nameProduct; 
+  final String imageProduct;
+  final String nameProduct;
   final String priceProduct;
   final bool isSale;
   final String? oldPrice;
   final String? salePercent;
   final String rateProduct;
-  final bool isSmallDevice;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: 8,
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 5),
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: Helper.screenWidth(context) > 600 ? 4 : 2,
-        mainAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
-        crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
-        mainAxisExtent: Helper.screenWidth(context) > 600
-            ? Helper.screenHeight(context) * 0.27
-            : isSmallDevice ? Helper.screenHeight(context) * 0.43 : Helper.screenHeight(context) * 0.33,
-      ),
-
-      //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
-      itemBuilder: (_, index) => GestureDetector(
-        onTap: onTap,
-        child: infoProductContainerVer(
-          context: context,
-          imageProduct: imageProduct,
-          nameProduct: nameProduct,
-          priceProduct: priceProduct,
-          isSale: true,
-          oldPrice: oldPrice,
-          salePercent: salePercent,
-          rateProduct: rateProduct,
-          isSmallDevice: isSmallDevice,
-        ),
-      ),
-    );
-  }
-
-  Widget infoProductContainerVer(
-      {required BuildContext context,
-      required String imageProduct,
-      required String nameProduct,
-      required String priceProduct,
-      bool isSale = false,
-      String? oldPrice,
-      String? salePercent,
-      required String rateProduct,
-      bool isSmallDevice = false}) {
     return Container(
       width: Helper.screenWidth(context) * 0.5,
       height: Helper.screenHeight(context) * 0.7,
@@ -94,14 +49,18 @@ class GridviewProductsContainer extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: ImageContainer(image: imageProduct),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      width: double.infinity,
+                      child: Image.network(imageProduct)),
                 ),
               ),
               Expanded(
-               
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: KSpace.horizontalSmallSpace * 2),
@@ -113,7 +72,6 @@ class GridviewProductsContainer extends StatelessWidget {
                     salePercent: ' $salePercent',
                     oldPrice: oldPrice,
                     rate: rateProduct,
-                    isSmallDevice: isSmallDevice,
                   ),
                 ),
               ),
