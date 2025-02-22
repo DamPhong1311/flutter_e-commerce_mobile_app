@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/nav_page.dart';
 import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/forgot_password.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dart';
@@ -42,7 +43,7 @@ class LoginPage extends StatelessWidget {
   }
 
   ElevatedButton _loginButton(BuildContext context) => ElevatedButton(onPressed: (){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavPage()));
   }, child: Text('Sign In',));
 
   OutlinedButton _registerButton(BuildContext context) => OutlinedButton(onPressed: (){

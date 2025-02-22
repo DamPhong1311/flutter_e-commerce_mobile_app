@@ -16,16 +16,18 @@ class GridviewProductsContainer extends StatelessWidget {
       this.oldPrice,
       this.salePercent,
       required this.rateProduct,
-      this.isSmallDevice = false});
+      this.isSmallDevice = false, 
+      required this.onTap});
 
-  final String imageProduct;
-  final String nameProduct;
+  final String imageProduct; 
+  final String nameProduct; 
   final String priceProduct;
   final bool isSale;
   final String? oldPrice;
   final String? salePercent;
   final String rateProduct;
   final bool isSmallDevice;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +41,24 @@ class GridviewProductsContainer extends StatelessWidget {
         mainAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
         crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
         mainAxisExtent: Helper.screenWidth(context) > 600
-            ? Helper.screenHeight(context) * 0.35
-            : Helper.screenHeight(context) * 0.7,
+            ? Helper.screenHeight(context) * 0.27
+            : isSmallDevice ? Helper.screenHeight(context) * 0.43 : Helper.screenHeight(context) * 0.33,
       ),
 
       //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
-      itemBuilder: (_, index) => infoProductContainerVer(
-        context: context,
-        imageProduct: imageProduct,
-        nameProduct: nameProduct,
-        priceProduct: priceProduct,
-        isSale: true,
-        oldPrice: oldPrice,
-        salePercent: salePercent,
-        rateProduct: rateProduct,
-        isSmallDevice: isSmallDevice,
+      itemBuilder: (_, index) => GestureDetector(
+        onTap: onTap,
+        child: infoProductContainerVer(
+          context: context,
+          imageProduct: imageProduct,
+          nameProduct: nameProduct,
+          priceProduct: priceProduct,
+          isSale: true,
+          oldPrice: oldPrice,
+          salePercent: salePercent,
+          rateProduct: rateProduct,
+          isSmallDevice: isSmallDevice,
+        ),
       ),
     );
   }
@@ -88,22 +93,28 @@ class GridviewProductsContainer extends StatelessWidget {
         children: [
           Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: ImageContainer(image: imageProduct),
+              Expanded(
+                
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: ImageContainer(image: imageProduct),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: KSpace.horizontalSmallSpace * 2),
-                child: productInfo(
-                  context: context,
-                  name: nameProduct,
-                  price: priceProduct,
-                  isSale: isSale,
-                  salePercent: ' $salePercent',
-                  oldPrice: oldPrice,
-                  rate: rateProduct,
-                  isSmallDevice: isSmallDevice,
+              Expanded(
+               
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: KSpace.horizontalSmallSpace * 2),
+                  child: productInfo(
+                    context: context,
+                    name: nameProduct,
+                    price: priceProduct,
+                    isSale: isSale,
+                    salePercent: ' $salePercent',
+                    oldPrice: oldPrice,
+                    rate: rateProduct,
+                    isSmallDevice: isSmallDevice,
+                  ),
                 ),
               ),
             ],
@@ -127,7 +138,7 @@ class GridviewProductsContainer extends StatelessWidget {
       children: [
         Text(
           name,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.titleMedium,
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
         ),
