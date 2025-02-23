@@ -8,6 +8,9 @@ class CurvedEdgesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(clipper: WCustomCurveyEdges(), child: child);
+    return ClipPath(
+      clipper: WCustomCurveyEdges(),
+      child: child,
+    );
   }
 }
