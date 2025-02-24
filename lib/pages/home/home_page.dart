@@ -14,6 +14,8 @@ import '../../common/widgets/custom_shapes/circular_container.dart';
 import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
 import '../../common/widgets/title/main_title.dart';
+import '../../models/product.dart';
+import '../../services/product_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,6 +26,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentBanner = 0;
+  final ProductService _productService = ProductService();
+  late Future<List<Product>> _productsFuture;
+  @override
+  void initState() {
+    _productsFuture = _productService.getProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,25 +83,95 @@ class _HomePageState extends State<HomePage> {
                   MainTitleAndViewAllButton(title: 'Sale', onPressed: () {}),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
-                  GridviewProductsContainer(
-                    imageProduct: 'assets/images/products/laptop.jpg',
-                    nameProduct:
-                        'Laptop HP 240 G9 i3 1215U/8GB/512GB/Win11 (6L1X8PA)',
-                    priceProduct: '10.480.000',
-                    isSale: true,
-                    oldPrice: '13.690.000',
-                    salePercent: '-23%',
-                    rateProduct: '4.8',
-                    isSmallDevice:
-                        Helper.screenWidth(context) < 390 ? true : false,
-                    onTap: () {
-                      //thay login() thành widget cần đi tới
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductDetail()));
-                    },
-                  ),
+                  FutureBuilder<List<Product>>(
+                      future: _productsFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text("Lỗi: ${snapshot.error}"));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(child: Text("Không có sản phẩm nào"));
+                        }
+
+                        List<Product> products = snapshot.data!;
+                        return GridView.builder(
+                            itemCount: products.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount:
+                                  Helper.screenWidth(context) > 600 ? 4 : 2,
+                              mainAxisSpacing:
+                                  Helper.screenWidth(context) > 600 ? 20 : 5,
+                              crossAxisSpacing:
+                                  Helper.screenWidth(context) > 600 ? 20 : 5,
+                              mainAxisExtent: Helper.screenWidth(context) > 600
+                                  ? Helper.screenHeight(context) * 0.27
+                                  : Helper.screenWidth(context) < 390
+                                      ? Helper.screenHeight(context) * 0.43
+                                      : Helper.screenHeight(context) * 0.33,
+                            ),
+
+                            //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
+
+                            itemBuilder: (_, index) {
+                              final product = products[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  //thay login() thành widget cần đi tới
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetail()));
+                                },
+                                child: InfoProductContainerVer(
+                                  // context: context,
+                                  imageProduct: product.imageUrl,
+                                  nameProduct: product.name,
+                                  priceProduct: Helper.formatCurrency(
+                                      product.priceProduct),
+                                  isSale: product.isSale,
+                                  oldPrice:
+                                      Helper.formatCurrency(product.oldPrice),
+                                  salePercent: product.salePercent,
+                                  rateProduct: '4.8',
+                                ),
+                              );
+                            });
+                        // ListView.builder(
+                        //   itemCount: products.length,
+                        //   itemBuilder: (context, index) {
+                        //     Product product = products[index];
+                        //     return GridviewProductsContainer(
+                        //       length: products.length,
+                        //       imageProduct: product.imageUrl,
+                        //       nameProduct:
+                        //           product.name,
+                        //       priceProduct: Helper.formatCurrency(product.priceProduct),
+                        //       isSale: product.isSale,
+                        //       oldPrice: Helper.formatCurrency(product.oldPrice),
+                        //       salePercent: product.salePercent,
+                        //       rateProduct: '4.8',
+                        //       isSmallDevice: Helper.screenWidth(context) < 390
+                        //           ? true
+                        //           : false,
+                        //       onTap: () {
+                        //         //thay login() thành widget cần đi tới
+                        //         Navigator.pushReplacement(
+                        //             context,
+                        //             MaterialPageRoute(
+                        //                 builder: (context) => ProductDetail()));
+                        //       },
+                        //     );
+                        //   },
+                        // );
+                      })
                 ],
               ),
             )

@@ -8,6 +8,7 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/validators/validators.dart';
+import '../../../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,32 +28,35 @@ class _LoginPageState extends State<LoginPage> {
           child: SizedBox.expand(
         child: FractionallySizedBox(
           widthFactor: 0.9,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              KSizedBox.heightSpace,
-              Text(
-                'Sign In to MyShop',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              KSizedBox.heightSpace,
-              EmailTextField(
-                controller: _emailController,
-              ),
-              PasswordTextField(
-                controller: _passwordController,
-              ),
-              _forgotPasswordButton(context),
-              KSizedBox.heightSpace,
-              _loginButton(context),
-              KSizedBox.smallHeightSpace,
-              KSizedBox.smallHeightSpace,
-              _registerButton(context),
-              KSizedBox.heightSpace,
-              orText(context),
-              KSizedBox.heightSpace,
-              _loginWithGGButton(),
-            ],
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                KSizedBox.heightSpace,
+                Text(
+                  'Sign In to MyShop',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+                KSizedBox.heightSpace,
+                EmailTextField(
+                  controller: _emailController,
+                ),
+                PasswordTextField(
+                  controller: _passwordController,
+                ),
+                _forgotPasswordButton(context),
+                KSizedBox.heightSpace,
+                _loginButton(context),
+                KSizedBox.smallHeightSpace,
+                KSizedBox.smallHeightSpace,
+                _registerButton(context),
+                KSizedBox.heightSpace,
+                orText(context),
+                KSizedBox.heightSpace,
+                _loginWithGGButton(),
+              ],
+            ),
           ),
         ),
       )),
@@ -61,8 +65,35 @@ class _LoginPageState extends State<LoginPage> {
 
   ElevatedButton _loginButton(BuildContext context) => ElevatedButton(
       onPressed: () {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => NavPage()));
+         if (formKey.currentState!.validate()) {
+                        AuthService()
+                            .loginWithEmail(
+                                _emailController.text, _passwordController.text)
+                            .then((value) {
+
+                          if (value == 'Login Successfull') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Login Successfull')));
+                                    
+                            Navigator.restorablePushAndRemoveUntil(
+                              context,
+                              (context, arguments) =>
+                                  MaterialPageRoute(builder: (_) => NavPage()),
+                              (route) => false, // Xóa tất cả các route trước đó
+                            );
+
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                value,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              backgroundColor: Colors.red.shade400,
+                            ));
+                          }
+                        });
+                      }
       },
       child: Text(
         'Sign In',
@@ -167,6 +198,7 @@ class EmailTextField extends StatelessWidget {
         Text('Email', style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
+          
           validator: (value) => VValidators.validateEmail(value),
           controller: controller,
           decoration: InputDecoration(

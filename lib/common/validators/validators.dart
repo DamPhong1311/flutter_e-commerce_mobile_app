@@ -4,8 +4,8 @@ class VValidators {
     return '$fieldName is required';
   }
   return null;
- }
-
+ }  
+  
  
 
   static String? validateEmail(String? value){
@@ -13,7 +13,7 @@ class VValidators {
       return 'Email is required.';
     }
 
-    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2-4}$');
+    final emailRegExp =  RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
     if(!emailRegExp.hasMatch(value)){
       return 'Invalid email address.';

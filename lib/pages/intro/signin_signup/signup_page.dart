@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:ecommerece_flutter_app/common/widgets/text_form_field/text_form_field.dart';
 
 import '../../../common/validators/validators.dart';
+import '../../../nav_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,8 +19,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
+    final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   @override
@@ -40,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 KSizedBox.heightSpace,
+                NameTextField(controller: _nameController,),
                 EmailTextField(controller: _emailController),
                 PasswordTextField(controller: _passwordController),
                 ConfirmPasswordTextField(
@@ -53,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (formKey.currentState!.validate()) {
                         AuthService()
                             .createAccountWithEmail(
-                                _emailController.text, _passwordController.text)
+                                _emailController.text, _passwordController.text, _nameController.text)
                             .then((value) {
 
                           if (value == 'Account Created') {
@@ -64,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             Navigator.restorablePushAndRemoveUntil(
                               context,
                               (context, arguments) =>
-                                  MaterialPageRoute(builder: (_) => HomePage()),
+                                  MaterialPageRoute(builder: (_) => NavPage()),
                               (route) => false, // Xóa tất cả các route trước đó
                             );
 
@@ -238,3 +242,34 @@ class EmailTextField extends StatelessWidget {
     );
   }
 }
+
+class NameTextField extends StatelessWidget {
+  const NameTextField({
+    super.key,
+    required this.controller,
+  });
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Name', style: Theme.of(context).textTheme.titleLarge),
+        KSizedBox.smallHeightSpace,
+        TextFormField(
+          validator: (value) => VValidators.validateEmptyText(controller.text, value),
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: 'Enter your name',
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        )
+      ],
+    );
+  }
+}
+
