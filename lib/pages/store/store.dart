@@ -6,15 +6,9 @@ import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/acer.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/asus.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/dell.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/iphone.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/laptopac.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/lenovo.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/mac.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/msi.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/phoneac.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/realmi.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/samsung.dart';
-import 'package:ecommerece_flutter_app/common/widgets/brand_category/xiaomi.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brandstore/brand_page_view.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/accessories_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/laptop_page.dart';
@@ -24,7 +18,10 @@ import 'package:ecommerece_flutter_app/common/widgets/categorypage/tablet_page.d
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.dart';
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
 import 'package:ecommerece_flutter_app/common/widgets/title/main_title.dart';
+import 'package:ecommerece_flutter_app/models/product.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
+import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
+import 'package:ecommerece_flutter_app/services/product_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
@@ -39,7 +36,13 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<StoreScreen> {
-  int currentBanner = 0;
+  final ProductService _productService = ProductService();
+  late Future<List<Product>> _productsFuture;
+  @override
+  void initState() {
+    _productsFuture = _productService.getProducts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,17 +79,90 @@ class _HomePageState extends State<StoreScreen> {
             ),
             MainTitleAndViewAllButton(title: 'Hot', onPressed: () {}),
             KSizedBox.smallHeightSpace,
-            GridviewProductsContainer(
-              imageProduct: 'assets/images/products/iphone11promax.jpg',
-              nameProduct: 'iPhone 11 Pro Max 64GB Chính hãng VN/A',
-              priceProduct: '29.000.000đ',
-              isSale: true,
-              oldPrice: '24.590.000đ',
-              salePercent: '-25%',
-              rateProduct: '5.0',
-              isSmallDevice: Helper.screenWidth(context) < 390 ? true : false,
-              onTap: () {},
-            ),
+            FutureBuilder<List<Product>>(
+                future: _productsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Lỗi: ${snapshot.error}"));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text("Không có sản phẩm nào"));
+                  }
+
+                  List<Product> products = snapshot.data!;
+                  return GridView.builder(
+                      itemCount: products.length,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            Helper.screenWidth(context) > 600 ? 4 : 2,
+                        mainAxisSpacing:
+                            Helper.screenWidth(context) > 600 ? 20 : 5,
+                        crossAxisSpacing:
+                            Helper.screenWidth(context) > 600 ? 20 : 5,
+                        mainAxisExtent: Helper.screenWidth(context) > 600
+                            ? Helper.screenHeight(context) * 0.27
+                            : Helper.screenWidth(context) < 390
+                                ? Helper.screenHeight(context) * 0.43
+                                : Helper.screenHeight(context) * 0.33,
+                      ),
+
+                      //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
+
+                      itemBuilder: (_, index) {
+                        final product = products[index];
+                        return GestureDetector(
+                          onTap: () {
+                            //thay login() thành widget cần đi tới
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductDetail()));
+                          },
+                          child: InfoProductContainerVer(
+                            // context: context,
+                            imageProduct: product.imageUrl,
+                            nameProduct: product.name,
+                            priceProduct:
+                                Helper.formatCurrency(product.priceProduct),
+                            isSale: product.isSale,
+                            oldPrice: Helper.formatCurrency(product.oldPrice),
+                            salePercent: product.salePercent,
+                            rateProduct: '4.8',
+                          ),
+                        );
+                      });
+                  // ListView.builder(
+                  //   itemCount: products.length,
+                  //   itemBuilder: (context, index) {
+                  //     Product product = products[index];
+                  //     return GridviewProductsContainer(
+                  //       length: products.length,
+                  //       imageProduct: product.imageUrl,
+                  //       nameProduct:
+                  //           product.name,
+                  //       priceProduct: Helper.formatCurrency(product.priceProduct),
+                  //       isSale: product.isSale,
+                  //       oldPrice: Helper.formatCurrency(product.oldPrice),
+                  //       salePercent: product.salePercent,
+                  //       rateProduct: '4.8',
+                  //       isSmallDevice: Helper.screenWidth(context) < 390
+                  //           ? true
+                  //           : false,
+                  //       onTap: () {
+                  //         //thay login() thành widget cần đi tới
+                  //         Navigator.pushReplacement(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => ProductDetail()));
+                  //       },
+                  //     );
+                  //   },
+                  // );
+                })
           ],
         ),
       ),
@@ -273,21 +349,18 @@ class ListViewHorizontal extends StatelessWidget {
     CategoryItem(name: 'Mac', icon: 'assets/icons/laptop.jpg', page: Mac()),
     CategoryItem(name: 'Msi', icon: 'assets/icons/laptop.jpg', page: Msi()),
     CategoryItem(
-        name: 'Iphone', icon: 'assets/icons/laptop.jpg', page: Iphone()),
+        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
     CategoryItem(
-        name: 'Samsung', icon: 'assets/icons/laptop.jpg', page: Samsung()),
+        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
     CategoryItem(
-        name: 'Realmi', icon: 'assets/icons/laptop.jpg', page: Realmi()),
+        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
     CategoryItem(
-        name: 'Xiaomi', icon: 'assets/icons/laptop.jpg', page: Xiaomi()),
+        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
+    CategoryItem(name: 'PC', icon: 'assets/icons/pc.jpeg', page: PcPage()),
     CategoryItem(
-        name: 'Laptop Accessories',
-        icon: 'assets/icons/pc.jpeg',
-        page: Laptopac()),
-    CategoryItem(
-        name: 'Phone Accessories',
+        name: 'Smartphone',
         icon: 'assets/icons/smartphone.jpg',
-        page: Phoneac()),
+        page: SmartphonePage()),
     CategoryItem(
         name: 'Tablet',
         icon: 'assets/icons/vector-tablet.jpg',

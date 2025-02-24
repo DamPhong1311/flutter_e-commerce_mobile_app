@@ -2,6 +2,7 @@ import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/pages/store/store.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/account/account.dart';
 import 'pages/home/home_page.dart';
 
 class NavPage extends StatefulWidget {
@@ -25,9 +26,7 @@ class _NavPageState extends State<NavPage> {
       Container(
         color: Colors.green,
       ),
-      Container(
-        color: Colors.yellow,
-      ),
+      AccountPage()
     ];
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Helper {
   Helper._();
@@ -16,4 +17,9 @@ class Helper {
 
   static double screenWidth(BuildContext context) => MediaQuery.of(context).size.width;
   static double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;
+
+  static String formatCurrency(int price) {
+  final format = NumberFormat("#,###", "vi_VN");
+  return format.format(price);
+}
 }
