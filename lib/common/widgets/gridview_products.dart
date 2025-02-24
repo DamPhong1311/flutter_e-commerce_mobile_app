@@ -16,11 +16,11 @@ class GridviewProductsContainer extends StatelessWidget {
       this.oldPrice,
       this.salePercent,
       required this.rateProduct,
-      this.isSmallDevice = false, 
+      this.isSmallDevice = false,
       required this.onTap});
 
-  final String imageProduct; 
-  final String nameProduct; 
+  final String imageProduct;
+  final String nameProduct;
   final String priceProduct;
   final bool isSale;
   final String? oldPrice;
@@ -42,7 +42,9 @@ class GridviewProductsContainer extends StatelessWidget {
         crossAxisSpacing: Helper.screenWidth(context) > 600 ? 20 : 5,
         mainAxisExtent: Helper.screenWidth(context) > 600
             ? Helper.screenHeight(context) * 0.27
-            : isSmallDevice ? Helper.screenHeight(context) * 0.43 : Helper.screenHeight(context) * 0.33,
+            : isSmallDevice
+                ? Helper.screenHeight(context) * 0.43
+                : Helper.screenHeight(context) * 0.33,
       ),
 
       //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
@@ -94,14 +96,12 @@ class GridviewProductsContainer extends StatelessWidget {
           Column(
             children: [
               Expanded(
-                
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: ImageContainer(image: imageProduct),
                 ),
               ),
               Expanded(
-               
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: KSpace.horizontalSmallSpace * 2),

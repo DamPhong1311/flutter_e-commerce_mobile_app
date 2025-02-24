@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'brand_model.dart';
 
@@ -52,13 +53,23 @@ class BrandCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: brand.productImages.map((imgPath) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    imgPath,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetail()), // thay bang duong dan toi product
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      imgPath,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 );
               }).toList(),

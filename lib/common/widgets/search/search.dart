@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import '../../constants/colors.dart';
@@ -9,7 +7,8 @@ import '../../helper/helper.dart';
 
 class SearchContainer extends StatelessWidget {
   const SearchContainer({
-    super.key, required this.onTap,
+    super.key,
+    required this.onTap,
   });
 
   final VoidCallback onTap;
