@@ -4,6 +4,7 @@ import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/constants/space.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/viewall.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/accessories_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/laptop_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/pc_page.dart';
@@ -79,7 +80,14 @@ class _HomePageState extends State<HomePage> {
                   Center(
                       child: BannerIndicatorRow(currentBanner: currentBanner)),
                   KSizedBox.heightSpace,
-                  MainTitleAndViewAllButton(title: 'Sale', onPressed: () {}),
+                  MainTitleAndViewAllButton(
+                      title: 'Sale',
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ViewAllPage()));
+                      }),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
                   FutureBuilder<List<Product>>(

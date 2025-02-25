@@ -6,15 +6,21 @@ import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/acer.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/asus.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/dell.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/hp.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/iphone.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/laptopac.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/lenovo.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/mac.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/msi.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/oppo.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/pcac.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/phoneac.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/realmi.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/samsung.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/viewall.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/vivo.dart';
+import 'package:ecommerece_flutter_app/common/widgets/brand_category/xiaomi.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brandstore/brand_page_view.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/accessories_page.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/laptop_page.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/pc_page.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/smartphone_page.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/tablet_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.dart';
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
 import 'package:ecommerece_flutter_app/common/widgets/title/main_title.dart';
@@ -77,7 +83,14 @@ class _HomePageState extends State<StoreScreen> {
                 ],
               ),
             ),
-            MainTitleAndViewAllButton(title: 'Hot', onPressed: () {}),
+            MainTitleAndViewAllButton(
+                title: 'Hot',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ViewAllPage()));
+                }),
             KSizedBox.smallHeightSpace,
             FutureBuilder<List<Product>>(
                 future: _productsFuture,
@@ -135,33 +148,6 @@ class _HomePageState extends State<StoreScreen> {
                           ),
                         );
                       });
-                  // ListView.builder(
-                  //   itemCount: products.length,
-                  //   itemBuilder: (context, index) {
-                  //     Product product = products[index];
-                  //     return GridviewProductsContainer(
-                  //       length: products.length,
-                  //       imageProduct: product.imageUrl,
-                  //       nameProduct:
-                  //           product.name,
-                  //       priceProduct: Helper.formatCurrency(product.priceProduct),
-                  //       isSale: product.isSale,
-                  //       oldPrice: Helper.formatCurrency(product.oldPrice),
-                  //       salePercent: product.salePercent,
-                  //       rateProduct: '4.8',
-                  //       isSmallDevice: Helper.screenWidth(context) < 390
-                  //           ? true
-                  //           : false,
-                  //       onTap: () {
-                  //         //thay login() thành widget cần đi tới
-                  //         Navigator.pushReplacement(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => ProductDetail()));
-                  //       },
-                  //     );
-                  //   },
-                  // );
                 })
           ],
         ),
@@ -341,34 +327,34 @@ class ListViewHorizontal extends StatelessWidget {
   ListViewHorizontal({super.key});
 
   final List<CategoryItem> categories = [
-    CategoryItem(name: 'Asus', icon: 'assets/icons/laptop.jpg', page: Asus()),
-    CategoryItem(name: 'Acer', icon: 'assets/icons/laptop.jpg', page: Acer()),
-    CategoryItem(name: 'Dell', icon: 'assets/icons/laptop.jpg', page: Dell()),
+    CategoryItem(name: 'Asus', icon: 'assets/icons/Asus.jpg', page: Asus()),
+    CategoryItem(name: 'Acer', icon: 'assets/icons/acer.webp', page: Acer()),
+    CategoryItem(name: 'Dell', icon: 'assets/icons/dell.webp', page: Dell()),
+    CategoryItem(name: 'HP', icon: 'assets/icons/hp.png', page: Hp()),
     CategoryItem(
-        name: 'Lenovo', icon: 'assets/icons/laptop.jpg', page: Lenovo()),
-    CategoryItem(name: 'Mac', icon: 'assets/icons/laptop.jpg', page: Mac()),
-    CategoryItem(name: 'Msi', icon: 'assets/icons/laptop.jpg', page: Msi()),
+        name: 'Lenovo', icon: 'assets/icons/lenovo.webp', page: Lenovo()),
+    CategoryItem(name: 'Mac', icon: 'assets/icons/Macbook.webp', page: Mac()),
+    CategoryItem(name: 'Msi', icon: 'assets/icons/MSI.png', page: Msi()),
     CategoryItem(
-        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
+        name: 'Iphone', icon: 'assets/icons/iphone.png', page: Iphone()),
     CategoryItem(
-        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
+        name: 'Samsung', icon: 'assets/icons/samsung.png', page: Samsung()),
     CategoryItem(
-        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
+        name: 'Realmi', icon: 'assets/icons/realmi.webp', page: Realmi()),
+    CategoryItem(name: 'Oppo', icon: 'assets/icons/oppo.jpg', page: Oppo()),
+    CategoryItem(name: 'Vivo', icon: 'assets/icons/vivo.png', page: Vivo()),
     CategoryItem(
-        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
-    CategoryItem(name: 'PC', icon: 'assets/icons/pc.jpeg', page: PcPage()),
+        name: 'Xiaomi', icon: 'assets/icons/xiaomi.webp', page: Xiaomi()),
     CategoryItem(
-        name: 'Smartphone',
-        icon: 'assets/icons/smartphone.jpg',
-        page: SmartphonePage()),
+        name: 'Phone AS',
+        icon: 'assets/icons/phoneaccessories.jpg',
+        page: Phoneac()),
     CategoryItem(
-        name: 'Tablet',
-        icon: 'assets/icons/vector-tablet.jpg',
-        page: TabletPage()),
+        name: 'Laptop AS',
+        icon: 'assets/icons/laptopaccessories.jpg',
+        page: Laptopac()),
     CategoryItem(
-        name: 'Accessories',
-        icon: 'assets/icons/usb.jpg',
-        page: AccessoriesPage()),
+        name: 'PC AS', icon: 'assets/icons/pcaccessories.png', page: Pcac()),
   ];
 
   @override
