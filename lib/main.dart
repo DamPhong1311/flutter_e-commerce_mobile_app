@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/firebase_options.dart';
+
 import 'package:ecommerece_flutter_app/nav_page.dart';
 import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
@@ -13,9 +14,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'common/theme/theme.dart';
 
-
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   //FIREBASE
@@ -25,13 +24,12 @@ Future<void> main() async {
   // .then(
   //  (FirebaseApp value) => Get.put(AuthenticationRepository()),
   // );
-  
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => MyApp(), // Wrap your app
     ),
-    
   );
   // runApp(MyApp());
 }
@@ -54,7 +52,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class CheckUser extends StatefulWidget {
   const CheckUser({super.key});
 
@@ -63,14 +60,13 @@ class CheckUser extends StatefulWidget {
 }
 
 class _CheckUserState extends State<CheckUser> {
-
   @override
   void initState() {
-    AuthService().isLoggedIn().then((value){
-      if(value){
+    AuthService().isLoggedIn().then((value) {
+      if (value) {
         Helper.navigateAndReplace(context, HomePage());
-      }else{
-         Helper.navigateAndReplace(context, LoginPage());
+      } else {
+        Helper.navigateAndReplace(context, LoginPage());
       }
     });
     super.initState();
