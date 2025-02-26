@@ -8,7 +8,7 @@ class ProductService {
     try {
       QuerySnapshot snapshot = await _db.collection('products').get();
       for (var doc in snapshot.docs) {
-      print("Dữ liệu Firestore: ${doc.data()}");
+      // print("Dữ liệu Firestore: ${doc.data()}");
     }
       return snapshot.docs
           .map((doc) => Product.fromMap(doc.data() as Map<String, dynamic>, doc.id))

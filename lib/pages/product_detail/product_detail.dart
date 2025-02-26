@@ -21,8 +21,7 @@ class _ProductDetailState extends State<ProductDetail> {
     'assets/images/products/laptop2.jpg',
     'assets/images/products/laptop3.jpg',
     'assets/images/products/laptop4.jpg',
-    'assets/images/products/laptop5.jpg',
-    'assets/images/products/laptop6.jpg',
+
   ];
 
   final List<Color> colors = [
@@ -100,7 +99,10 @@ class _ProductDetailState extends State<ProductDetail> {
             top: 0,
             left: 0,
             right: 0,
-            child: const WAppBar(
+            child: WAppBar(
+              leadingOnPressed: (){
+                Navigator.of(context).pop();
+              },
               showBackArrow: true,
               title: Padding(
                 padding: EdgeInsets.only(left: 35),
@@ -108,12 +110,13 @@ class _ProductDetailState extends State<ProductDetail> {
                   "Chi tiết sản phẩm",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                
               ),
             ),
           ),
           // Đặt BottomActionButtons ở đây để nó hiển thị ở dưới cùng
           Positioned(
-            bottom: 0,
+            bottom: 1,
             left: 0,
             right: 0,
             child: BottomActionButtons(

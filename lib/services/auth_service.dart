@@ -16,7 +16,9 @@ class AuthService {
       try{
         UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
          User? user = userCredential.user;
-      if (user != null) {
+
+        // add lên firestore
+       if (user != null) {
         await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
           "uid": user.uid,
            "name": name,

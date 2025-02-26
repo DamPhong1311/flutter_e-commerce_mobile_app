@@ -16,10 +16,12 @@ class _NavPageState extends State<NavPage> {
   int _currentPage = 0;
 
   List<Widget> pages = [];
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     pages = [
       HomePage(),
       StoreScreen(),
@@ -28,6 +30,14 @@ class _NavPageState extends State<NavPage> {
       ),
       AccountPage()
     ];
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0.0, // Vị trí đầu trang
+      duration: Duration(milliseconds: 500), // Thời gian cuộn
+      curve: Curves.easeInOut, // Hiệu ứng cuộn
+    );
   }
 
   @override
@@ -64,6 +74,10 @@ class _NavPageState extends State<NavPage> {
                 label: 'Account',
                 backgroundColor: Colors.transparent)
           ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _scrollToTop,
+        child: Icon(Icons.arrow_upward),
+      ),
     );
   }
 }

@@ -1,0 +1,38 @@
+{
+    
+    "products": {
+      "01": {
+        "category": "laptop",
+        "description": "Laptop cao cấp dành cho dân lập trình",
+        "imageGallery": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+        "https://example.com/image3.jpg"
+         ],
+        "imageUrl": "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/311178/asus-vivobook-go-15-e1504fa-r5-nj776w-140225-100949-251-600x600.jpg",
+        "isSale": true,
+        "name": "Laptop Asus Vivobook Go 15",
+        "oldPrice": 14490000,
+        "priceProduct": 12990000,
+        "salePercent": "-23%",
+        "store": "Asus"  
+      },
+      "02": {
+        "category": "laptop",
+        "description": "Laptop mạnh mẽ cho dân đồ họa",
+        "imageGallery": [
+        "https://example.com/image1.jpg",
+        "https://example.com/image2.jpg",
+        "https://example.com/image3.jpg"
+        ],
+        "imageUrl": "https://cdnv2.tgdd.vn/mwg-static/tgdd/Products/Images/44/309656/msi-modern-15-b12mo-682vn-thumb-600x600.jpg",
+        "isSale": false,
+        "name": "Laptop MSI Modern 15 B12MO",
+        "oldPrice": 18990000,
+        "priceProduct": 18990000,
+        "salePercent": "0%",
+        "store": "MSI"
+      }
+    }
+  }
+  

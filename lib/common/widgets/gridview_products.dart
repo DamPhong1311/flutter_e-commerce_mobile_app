@@ -124,12 +124,12 @@ class InfoProductContainerVer extends StatelessWidget {
                           salePercent ?? '',
                           style: Theme.of(context)
                               .textTheme
-                              .titleSmall!
+                              .bodyLarge!
                               .apply(color: Colors.red),
                         )
                 ],
               )
-            : SizedBox(),
+            : SizedBox(height: 22),
         Row(
           children: [
             Icon(
