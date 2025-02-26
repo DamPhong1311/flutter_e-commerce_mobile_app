@@ -10,7 +10,7 @@ import 'package:ecommerece_flutter_app/pages/product_detail/BottomActionButtons.
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key});
-
+  
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
@@ -76,6 +76,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
                 ProductInformation(
                   productName: "Laptop HP 240 G9 i3 1215U/8GB/512GB/Win11",
+                
                   averageRating: averageRating,
                   totalReviews: totalReviews,
                   discountedPrice: discountedPrice,

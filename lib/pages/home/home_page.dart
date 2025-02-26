@@ -6,6 +6,7 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.dart';
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
+import 'package:ecommerece_flutter_app/pages/cart/cart_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            _headerContainer(
+            headerContainer(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -104,14 +105,13 @@ class _HomePageState extends State<HomePage> {
                               mainAxisSpacing:
                                   Helper.screenWidth(context) > 600 ? 20 : 5,
                               crossAxisSpacing:
-                                  Helper.screenWidth(context) > 600 ? 20 : 5,
+                                  Helper.screenWidth(context) > 600 ? 20 : 3,
                               mainAxisExtent: Helper.screenWidth(context) > 600
                                   ? Helper.screenHeight(context) * 0.27
                                   : Helper.screenWidth(context) < 390
                                       ? Helper.screenHeight(context) * 0.43
                                       : Helper.screenHeight(context) * 0.33,
                             ),
-
                             itemBuilder: (_, index) {
                               final product = products[index];
                               return GestureDetector(
@@ -120,7 +120,9 @@ class _HomePageState extends State<HomePage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ProductDetail()),
+                                        builder: (context) => ProductDetail(
+
+                                        )),
                                   );
                                 },
                                 child: InfoProductContainerVer(
@@ -196,7 +198,12 @@ class _HomePageState extends State<HomePage> {
       children: [
         IconButton(
           padding: EdgeInsets.only(right: 8),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartPage()),
+            );
+          },
           icon: Icon(Icons.shopping_cart),
           color: Colors.white,
         ),
@@ -221,7 +228,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ClipPath _headerContainer({required Widget child}) {
+  ClipPath headerContainer({required Widget child}) {
     return ClipPath(
       clipper: WCustomCurveyEdges(),
       child: Container(
@@ -441,7 +448,7 @@ class ListViewChild extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15)),
             child: Center(
               child: Image(
-                image: AssetImage('assets/icons/laptop_icon.png'),
+                image: AssetImage('assets/icons/laptop.jpg'),
                 fit: BoxFit.cover,
                 color: Helper.isDarkMode(context)
                     ? KColors.dartModeColor
