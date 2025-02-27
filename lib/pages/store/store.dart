@@ -133,7 +133,15 @@ class _HomePageState extends State<StoreScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProductDetail()));
+                                    builder: (context) => ProductDetail(
+                                        name: product.name,
+                                        priceProduct: Helper.formatCurrency(
+                                            product.priceProduct),
+                                        oldPrice: Helper.formatCurrency(
+                                            product.oldPrice),
+                                        salePercent: product.salePercent,
+                                        rateProduct: '4.8',
+                                        isSale: product.isSale)));
                           },
                           child: InfoProductContainerVer(
                             // context: context,

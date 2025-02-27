@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class BottomActionButtons extends StatelessWidget {
-  final int discountedPrice;
+  final String priceProduct;
   final Function() onAddToCart;
   final Function() onBuyNow;
 
   const BottomActionButtons({
     Key? key,
-    required this.discountedPrice,
+    required this.priceProduct,
     required this.onAddToCart,
     required this.onBuyNow,
   }) : super(key: key);
@@ -81,7 +81,7 @@ class BottomActionButtons extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    formatCurrency(discountedPrice),
+                    priceProduct,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

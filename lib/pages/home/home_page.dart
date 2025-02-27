@@ -118,12 +118,18 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () {
                                   //thay login() thành widget cần đi tới
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProductDetail(
-
-                                        )),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductDetail(
+                                              name: product.name,
+                                              priceProduct:
+                                                  Helper.formatCurrency(
+                                                      product.priceProduct),
+                                              oldPrice: Helper.formatCurrency(
+                                                  product.oldPrice),
+                                              salePercent: product.salePercent,
+                                              rateProduct: '4.8',
+                                              isSale: product.isSale)));
                                 },
                                 child: InfoProductContainerVer(
                                   // context: context,

@@ -55,12 +55,19 @@ class BrandCard extends StatelessWidget {
               children: brand.productImages.map((imgPath) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetail()), // thay bang duong dan toi product
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => ProductDetail(
+                    //             name: product.name,
+                    //             priceProduct:
+                    //                 Helper.formatCurrency(product.priceProduct),
+                    //             oldPrice:
+                    //                 Helper.formatCurrency(product.oldPrice),
+                    //             salePercent: product.salePercent,
+                    //             rateProduct: '4.8',
+                    //           )), // thay bang duong dan toi product
+                    // );
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),

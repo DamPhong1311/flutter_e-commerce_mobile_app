@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 
 class WAppBar extends StatelessWidget implements PreferredSizeWidget {
   const WAppBar(
@@ -25,7 +26,10 @@ class WAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: showBackArrow
             ? IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back))
+                icon: Icon(Icons.arrow_back,
+                    color: Helper.isDarkMode(context)
+                        ? Colors.white
+                        : Colors.black))
             : leadingIcon != null
                 ? IconButton(
                     onPressed: leadingOnPressed, icon: Icon(leadingIcon))

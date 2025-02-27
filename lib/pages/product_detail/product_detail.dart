@@ -3,14 +3,30 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductImages.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/BottomActionButtons.dart';
 
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
-  
+  final String name;
+  final String rateProduct;
+  final String totalReviews = "400";
+  final String oldPrice;
+  final String salePercent;
+  final String priceProduct;
+  final bool isSale;
+
+  const ProductDetail(
+      {super.key,
+      required this.name,
+      required this.rateProduct,
+      required this.oldPrice,
+      required this.priceProduct,
+      required this.salePercent,
+      required this.isSale});
+
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
@@ -21,25 +37,9 @@ class _ProductDetailState extends State<ProductDetail> {
     'assets/images/products/laptop2.jpg',
     'assets/images/products/laptop3.jpg',
     'assets/images/products/laptop4.jpg',
-
-  ];
-
-  final List<Color> colors = [
-    Colors.black,
-    Colors.blue,
-    Colors.grey,
   ];
 
   int _current = 0;
-  int _selectedColorIndex = 0;
-
-  final int originalPrice = 12490000;
-  final int discountPercentage = 13;
-  int get discountedPrice =>
-      originalPrice - (originalPrice * discountPercentage ~/ 100);
-
-  final double averageRating = 4.7;
-  final int totalReviews = 350;
 
   String formatCurrency(int price) {
     return NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(price);
@@ -75,21 +75,14 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                 ),
                 ProductInformation(
-                  productName: "Laptop HP 240 G9 i3 1215U/8GB/512GB/Win11",
-                
-                  averageRating: averageRating,
-                  totalReviews: totalReviews,
-                  discountedPrice: discountedPrice,
-                  originalPrice: originalPrice,
-                  discountPercentage: discountPercentage,
-                  colors: colors,
-                  selectedColorIndex: _selectedColorIndex,
-                  onColorSelected: (index) {
-                    setState(() {
-                      _selectedColorIndex = index;
-                    });
-                  },
+                  name: widget.name,
+                  rateProduct: widget.rateProduct,
+                  totalReviews: widget.totalReviews,
+                  priceProduct: widget.priceProduct,
+                  oldPrice: widget.oldPrice,
+                  salePercent: widget.salePercent,
                   specifications: specifications,
+                  isSale: widget.isSale,
                 ),
                 const SizedBox(height: 100),
               ],
@@ -97,31 +90,37 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
           // Đặt WAppBar ở đây để nó hiển thị trên cùng
           Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: WAppBar(
-              leadingOnPressed: (){
-                Navigator.of(context).pop();
-              },
-              showBackArrow: true,
-              title: Padding(
-                padding: EdgeInsets.only(left: 35),
-                child: Text(
-                  "Chi tiết sản phẩm",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(Icons.arrow_back,
+                            color: Helper.isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black)),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Product Details',
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
-                
-              ),
-            ),
-          ),
+              )),
           // Đặt BottomActionButtons ở đây để nó hiển thị ở dưới cùng
           Positioned(
-            bottom: 1,
+            bottom: 0,
             left: 0,
             right: 0,
             child: BottomActionButtons(
-              discountedPrice: discountedPrice,
+              priceProduct: widget.priceProduct,
               onAddToCart: () {
                 // Handle add to cart
               },
