@@ -2,6 +2,8 @@ import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
+import 'package:ecommerece_flutter_app/services/auth_service.dart';
+import 'package:ecommerece_flutter_app/services/cart_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +19,9 @@ class ProductDetail extends StatefulWidget {
   final String salePercent;
   final String priceProduct;
   final bool isSale;
-
+  final String idProduct;
+  final String imageUrl;
+  final int price;
   const ProductDetail(
       {super.key,
       required this.name,
@@ -25,13 +29,16 @@ class ProductDetail extends StatefulWidget {
       required this.oldPrice,
       required this.priceProduct,
       required this.salePercent,
-      required this.isSale});
+      required this.isSale,
+      required this.idProduct,
+      required this.imageUrl, required this.price});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  final cartService = CartService();
   final List<String> imgList = [
     'assets/images/products/laptop.jpg',
     'assets/images/products/laptop2.jpg',
@@ -55,6 +62,14 @@ class _ProductDetailState extends State<ProductDetail> {
     "Trọng lượng": "1.47 kg",
     "Pin": "3 cell, 41Wh",
   };
+  void someFunction() {
+    String? userId = AuthService().getUserId();
+    if (userId == null) {
+      print("Người dùng chưa đăng nhập.");
+    } else {
+      print("User ID: $userId");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +105,7 @@ class _ProductDetailState extends State<ProductDetail> {
           ),
           // Đặt WAppBar ở đây để nó hiển thị trên cùng
           Positioned(
-              top: 0,
+              top: 20,
               left: 0,
               right: 0,
               child: Padding(
@@ -98,7 +113,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Navigator.of(context).pop(),
                         icon: Icon(Icons.arrow_back,
                             color: Helper.isDarkMode(context)
                                 ? Colors.white
@@ -123,6 +138,14 @@ class _ProductDetailState extends State<ProductDetail> {
               priceProduct: widget.priceProduct,
               onAddToCart: () {
                 // Handle add to cart
+                cartService.addToCart(
+                  userId:  AuthService().getUserId(),
+                  productId:  widget.idProduct,
+                  name:  widget.name,
+                  price: widget.price,
+                  imageUrl:  widget.imageUrl,
+         
+                );
               },
               onBuyNow: () {
                 // Handle buy now

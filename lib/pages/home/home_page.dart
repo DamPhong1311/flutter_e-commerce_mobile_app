@@ -16,6 +16,8 @@ import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
 import '../../common/widgets/title/main_title.dart';
 import '../../models/product.dart';
+import '../../services/auth_service.dart';
+import '../../services/cart_service.dart';
 import '../../services/product_service.dart';
 import '../search/search_page.dart';
 
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   final ProductService _productService = ProductService();
   late Future<List<Product>> _productsFuture;
+  final cartService = CartService();
   @override
   void initState() {
     _productsFuture = _productService.getProducts();
@@ -121,15 +124,20 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductDetail(
-                                              name: product.name,
-                                              priceProduct:
-                                                  Helper.formatCurrency(
-                                                      product.priceProduct),
-                                              oldPrice: Helper.formatCurrency(
-                                                  product.oldPrice),
-                                              salePercent: product.salePercent,
-                                              rateProduct: '4.8',
-                                              isSale: product.isSale)));
+                                                name: product.name,
+                                                priceProduct:
+                                                    Helper.formatCurrency(
+                                                        product.priceProduct),
+                                                oldPrice: Helper.formatCurrency(
+                                                    product.oldPrice),
+                                                salePercent:
+                                                    product.salePercent,
+                                                rateProduct: '4.8',
+                                                isSale: product.isSale,
+                                                idProduct: product.id,
+                                                imageUrl: product.imageUrl,
+                                                price: product.priceProduct
+                                              )));
                                 },
                                 child: InfoProductContainerVer(
                                   // context: context,

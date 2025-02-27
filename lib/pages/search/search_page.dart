@@ -88,7 +88,12 @@ class _SearchPageState extends State<SearchPage> {
                                     Helper.formatCurrency(product['oldPrice']),
                                 salePercent: product['salePercent'],
                                 rateProduct: '4.8',
-                                isSale: product['isSale'])),
+                                isSale: product['isSale'],
+                                idProduct: product['id'],
+                                imageUrl: product['imageUrl'],
+                                price:  product['priceProduct'],
+                                ),
+                                ),
                       );
                     },
                     child: InfoProductContainerVer(

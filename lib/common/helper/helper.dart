@@ -19,7 +19,11 @@ class Helper {
   static double screenHeight(BuildContext context) => MediaQuery.of(context).size.height;
 
   static String formatCurrency(int price) {
-  final format = NumberFormat("#,###", "vi_VN");
-  return format.format(price);
+    final format = NumberFormat("#,###", "vi_VN");
+    return format.format(price);
+  }
+  static int parseToIntCurrency(String formattedPrice) {
+  String cleanedPrice = formattedPrice.replaceAll(',', ''); // Loại bỏ dấu phẩy
+  return int.tryParse(cleanedPrice) ?? 0; // Chuyển về int, nếu lỗi trả về 0
 }
 }

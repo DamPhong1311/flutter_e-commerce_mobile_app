@@ -55,7 +55,8 @@ class ProductImages extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => onImageSelected(index),
                   child: Container(
-                    width: 60,
+                    width: Helper.screenWidth(context)*0.2,
+                    height: Helper.screenHeight(context)*0.02,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color:

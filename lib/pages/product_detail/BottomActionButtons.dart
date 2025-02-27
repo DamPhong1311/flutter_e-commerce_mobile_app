@@ -11,11 +11,11 @@ class BottomActionButtons extends StatelessWidget {
   final Function() onBuyNow;
 
   const BottomActionButtons({
-    Key? key,
+    super.key,
     required this.priceProduct,
     required this.onAddToCart,
     required this.onBuyNow,
-  }) : super(key: key);
+  });
 
   String formatCurrency(int price) {
     return NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(price);
