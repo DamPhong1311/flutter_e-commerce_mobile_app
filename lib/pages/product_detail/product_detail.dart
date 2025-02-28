@@ -1,11 +1,7 @@
-import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
-import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
-import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/cart_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductImages.dart';
@@ -31,7 +27,8 @@ class ProductDetail extends StatefulWidget {
       required this.salePercent,
       required this.isSale,
       required this.idProduct,
-      required this.imageUrl, required this.price});
+      required this.imageUrl,
+      required this.price});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -64,11 +61,7 @@ class _ProductDetailState extends State<ProductDetail> {
   };
   void someFunction() {
     String? userId = AuthService().getUserId();
-    if (userId == null) {
-      print("Người dùng chưa đăng nhập.");
-    } else {
-      print("User ID: $userId");
-    }
+    print("User ID: $userId");
   }
 
   @override
@@ -139,12 +132,11 @@ class _ProductDetailState extends State<ProductDetail> {
               onAddToCart: () {
                 // Handle add to cart
                 cartService.addToCart(
-                  userId:  AuthService().getUserId(),
-                  productId:  widget.idProduct,
-                  name:  widget.name,
+                  userId: AuthService().getUserId(),
+                  productId: widget.idProduct,
+                  name: widget.name,
                   price: widget.price,
-                  imageUrl:  widget.imageUrl,
-         
+                  imageUrl: widget.imageUrl,
                 );
               },
               onBuyNow: () {

@@ -8,7 +8,7 @@ import '../product_detail/product_detail.dart';
 class SearchPage extends StatefulWidget {
   final String searchQuery;
 
-  SearchPage({required this.searchQuery});
+  const SearchPage({super.key, required this.searchQuery});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
     _searchResults = FirebaseFirestore.instance
         .collection('products')
         .where('name', isGreaterThanOrEqualTo: widget.searchQuery)
-        .where('name', isLessThanOrEqualTo: widget.searchQuery + '\uf8ff')
+        .where('name', isLessThanOrEqualTo: '${widget.searchQuery}\uf8ff')
         .get();
   }
 
@@ -80,20 +80,20 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProductDetail(
-                                name: product['name'],
-                                priceProduct: Helper.formatCurrency(
-                                    product['priceProduct']),
-                                oldPrice:
-                                    Helper.formatCurrency(product['oldPrice']),
-                                salePercent: product['salePercent'],
-                                rateProduct: '4.8',
-                                isSale: product['isSale'],
-                                idProduct: product['id'],
-                                imageUrl: product['imageUrl'],
-                                price:  product['priceProduct'],
-                                ),
-                                ),
+                          builder: (context) => ProductDetail(
+                            name: product['name'],
+                            priceProduct:
+                                Helper.formatCurrency(product['priceProduct']),
+                            oldPrice:
+                                Helper.formatCurrency(product['oldPrice']),
+                            salePercent: product['salePercent'],
+                            rateProduct: '4.8',
+                            isSale: product['isSale'],
+                            idProduct: product['id'],
+                            imageUrl: product['imageUrl'],
+                            price: product['priceProduct'],
+                          ),
+                        ),
                       );
                     },
                     child: InfoProductContainerVer(

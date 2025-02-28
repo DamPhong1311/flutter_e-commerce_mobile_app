@@ -1,7 +1,4 @@
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
-import 'package:ecommerece_flutter_app/common/helper/helper.dart';
-import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
-import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

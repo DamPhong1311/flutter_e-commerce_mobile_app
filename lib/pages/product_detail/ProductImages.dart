@@ -1,9 +1,5 @@
-import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
-import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
-import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ProductImages extends StatelessWidget {
   final List<String> imgList;
@@ -11,11 +7,11 @@ class ProductImages extends StatelessWidget {
   final Function(int) onImageSelected;
 
   const ProductImages({
-    Key? key,
+    super.key,
     required this.imgList,
     required this.currentIndex,
     required this.onImageSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +51,8 @@ class ProductImages extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => onImageSelected(index),
                   child: Container(
-                    width: Helper.screenWidth(context)*0.2,
-                    height: Helper.screenHeight(context)*0.02,
+                    width: Helper.screenWidth(context) * 0.2,
+                    height: Helper.screenHeight(context) * 0.02,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color:

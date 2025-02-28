@@ -1,6 +1,6 @@
 class Brand {
   final String brandName;
-  final String brandLogo; // Đường dẫn asset/logo
+  final String brandLogo;
   final int productCount;
   final List<String> productImages;
 
@@ -10,28 +10,14 @@ class Brand {
     required this.productCount,
     required this.productImages,
   });
-}
 
-// Danh sách mẫu
-final List<Brand> brandList = [
-  Brand(
-    brandName: 'LapTop',
-    brandLogo: 'assets/images/products/laptop.jpg',
-    productCount: 265,
-    productImages: [
-      'assets/images/products/laptop.jpg',
-      'assets/images/products/laptop.jpg',
-      'assets/images/products/laptop.jpg',
-    ],
-  ),
-  Brand(
-    brandName: 'Phone',
-    brandLogo: 'assets/images/products/laptop.jpg',
-    productCount: 95,
-    productImages: [
-      'assets/images/products/laptop.jpg',
-      'assets/images/products/laptop.jpg',
-      'assets/images/products/laptop.jpg',
-    ],
-  ),
-];
+  // Hàm tạo đối tượng Brand từ dữ liệu Firestore
+  factory Brand.fromFirestore(Map<String, dynamic> data) {
+    return Brand(
+      brandName: data['store'] ?? 'No Name',
+      brandLogo: data['imageUrl'] ?? '',
+      productCount: 1,
+      productImages: List<String>.from(data['imageGallery'] ?? []),
+    );
+  }
+}

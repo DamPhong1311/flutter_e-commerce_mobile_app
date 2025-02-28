@@ -9,9 +9,7 @@ import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerece_flutter_app/pages/intro/splash.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:get/get.dart';
 import 'common/theme/theme.dart';
 
 Future<void> main() async {

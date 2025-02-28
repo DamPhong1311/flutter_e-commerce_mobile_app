@@ -28,7 +28,7 @@ class _ProductGridViewState extends State<ProductGridView> {
           (widget.store?.isNotEmpty == true && widget.category.isNotEmpty)
               ? capitalize('${widget.store} - ${widget.category}')
               : (widget.category.isNotEmpty)
-                  ? capitalize('${widget.category}')
+                  ? capitalize(widget.category)
                   : (widget.store?.isNotEmpty == true)
                       ? capitalize('${widget.store}')
                       : 'Tất cả sản phẩm',

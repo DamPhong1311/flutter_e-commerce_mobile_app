@@ -1,5 +1,4 @@
 import 'package:ecommerece_flutter_app/nav_page.dart';
-import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/forgot_password.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
@@ -65,35 +64,31 @@ class _LoginPageState extends State<LoginPage> {
 
   ElevatedButton _loginButton(BuildContext context) => ElevatedButton(
       onPressed: () {
-         if (formKey.currentState!.validate()) {
-                        AuthService()
-                            .loginWithEmail(
-                                _emailController.text, _passwordController.text)
-                            .then((value) {
+        if (formKey.currentState!.validate()) {
+          AuthService()
+              .loginWithEmail(_emailController.text, _passwordController.text)
+              .then((value) {
+            if (value == 'Login Successfull') {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Login Successfull')));
 
-                          if (value == 'Login Successfull') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Login Successfull')));
-                                    
-                            Navigator.restorablePushAndRemoveUntil(
-                              context,
-                              (context, arguments) =>
-                                  MaterialPageRoute(builder: (_) => NavPage()),
-                              (route) => false, // Xóa tất cả các route trước đó
-                            );
-
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                value,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              backgroundColor: Colors.red.shade400,
-                            ));
-                          }
-                        });
-                      }
+              Navigator.restorablePushAndRemoveUntil(
+                context,
+                (context, arguments) =>
+                    MaterialPageRoute(builder: (_) => NavPage()),
+                (route) => false, // Xóa tất cả các route trước đó
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  value,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                backgroundColor: Colors.red.shade400,
+              ));
+            }
+          });
+        }
       },
       child: Text(
         'Sign In',
@@ -198,7 +193,6 @@ class EmailTextField extends StatelessWidget {
         Text('Email', style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
-          
           validator: (value) => VValidators.validateEmail(value),
           controller: controller,
           decoration: InputDecoration(

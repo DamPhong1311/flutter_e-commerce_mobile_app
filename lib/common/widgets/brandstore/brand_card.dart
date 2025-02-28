@@ -1,8 +1,6 @@
-import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'brand_model.dart';
 
-/// Widget hiển thị card của mỗi brand
 class BrandCard extends StatelessWidget {
   final Brand brand;
 
@@ -14,20 +12,23 @@ class BrandCard extends StatelessWidget {
       color: Colors.white,
       margin: const EdgeInsets.all(16.0),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          side: BorderSide(color: Colors.black.withOpacity(0.6))),
+        borderRadius: BorderRadius.circular(12.0),
+        side: BorderSide(color: Colors.black.withOpacity(0.6)),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Row chứa logo + tên thương hiệu + icon verify + số sản phẩm
+            // Hiển thị logo và tên thương hiệu
             Row(
               children: [
-                Image.asset(
+                Image.network(
                   brand.brandLogo,
                   width: 30,
                   height: 30,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image),
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -37,45 +38,34 @@ class BrandCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 8),
-                const Icon(Icons.check_circle, color: Colors.blue, size: 18),
                 const Spacer(),
                 Text(
-                  '${brand.productCount} products',
+                  '${brand.productCount} sản phẩm',
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
 
-            // Hiển thị danh sách ảnh sản phẩm
+            // Hiển thị danh sách ảnh sản phẩm từ Firestore
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: brand.productImages.map((imgPath) {
+              children: brand.productImages.take(3).map((imgUrl) {
                 return GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => ProductDetail(
-                    //             name: product.name,
-                    //             priceProduct:
-                    //                 Helper.formatCurrency(product.priceProduct),
-                    //             oldPrice:
-                    //                 Helper.formatCurrency(product.oldPrice),
-                    //             salePercent: product.salePercent,
-                    //             rateProduct: '4.8',
-                    //           )), // thay bang duong dan toi product
-                    // );
+                    // 📌 NƠI THÊM CHỨC NĂNG CHUYỂN TRANG CHI TIẾT SẢN PHẨM
+                    print('Nhấn vào sản phẩm với hình ảnh: $imgUrl');
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      imgPath,
-                      width: 60,
-                      height: 60,
+                    child: Image.network(
+                      imgUrl,
+                      width: 80,
+                      height: 80,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Icon(Icons.broken_image, size: 50),
                     ),
                   ),
                 );

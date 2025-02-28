@@ -4,7 +4,6 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/header/header_container.dart';
 import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/cart_item.dart';

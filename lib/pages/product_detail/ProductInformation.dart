@@ -1,7 +1,4 @@
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
-import 'package:ecommerece_flutter_app/common/helper/helper.dart';
-import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
-import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +13,7 @@ class ProductInformation extends StatelessWidget {
   final Map<String, String> specifications;
 
   const ProductInformation({
-    Key? key,
+    super.key,
     required this.name,
     required this.rateProduct,
     required this.totalReviews,
@@ -25,7 +22,7 @@ class ProductInformation extends StatelessWidget {
     required this.salePercent,
     required this.specifications,
     required this.isSale,
-  }) : super(key: key);
+  });
 
   String formatCurrency(int price) {
     return NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(price);
@@ -114,7 +111,7 @@ class ProductInformation extends StatelessWidget {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

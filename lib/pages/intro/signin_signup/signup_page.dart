@@ -1,11 +1,8 @@
-import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:ecommerece_flutter_app/common/widgets/text_form_field/text_form_field.dart';
 
 import '../../../common/validators/validators.dart';
 import '../../../nav_page.dart';
@@ -19,7 +16,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final formKey = GlobalKey<FormState>();
-    final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -43,7 +40,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 KSizedBox.heightSpace,
-                NameTextField(controller: _nameController,),
+                NameTextField(
+                  controller: _nameController,
+                ),
                 EmailTextField(controller: _emailController),
                 PasswordTextField(controller: _passwordController),
                 ConfirmPasswordTextField(
@@ -53,25 +52,22 @@ class _RegisterPageState extends State<RegisterPage> {
                 KSizedBox.heightSpace,
                 ElevatedButton(
                     onPressed: () {
-
                       if (formKey.currentState!.validate()) {
                         AuthService()
-                            .createAccountWithEmail(
-                                _emailController.text, _passwordController.text, _nameController.text)
+                            .createAccountWithEmail(_emailController.text,
+                                _passwordController.text, _nameController.text)
                             .then((value) {
-
                           if (value == 'Account Created') {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Account Created')));
-                                    
+
                             Navigator.restorablePushAndRemoveUntil(
                               context,
                               (context, arguments) =>
                                   MaterialPageRoute(builder: (_) => NavPage()),
                               (route) => false, // Xóa tất cả các route trước đó
                             );
-
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
@@ -259,7 +255,8 @@ class NameTextField extends StatelessWidget {
         Text('Name', style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
-          validator: (value) => VValidators.validateEmptyText(controller.text, value),
+          validator: (value) =>
+              VValidators.validateEmptyText(controller.text, value),
           controller: controller,
           decoration: InputDecoration(
             labelText: 'Enter your name',
@@ -272,4 +269,3 @@ class NameTextField extends StatelessWidget {
     );
   }
 }
-
