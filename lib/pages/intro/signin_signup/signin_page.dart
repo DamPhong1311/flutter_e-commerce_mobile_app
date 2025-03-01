@@ -4,6 +4,7 @@ import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dar
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/validators/validators.dart';
@@ -115,7 +116,33 @@ class _LoginPageState extends State<LoginPage> {
 
   OutlinedButton _loginWithGGButton() {
     return OutlinedButton(
-        onPressed: () {},
+        onPressed: () async {
+          UserCredential? userCredential =
+              await AuthService().signInWithGoogle();
+
+          if (userCredential != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Login Successful')),
+            );
+
+            Navigator.restorablePushAndRemoveUntil(
+              context,
+              (context, arguments) =>
+                  MaterialPageRoute(builder: (_) => NavPage()),
+              (route) => false, // Xóa tất cả các route trước đó
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Login Failed. Please try again.',
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                backgroundColor: Colors.red.shade400,
+              ),
+            );
+          }
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -35,8 +35,8 @@ import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
 
 class StoreScreen extends StatefulWidget {
-  const StoreScreen({super.key});
-
+  const StoreScreen({super.key, required this.scrollController});
+  final ScrollController scrollController;
   @override
   State<StoreScreen> createState() => _HomePageState();
 }
@@ -54,6 +54,7 @@ class _HomePageState extends State<StoreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        controller: widget.scrollController,
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
@@ -130,7 +131,7 @@ class _HomePageState extends State<StoreScreen> {
                         return GestureDetector(
                           onTap: () {
                             //thay login() thành widget cần đi tới
-                            Navigator.pushReplacement(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductDetail(

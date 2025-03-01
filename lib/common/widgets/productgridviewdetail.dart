@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import '../../pages/product_detail/product_detail.dart';
+import '../helper/helper.dart';
+
 class ProductGridView extends StatefulWidget {
   final String category;
   final String? store;
@@ -107,7 +110,22 @@ class _ProductGridViewState extends State<ProductGridView> {
               final product = products[index];
               return GestureDetector(
                 onTap: () {
-                  // Thay đổi điều hướng đến trang chi tiết sản phẩm nếu cần
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProductDetail(
+                                name: product['name']?? '',
+                                rateProduct: '4.8',
+                                oldPrice:
+                                    Helper.formatCurrency(product['oldPrice']),
+                                priceProduct:
+                                    Helper.formatCurrency(product['priceProduct']),
+                                price: product['priceProduct'],
+                                salePercent: product['salePercent']?? '',
+                                isSale: product['isSale']?? '',
+                                idProduct: product['id']?? '',
+                                imageUrl: product['imageUrl']?? '',
+                              )));
                 },
                 child: InfoProductContainerVer(
                   imageProduct: product['imageUrl'] ?? '',

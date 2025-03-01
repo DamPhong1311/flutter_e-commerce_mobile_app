@@ -23,8 +23,8 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     _scrollController = ScrollController();
     pages = [
-      HomePage(),
-      StoreScreen(),
+      HomePage(scrollController: _scrollController,),
+      StoreScreen(scrollController: _scrollController,),
       Container(
         color: Colors.green,
       ),
@@ -33,12 +33,14 @@ class _NavPageState extends State<NavPage> {
   }
 
   void _scrollToTop() {
+  if (_scrollController.hasClients) {
     _scrollController.animateTo(
-      0.0, // Vị trí đầu trang
-      duration: Duration(milliseconds: 500), // Thời gian cuộn
-      curve: Curves.easeInOut, // Hiệu ứng cuộn
+      0.0,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
     );
   }
+}
 
   @override
   Widget build(BuildContext context) {

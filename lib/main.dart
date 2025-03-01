@@ -58,11 +58,16 @@ class CheckUser extends StatefulWidget {
 }
 
 class _CheckUserState extends State<CheckUser> {
+   late ScrollController _scrollController;
+
+  
+
   @override
   void initState() {
+    _scrollController = ScrollController();
     AuthService().isLoggedIn().then((value) {
       if (value) {
-        Helper.navigateAndReplace(context, HomePage());
+        Helper.navigateAndReplace(context, HomePage(scrollController: _scrollController,));
       } else {
         Helper.navigateAndReplace(context, LoginPage());
       }
