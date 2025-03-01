@@ -10,7 +10,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'common/theme/theme.dart';
+import 'services/theme_provider_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,23 +26,28 @@ Future<void> main() async {
   // );
 
   runApp(
-    DevicePreview(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()), // Đưa ThemeProvider vào đây
+      ],
+    child: DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => MyApp(), // Wrap your app
-    ),
+    ),),
   );
   // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
+     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
-      themeMode: ThemeMode.system,
+      themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.dartTheme,
       debugShowCheckedModeBanner: false,
@@ -67,7 +74,7 @@ class _CheckUserState extends State<CheckUser> {
     _scrollController = ScrollController();
     AuthService().isLoggedIn().then((value) {
       if (value) {
-        Helper.navigateAndReplace(context, HomePage(scrollController: _scrollController,));
+        Helper.navigateAndReplace(context, HomePage());
       } else {
         Helper.navigateAndReplace(context, LoginPage());
       }

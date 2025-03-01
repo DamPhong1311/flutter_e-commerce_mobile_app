@@ -35,26 +35,40 @@ import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
 
 class StoreScreen extends StatefulWidget {
-  const StoreScreen({super.key, required this.scrollController});
-  final ScrollController scrollController;
+  const StoreScreen({
+    super.key,
+  });
+
   @override
   State<StoreScreen> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<StoreScreen> {
+   late ScrollController scrollController;
   final ProductService _productService = ProductService();
   late Future<List<Product>> _productsFuture;
   @override
   void initState() {
     _productsFuture = _productService.getProducts();
+    scrollController = ScrollController();
     super.initState();
+  }
+
+  void _scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: widget.scrollController,
+        controller: scrollController,
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
@@ -135,17 +149,17 @@ class _HomePageState extends State<StoreScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductDetail(
-                                        name: product.name,
-                                        priceProduct: Helper.formatCurrency(
-                                            product.priceProduct),
-                                        oldPrice: Helper.formatCurrency(
-                                            product.oldPrice),
-                                        salePercent: product.salePercent,
-                                        rateProduct: '4.8',
-                                        isSale: product.isSale,
-                                        idProduct: product.id,
-                                        imageUrl: product.imageUrl,
-                                        price: product.priceProduct,
+                                          name: product.name,
+                                          priceProduct: Helper.formatCurrency(
+                                              product.priceProduct),
+                                          oldPrice: Helper.formatCurrency(
+                                              product.oldPrice),
+                                          salePercent: product.salePercent,
+                                          rateProduct: '4.8',
+                                          isSale: product.isSale,
+                                          idProduct: product.id,
+                                          imageUrl: product.imageUrl,
+                                          price: product.priceProduct,
                                         )));
                           },
                           child: InfoProductContainerVer(
@@ -164,6 +178,10 @@ class _HomePageState extends State<StoreScreen> {
                 })
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _scrollToTop,
+        child: Icon(Icons.arrow_upward),
       ),
     );
   }

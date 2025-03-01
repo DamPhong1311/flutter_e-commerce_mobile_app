@@ -8,6 +8,8 @@ class Helper {
     return Theme.of(context).brightness == Brightness.dark;
   }
 
+  
+
   static void navigateAndReplace(BuildContext context, Widget page) {
     Navigator.pushReplacement(
       context,

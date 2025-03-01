@@ -26,13 +26,14 @@ import '../../services/product_service.dart';
 import '../search/search_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.scrollController});
-  final ScrollController scrollController;
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  late ScrollController scrollController;
   int currentBanner = 0;
   final TextEditingController _searchController = TextEditingController();
   final ProductService _productService = ProductService();
@@ -40,14 +41,25 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _productsFuture = _productService.getProducts();
+    scrollController = ScrollController();
     super.initState();
+  }
+
+  void _scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        controller: widget.scrollController,
+        controller: scrollController,
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
@@ -103,7 +115,6 @@ class _HomePageState extends State<HomePage> {
 
                         List<Product> products = snapshot.data!;
                         return GridView.builder(
-                           
                             itemCount: products.length,
                             shrinkWrap: true,
                             padding: EdgeInsets.symmetric(horizontal: 5),
@@ -169,6 +180,10 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _scrollToTop,
+        child: Icon(Icons.arrow_upward),
+      ),
     );
   }
 
@@ -222,10 +237,8 @@ class _HomePageState extends State<HomePage> {
         IconButton(
           padding: EdgeInsets.only(right: 8),
           onPressed: () {
-            Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CartPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const CartPage()));
           },
           icon: Icon(Icons.shopping_cart),
           color: Colors.white,
@@ -472,7 +485,6 @@ class CategoryItem {
 
   CategoryItem({required this.name, required this.icon, required this.page});
 }
-
 
 class SearchHead extends StatelessWidget {
   const SearchHead({

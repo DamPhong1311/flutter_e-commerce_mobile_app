@@ -23,8 +23,8 @@ class _NavPageState extends State<NavPage> {
     super.initState();
     _scrollController = ScrollController();
     pages = [
-      HomePage(scrollController: _scrollController,),
-      StoreScreen(scrollController: _scrollController,),
+      HomePage(),
+      StoreScreen(),
       Container(
         color: Colors.green,
       ),
@@ -32,15 +32,7 @@ class _NavPageState extends State<NavPage> {
     ];
   }
 
-  void _scrollToTop() {
-  if (_scrollController.hasClients) {
-    _scrollController.animateTo(
-      0.0,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
-}
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +68,7 @@ class _NavPageState extends State<NavPage> {
                 label: 'Account',
                 backgroundColor: Colors.transparent)
           ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _scrollToTop,
-        child: Icon(Icons.arrow_upward),
-      ),
+     
     );
   }
 }
