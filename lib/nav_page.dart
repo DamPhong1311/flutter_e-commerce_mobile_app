@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'pages/account/account.dart';
 import 'pages/home/home_page.dart';
+import 'pages/notification/notification_page.dart';
 
 class NavPage extends StatefulWidget {
   const NavPage({super.key});
@@ -25,9 +26,7 @@ class _NavPageState extends State<NavPage> {
     pages = [
       HomePage(),
       StoreScreen(),
-      Container(
-        color: Colors.green,
-      ),
+      NotificationPage(),
       AccountPage()
     ];
   }

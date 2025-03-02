@@ -4,6 +4,7 @@ import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/constants/space.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
+import 'package:ecommerece_flutter_app/common/widgets/app_bar/cart_button.dart';
 import 'package:ecommerece_flutter_app/common/widgets/brand_category/viewall.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/accessories_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/laptop_page.dart';
@@ -233,32 +234,24 @@ class _HomePageState extends State<HomePage> {
   Stack _cartButton(BuildContext context) {
     return Stack(
       children: [
-        IconButton(
-          padding: EdgeInsets.only(right: 8),
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const CartPage()));
-          },
-          icon: Icon(Icons.shopping_cart),
-          color: Colors.white,
-        ),
-        Positioned(
-            right: 0,
-            child: Container(
-              width: 18,
-              height: 18,
-              decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
-                  shape: BoxShape.circle),
-              child: Text(
-                '2',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .apply(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ))
+        WCartButton.cartButton(context: context, color: Colors.white)
+        // Positioned(
+        //     right: 0,
+        //     child: Container(
+        //       width: 18,
+        //       height: 18,
+        //       decoration: BoxDecoration(
+        //           color: Colors.black.withValues(alpha: 0.5),
+        //           shape: BoxShape.circle),
+        //       child: Text(
+        //         '2',
+        //         style: Theme.of(context)
+        //             .textTheme
+        //             .labelLarge!
+        //             .apply(color: Colors.white),
+        //         textAlign: TextAlign.center,
+        //       ),
+        //     ))
       ],
     );
   }

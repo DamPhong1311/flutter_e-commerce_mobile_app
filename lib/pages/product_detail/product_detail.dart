@@ -1,6 +1,7 @@
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/cart_service.dart';
+import 'package:ecommerece_flutter_app/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
@@ -129,7 +130,7 @@ class _ProductDetailState extends State<ProductDetail> {
             right: 0,
             child: BottomActionButtons(
               priceProduct: widget.priceProduct,
-              onAddToCart: () {
+              onAddToCart: () async  {
                 // Handle add to cart
                 cartService.addToCart(
                   userId: AuthService().getUserId(),
@@ -138,6 +139,10 @@ class _ProductDetailState extends State<ProductDetail> {
                   price: widget.price,
                   imageUrl: widget.imageUrl,
                 );
+                 ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Added to the cart')));
+
+                  await NotificationService.addNotification(AuthService().getUserId(), 'You have successfully added ${widget.name} to your cart! Check your cart for more details');
               },
               onBuyNow: () {
                 // Handle buy now

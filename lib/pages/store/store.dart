@@ -34,6 +34,7 @@ import 'package:flutter/material.dart';
 import '../../common/widgets/custom_shapes/circular_container.dart';
 import '../../common/widgets/gridview_products.dart';
 import '../../common/widgets/search/search.dart';
+import '../cart/cart_page.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({
@@ -238,27 +239,29 @@ Stack _cartButton(BuildContext context) {
     children: [
       IconButton(
         padding: EdgeInsets.only(right: 8),
-        onPressed: () {},
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
+        },
         icon: Icon(Icons.shopping_cart),
         color: Colors.white,
       ),
-      Positioned(
-          right: 0,
-          child: Container(
-            width: 18,
-            height: 18,
-            decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.5),
-                shape: BoxShape.circle),
-            child: Text(
-              '2',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .apply(color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ))
+      // Positioned(
+      //     right: 0,
+      //     child: Container(
+      //       width: 18,
+      //       height: 18,
+      //       decoration: BoxDecoration(
+      //           color: Colors.black.withValues(alpha: 0.5),
+      //           shape: BoxShape.circle),
+      //       child: Text(
+      //         '2',
+      //         style: Theme.of(context)
+      //             .textTheme
+      //             .labelLarge!
+      //             .apply(color: Colors.white),
+      //         textAlign: TextAlign.center,
+      //       ),
+      //     ))
     ],
   );
 }
