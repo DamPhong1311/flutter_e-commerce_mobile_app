@@ -9,7 +9,6 @@ import 'package:ecommerece_flutter_app/common/widgets/categorypage/accessories_p
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/laptop_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/pc_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/categorypage/smartphone_page.dart';
-import 'package:ecommerece_flutter_app/common/widgets/categorypage/tablet_page.dart';
 import 'package:ecommerece_flutter_app/common/widgets/curved_edges/curved_edges.dart';
 import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn/main_title_and_viewall_button.dart';
 import 'package:ecommerece_flutter_app/pages/cart/cart_page.dart';
@@ -396,10 +395,6 @@ class ListViewHorizontal extends StatelessWidget {
         name: 'Smartphone',
         icon: 'assets/icons/smartphone.jpg',
         page: SmartphonePage()),
-    CategoryItem(
-        name: 'Tablet',
-        icon: 'assets/icons/vector-tablet.jpg',
-        page: TabletPage()),
     CategoryItem(
         name: 'Accessories',
         icon: 'assets/icons/usb.jpg',

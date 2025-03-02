@@ -1,4 +1,5 @@
 import 'package:ecommerece_flutter_app/common/widgets/gridview_products.dart';
+import 'package:ecommerece_flutter_app/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -79,17 +80,17 @@ class _ProductGridViewState extends State<ProductGridView> {
             return Center(child: Text('Không có sản phẩm nào!'));
           }
 
+          // Chuyển dữ liệu từ Firestore thành danh sách `Product`
           var products = snapshot.data!.docs
-              .map((doc) => doc.data() as Map<String, dynamic>)
+              .map((doc) => Product.fromMap(doc.data() as Map<String, dynamic>,
+                  doc.id)) // Sửa lỗi truyền documentId
               .toList();
 
           // Áp dụng sắp xếp dựa trên tùy chọn
           if (sortOption == 'Price: Low to High') {
-            products.sort((a, b) =>
-                (a['priceProduct'] ?? 0).compareTo(b['priceProduct'] ?? 0));
+            products.sort((a, b) => a.priceProduct.compareTo(b.priceProduct));
           } else if (sortOption == 'Price: High to Low') {
-            products.sort((a, b) =>
-                (b['priceProduct'] ?? 0).compareTo(a['priceProduct'] ?? 0));
+            products.sort((a, b) => b.priceProduct.compareTo(a.priceProduct));
           }
 
           return GridView.builder(
@@ -107,34 +108,35 @@ class _ProductGridViewState extends State<ProductGridView> {
                       : MediaQuery.of(context).size.height * 0.33,
             ),
             itemBuilder: (_, index) {
-              final product = products[index];
+              final product = products[index]; // `product` là Product
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProductDetail(
-                                name: product['name']?? '',
-                                rateProduct: '4.8',
-                                oldPrice:
-                                    Helper.formatCurrency(product['oldPrice']),
-                                priceProduct:
-                                    Helper.formatCurrency(product['priceProduct']),
-                                price: product['priceProduct'],
-                                salePercent: product['salePercent']?? '',
-                                isSale: product['isSale']?? '',
-                                idProduct: product['id']?? '',
-                                imageUrl: product['imageUrl']?? '',
-                              )));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetail(
+                        name: product.name, // Bây giờ dùng `product.name` được
+                        priceProduct:
+                            Helper.formatCurrency(product.priceProduct),
+                        oldPrice: Helper.formatCurrency(product.oldPrice),
+                        salePercent: product.salePercent,
+                        rateProduct: '4.8',
+                        isSale: product.isSale,
+                        idProduct: product.id,
+                        imageUrl: product.imageUrl,
+                        price: product.priceProduct,
+                      ),
+                    ),
+                  );
                 },
                 child: InfoProductContainerVer(
-                  imageProduct: product['imageUrl'] ?? '',
-                  nameProduct: product['name'] ?? 'Sản phẩm không tên',
-                  priceProduct: formatCurrency(product['priceProduct'] ?? 0),
-                  isSale: product['isSale'] ?? false,
-                  oldPrice: formatCurrency(product['oldPrice'] ?? 0),
-                  salePercent: product['salePercent'] ?? '',
-                  rateProduct: product['rateProduct'] ?? '5.0',
+                  imageProduct: product.imageUrl,
+                  nameProduct: product.name,
+                  priceProduct: Helper.formatCurrency(product.priceProduct),
+                  isSale: product.isSale,
+                  oldPrice: Helper.formatCurrency(product.oldPrice),
+                  salePercent: product.salePercent,
+                  rateProduct: '4.8',
                 ),
               );
             },
@@ -145,6 +147,7 @@ class _ProductGridViewState extends State<ProductGridView> {
   }
 }
 
+// Hàm viết hoa chữ cái đầu
 String capitalize(String text) {
   if (text.isEmpty) return '';
   return text.split(' ').map((word) {

@@ -1,23 +1,25 @@
+import 'package:ecommerece_flutter_app/models/product.dart';
+
 class Brand {
   final String brandName;
   final String brandLogo;
   final int productCount;
-  final List<String> productImages;
+  final List<Product> products;
 
   Brand({
     required this.brandName,
     required this.brandLogo,
     required this.productCount,
-    required this.productImages,
+    required this.products,
   });
 
-  // Hàm tạo đối tượng Brand từ dữ liệu Firestore
-  factory Brand.fromFirestore(Map<String, dynamic> data) {
+  // Chuyển từ Firestore Map sang Object
+  factory Brand.fromMap(Map<String, dynamic> data, List<Product> products) {
     return Brand(
-      brandName: data['store'] ?? 'No Name',
-      brandLogo: data['imageUrl'] ?? '',
-      productCount: 1,
-      productImages: List<String>.from(data['imageGallery'] ?? []),
+      brandName: data['brandName'] ?? '',
+      brandLogo: data['brandLogo'] ?? '',
+      productCount: products.length, // Đếm số lượng sản phẩm thực tế
+      products: products,
     );
   }
 }
