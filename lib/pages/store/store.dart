@@ -27,6 +27,7 @@ import 'package:ecommerece_flutter_app/common/widgets/title/main_title.dart';
 import 'package:ecommerece_flutter_app/models/product.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
+import 'package:ecommerece_flutter_app/pages/search/search_page.dart';
 import 'package:ecommerece_flutter_app/services/product_service.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,8 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<StoreScreen> {
-   late ScrollController scrollController;
+  late ScrollController scrollController;
+  final TextEditingController _searchController = TextEditingController();
   final ProductService _productService = ProductService();
   late Future<List<Product>> _productsFuture;
   @override
@@ -78,13 +80,7 @@ class _HomePageState extends State<StoreScreen> {
                 children: [
                   _textAndCartButton(context),
                   KSizedBox.mediumSpace,
-                  SearchContainer(
-                    onTap: () {
-                      //thay login() thành widget cần đi tới
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    },
-                  ),
+                  SearchHead(searchController: _searchController),
                   KSizedBox.mediumSpace,
                   MainTitle(title: 'Brand Category'),
                   KSizedBox.smallHeightSpace,
@@ -466,4 +462,56 @@ class CategoryItem {
   final Widget page;
 
   CategoryItem({required this.name, required this.icon, required this.page});
+}
+
+class SearchHead extends StatelessWidget {
+  const SearchHead({
+    super.key,
+    required TextEditingController searchController,
+  }) : _searchController = searchController;
+
+  final TextEditingController _searchController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: Helper.screenWidth(context) * 0.9,
+        decoration: BoxDecoration(
+            color: Helper.isDarkMode(context)
+                ? KColors.lightModeColor
+                : Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: KColors.dartModeColor)),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              labelText: '  Nhập tên sản phẩm',
+              labelStyle: Theme.of(context).textTheme.bodySmall,
+              suffixIcon: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  String searchQuery = _searchController.text.trim();
+                  if (searchQuery.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SearchPage(searchQuery: searchQuery),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -8,7 +8,7 @@ class AccessoriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ProductGridView(
-        category: 'accessories',
+        category: 'ac',
       ),
     );
   }

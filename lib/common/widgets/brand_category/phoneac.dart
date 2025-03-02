@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/common/widgets/productgridviewdetail.dart';
 import 'package:flutter/material.dart';
 
 class Phoneac extends StatelessWidget {
@@ -6,8 +7,10 @@ class Phoneac extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Laptop Page')),
-      body: Center(child: Text('Welcome to Laptop Category!')),
+      body: ProductGridView(
+        store: 'phoneac',
+        category: 'ac',
+      ),
     );
   }
 }
