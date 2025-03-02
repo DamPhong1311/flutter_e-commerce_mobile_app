@@ -44,7 +44,7 @@ class _AccountPageState extends State<AccountPage> {
             setState(() {
               name = userDoc.get('name') ?? "No Name";
               email = userEmail; // Email lấy từ FirebaseAuth
-              id = userDoc.get('id') ?? 'No Id';
+              id = userDoc.get('uid') ?? 'No Id';
             });
           }
         }
@@ -159,17 +159,26 @@ class _AccountPageState extends State<AccountPage> {
   Widget buildInfoRow(String label, String value, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: Colors.blueAccent),
+        Expanded(child: Icon(icon, color: Colors.blueAccent)),
+        Expanded(
+          flex: 3,
+          child: Center(
+            child: Text(label,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ),
+        ),
+     
         KSizedBox.smallWidthSpace,
-        Text(label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        const Spacer(),
-        Text(
-          value,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w400),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
+        KSizedBox.smallWidthSpace,
+        Expanded(
+          flex: 5,
+          child: Text(
+            value,
+            style: const TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w400),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
       ],
     );
