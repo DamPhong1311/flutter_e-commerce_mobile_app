@@ -61,6 +61,7 @@ class CreateNewPasswordPage extends StatelessWidget {
           decoration: InputDecoration(
             labelText: label,
           ),
+          obscureText: true,
         ),
         SizedBox(
           height: 20,

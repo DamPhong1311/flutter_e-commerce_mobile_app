@@ -162,10 +162,8 @@ class _AccountPageState extends State<AccountPage> {
         Expanded(child: Icon(icon, color: Colors.blueAccent)),
         Expanded(
           flex: 3,
-          child: Center(
-            child: Text(label,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          ),
+          child: Text(label,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ),
      
         KSizedBox.smallWidthSpace,

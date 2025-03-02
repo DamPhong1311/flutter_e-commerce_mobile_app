@@ -47,8 +47,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 PasswordTextField(controller: _passwordController),
                 ConfirmPasswordTextField(
                     controller: _confirmPasswordController),
-                KSizedBox.smallHeightSpace,
-                _agreeCheckBox(context),
+                // KSizedBox.smallHeightSpace,
+                // _agreeCheckBox(context),
                 KSizedBox.heightSpace,
                 ElevatedButton(
                     onPressed: () {
@@ -170,6 +170,7 @@ class ConfirmPasswordTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your confirm password',
           ),
+          obscureText: true,
         ),
         SizedBox(
           height: 20,
@@ -200,6 +201,7 @@ class PasswordTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your password',
           ),
+          obscureText: true,
         ),
         SizedBox(
           height: 20,

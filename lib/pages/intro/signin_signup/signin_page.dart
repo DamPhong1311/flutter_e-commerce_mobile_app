@@ -225,6 +225,7 @@ class EmailTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your email',
           ),
+          
         ),
         SizedBox(
           height: 20,
@@ -255,6 +256,7 @@ class PasswordTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your password',
           ),
+          obscureText: true,
         ),
         SizedBox(
           height: 20,
