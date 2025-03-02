@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'brand_model.dart';
 import 'brand_card.dart';
+import 'package:ecommerece_flutter_app/models/product.dart'; // Import model Product
 
 class BrandPageView extends StatefulWidget {
   const BrandPageView({super.key});
@@ -23,12 +24,12 @@ class _BrandPageViewState extends State<BrandPageView> {
     try {
       final snapshot =
           await FirebaseFirestore.instance.collection('products').get();
-      final Map<String, List<String>> brandProductsMap = {};
+      final Map<String, List<Product>> brandProductsMap =
+          {}; // Lưu danh sách sản phẩm theo thương hiệu
 
       for (var doc in snapshot.docs) {
         final data = doc.data();
         final brandName = data['store'] ?? '';
-        final productImages = List<String>.from(data['imageGallery'] ?? []);
 
         if (brandName.isNotEmpty &&
             brandName != 'Asus' && // Bỏ brand Asus
@@ -37,16 +38,19 @@ class _BrandPageViewState extends State<BrandPageView> {
             brandProductsMap[brandName] = [];
           }
 
-          brandProductsMap[brandName]?.addAll(productImages);
+          // Chuyển dữ liệu từ Firestore sang Product
+          final product = Product.fromMap(data, doc.id);
+
+          brandProductsMap[brandName]?.add(product);
         }
       }
 
       final List<Brand> brands = brandProductsMap.entries.map((entry) {
         return Brand(
           brandName: entry.key,
-          brandLogo: entry.value.isNotEmpty ? entry.value.first : '',
-          productCount: entry.value.length, // Đếm số lượng sản phẩm thực tế
-          productImages: entry.value,
+          brandLogo: entry.value.isNotEmpty ? entry.value.first.imageUrl : '',
+          productCount: entry.value.length,
+          products: entry.value, // Danh sách sản phẩm đầy đủ
         );
       }).toList();
 

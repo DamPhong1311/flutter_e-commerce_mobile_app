@@ -1,3 +1,5 @@
+import 'package:ecommerece_flutter_app/common/helper/helper.dart';
+import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'brand_model.dart';
 
@@ -51,16 +53,34 @@ class BrandCard extends StatelessWidget {
             // Hiển thị danh sách ảnh sản phẩm từ Firestore
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: brand.productImages.take(3).map((imgUrl) {
+              children: brand.products.take(3).map((product) {
                 return GestureDetector(
                   onTap: () {
-                    // 📌 NƠI THÊM CHỨC NĂNG CHUYỂN TRANG CHI TIẾT SẢN PHẨM
-                    print('Nhấn vào sản phẩm với hình ảnh: $imgUrl');
+                    // Điều hướng đến trang chi tiết sản phẩm
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetail(
+                          name: product.name,
+                          priceProduct: Helper.formatCurrency(
+                              product.priceProduct), // Sửa đúng tên biến
+                          oldPrice: Helper.formatCurrency(
+                              product.oldPrice), // Sửa đúng tên biến
+                          salePercent: product.salePercent,
+                          rateProduct:
+                              "0.0", // Giữ nguyên hoặc cập nhật nếu có rating
+                          isSale: product.isSale,
+                          idProduct: product.id,
+                          imageUrl: product.imageUrl,
+                          price: product.priceProduct, // Sửa đúng tên biến
+                        ),
+                      ),
+                    );
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      imgUrl,
+                      product.imageUrl,
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover,
