@@ -125,6 +125,7 @@ class _ProductGridViewState extends State<ProductGridView> {
                         idProduct: product.id,
                         imageUrl: product.imageUrl,
                         price: product.priceProduct,
+                        imageList: product.imageGallery,
                       ),
                     ),
                   );

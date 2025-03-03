@@ -3,6 +3,7 @@ class Product {
   final String category;
   final String description;
   final String imageUrl;
+  final List<String> imageGallery;
   final bool isSale;
   final String name;
   final int oldPrice;
@@ -10,7 +11,8 @@ class Product {
   final String salePercent;
   final String store;
 
-  Product({
+  Product( {
+    required this.imageGallery,
     required this.isSale,
     required this.oldPrice,
     required this.priceProduct,
@@ -30,7 +32,8 @@ class Product {
       category: data['category'] ?? '',
       description: data['description'] ?? '',
       imageUrl: data['imageUrl'] ?? '',
-      isSale: data['isSale'] ?? '',
+      imageGallery: List<String>.from(data['imageGallery'] ?? []),
+      isSale: data['isSale'] ?? false,
       name: data['name'] ?? '',
       oldPrice: (data['oldPrice'] as num).toInt(),
       priceProduct: (data['priceProduct'] as num).toInt(),

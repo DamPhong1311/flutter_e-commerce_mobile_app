@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../common/helper/helper.dart';
 import '../../common/widgets/gridview_products.dart';
+import '../../models/product.dart';
 import '../product_detail/product_detail.dart';
 
 class SearchPage extends StatefulWidget {
@@ -15,16 +16,25 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late Future<QuerySnapshot> _searchResults;
+  late Future<List<Product>> _searchResults;
 
   @override
   void initState() {
     super.initState();
-    _searchResults = FirebaseFirestore.instance
+    _searchResults = _fetchProducts();
+  }
+
+  Future<List<Product>> _fetchProducts() async {
+    final snapshot = await FirebaseFirestore.instance
         .collection('products')
         .where('name', isGreaterThanOrEqualTo: widget.searchQuery)
         .where('name', isLessThanOrEqualTo: '${widget.searchQuery}\uf8ff')
         .get();
+
+    return snapshot.docs
+        .map((doc) =>
+            Product.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+        .toList();
   }
 
   @override
@@ -33,27 +43,18 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: Text('Kết quả tìm kiếm cho "${widget.searchQuery}"'),
       ),
-      body: FutureBuilder<QuerySnapshot>(
+      body: FutureBuilder<List<Product>>(
         future: _searchResults,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Đã xảy ra lỗi: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Không tìm thấy sản phẩm nào.'));
           } else {
-            var products = snapshot.data!.docs;
-            // return ListView.builder(
-            //   itemCount: products.length,
-            //   itemBuilder: (context, index) {
-            //     var product = products[index];
-            //     return ListTile(
-            //       title: Text(product['name']),
-            //       subtitle: Text('\$${product['priceProduct']}'),
-            //     );
-            //   },
-            // );
+            List<Product> products = snapshot.data!;
+
             return GridView.builder(
                 itemCount: products.length,
                 shrinkWrap: true,
@@ -81,30 +82,31 @@ class _SearchPageState extends State<SearchPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductDetail(
-                            name: product['name'],
+                            name: product.name,
                             priceProduct:
-                                Helper.formatCurrency(product['priceProduct']),
+                                Helper.formatCurrency(product.priceProduct),
                             oldPrice:
-                                Helper.formatCurrency(product['oldPrice']),
-                            salePercent: product['salePercent'],
+                                Helper.formatCurrency(product.oldPrice),
+                            salePercent: product.salePercent,
                             rateProduct: '4.8',
-                            isSale: product['isSale'],
-                            idProduct: product['id'],
-                            imageUrl: product['imageUrl'],
-                            price: product['priceProduct'],
+                            isSale: product.isSale,
+                            idProduct: product.id,
+                            imageUrl: product.imageUrl,
+                            price: product.priceProduct,
+                            imageList: product.imageGallery,
                           ),
                         ),
                       );
                     },
                     child: InfoProductContainerVer(
                       // context: context,
-                      imageProduct: product['imageUrl'],
-                      nameProduct: product['name'],
+                      imageProduct: product.imageUrl,
+                      nameProduct: product.name,
                       priceProduct:
-                          Helper.formatCurrency(product['priceProduct']),
-                      isSale: product['isSale'],
-                      oldPrice: Helper.formatCurrency(product['oldPrice']),
-                      salePercent: product['salePercent'],
+                          Helper.formatCurrency(product.priceProduct),
+                      isSale: product.isSale,
+                      oldPrice: Helper.formatCurrency(product.oldPrice),
+                      salePercent: product.salePercent,
                       rateProduct: '4.8',
                     ),
                   );

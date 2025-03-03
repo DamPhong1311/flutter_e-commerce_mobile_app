@@ -157,6 +157,7 @@ class _HomePageState extends State<StoreScreen> {
                                           idProduct: product.id,
                                           imageUrl: product.imageUrl,
                                           price: product.priceProduct,
+                                          imageList: product.imageGallery,
                                         )));
                           },
                           child: InfoProductContainerVer(

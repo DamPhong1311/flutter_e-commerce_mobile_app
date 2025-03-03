@@ -18,6 +18,7 @@ class ProductDetail extends StatefulWidget {
   final bool isSale;
   final String idProduct;
   final String imageUrl;
+  final List<String> imageList;
   final int price;
   const ProductDetail(
       {super.key,
@@ -29,7 +30,8 @@ class ProductDetail extends StatefulWidget {
       required this.isSale,
       required this.idProduct,
       required this.imageUrl,
-      required this.price});
+      required this.price,
+      required this.imageList});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -37,11 +39,11 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   final cartService = CartService();
-  final List<String> imgList = [
-    'assets/images/products/laptop.jpg',
-    'assets/images/products/laptop2.jpg',
-    'assets/images/products/laptop3.jpg',
-    'assets/images/products/laptop4.jpg',
+  late List<String> imgList = [
+    widget.imageUrl,
+    widget.imageList[0],
+    widget.imageList[1],
+    widget.imageList[2],
   ];
 
   int _current = 0;
@@ -130,7 +132,7 @@ class _ProductDetailState extends State<ProductDetail> {
             right: 0,
             child: BottomActionButtons(
               priceProduct: widget.priceProduct,
-              onAddToCart: () async  {
+              onAddToCart: () async {
                 // Handle add to cart
                 cartService.addToCart(
                   userId: AuthService().getUserId(),
@@ -139,10 +141,12 @@ class _ProductDetailState extends State<ProductDetail> {
                   price: widget.price,
                   imageUrl: widget.imageUrl,
                 );
-                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Added to the cart')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Added to the cart')));
 
-                  await NotificationService.addNotification(AuthService().getUserId(), 'You have successfully added ${widget.name} to your cart! Check your cart for more details');
+                await NotificationService.addNotification(
+                    AuthService().getUserId(),
+                    'You have successfully added ${widget.name} to your cart! Check your cart for more details');
               },
               onBuyNow: () {
                 // Handle buy now

@@ -72,7 +72,8 @@ class BrandCard extends StatelessWidget {
                           isSale: product.isSale,
                           idProduct: product.id,
                           imageUrl: product.imageUrl,
-                          price: product.priceProduct, // Sửa đúng tên biến
+                          price: product.priceProduct, 
+                          imageList: product.imageGallery,// Sửa đúng tên biến
                         ),
                       ),
                     );

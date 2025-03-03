@@ -31,7 +31,7 @@ class ProductImages extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
+                  child: Image.network(
                     imgList[currentIndex],
                     fit: BoxFit.cover,
                   ),
@@ -64,7 +64,7 @@ class ProductImages extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6),
                       child: Image(
-                        image: AssetImage(imgList[index]),
+                        image: NetworkImage(imgList[index]),
                         fit: BoxFit.cover,
                       ),
                     ),
