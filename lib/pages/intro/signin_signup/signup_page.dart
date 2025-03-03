@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/validators/validators.dart';
 import '../../../nav_page.dart';
+import 'email_verification.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -52,30 +53,52 @@ class _RegisterPageState extends State<RegisterPage> {
                 KSizedBox.heightSpace,
                 ElevatedButton(
                     onPressed: () {
+                      // if (formKey.currentState!.validate()) {
+                      //   AuthService()
+                      //       .createAccountWithEmail(_emailController.text,
+                      //           _passwordController.text, _nameController.text)
+                      //       .then((value) {
+                      //     if (value == 'Account Created') {
+                      //       ScaffoldMessenger.of(context).showSnackBar(
+                      //           const SnackBar(
+                      //               content: Text('Account Created')));
+
+                      //       Navigator.restorablePushAndRemoveUntil(
+                      //         context,
+                      //         (context, arguments) =>
+                      //             MaterialPageRoute(builder: (_) => NavPage()),
+                      //         (route) => false, // Xóa tất cả các route trước đó
+                      //       );
+                      //     } else {
+                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //         content: Text(
+                      //           value,
+                      //           style: Theme.of(context).textTheme.bodyLarge,
+                      //         ),
+                      //         backgroundColor: Colors.red.shade400,
+                      //       ));
+                      //     }
+                      //   });
+                      // }
                       if (formKey.currentState!.validate()) {
                         AuthService()
                             .createAccountWithEmail(_emailController.text,
                                 _passwordController.text, _nameController.text)
                             .then((value) {
-                          if (value == 'Account Created') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Account Created')));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(value),
+                              backgroundColor: Colors.blue.shade400,
+                            ),
+                          );
 
-                            Navigator.restorablePushAndRemoveUntil(
+                          // Chuyển đến trang xác thực email
+                          if (value.contains('Please check your email')) {
+                            Navigator.push(
                               context,
-                              (context, arguments) =>
-                                  MaterialPageRoute(builder: (_) => NavPage()),
-                              (route) => false, // Xóa tất cả các route trước đó
+                              MaterialPageRoute(
+                                  builder: (_) => EmailVerificationPage(name: _nameController.text)),
                             );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                value,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              backgroundColor: Colors.red.shade400,
-                            ));
                           }
                         });
                       }

@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool isObscured = true;
   final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -44,8 +45,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 PasswordTextField(
                   controller: _passwordController,
+                  isObscured: isObscured,
                 ),
-                _forgotPasswordButton(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(child: checkBoxShowPassword()),
+                    Expanded(child: _forgotPasswordButton(context)),
+                  ],
+                ),
                 KSizedBox.heightSpace,
                 _loginButton(context),
                 KSizedBox.smallHeightSpace,
@@ -60,6 +68,22 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       )),
+    );
+  }
+
+  Row checkBoxShowPassword() {
+    return Row(
+      children: [
+        Checkbox(
+          value: !isObscured, // Nếu không ẩn thì checkbox được chọn
+          onChanged: (bool? value) {
+            setState(() {
+              isObscured = !value!; // Đảo trạng thái ẩn/hiện
+            });
+          },
+        ),
+        Text("Show Password"),
+      ],
     );
   }
 
@@ -225,7 +249,6 @@ class EmailTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your email',
           ),
-          
         ),
         SizedBox(
           height: 20,
@@ -239,9 +262,11 @@ class PasswordTextField extends StatelessWidget {
   const PasswordTextField({
     super.key,
     required this.controller,
+    required this.isObscured,
   });
 
   final TextEditingController controller;
+  final bool isObscured;
 
   @override
   Widget build(BuildContext context) {
@@ -256,7 +281,7 @@ class PasswordTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Enter your password',
           ),
-          obscureText: true,
+          obscureText: isObscured,
         ),
         SizedBox(
           height: 20,

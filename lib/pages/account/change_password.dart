@@ -16,7 +16,8 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
@@ -31,6 +32,20 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     try {
       User? user = _auth.currentUser;
       if (user != null) {
+        List<UserInfo> providerData = user.providerData;
+        bool isGoogleUser =
+            providerData.any((info) => info.providerId == "google.com");
+
+        if (isGoogleUser) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                    'You signed in with Google. Password change is not allowed!')),
+          );
+          return;
+        }
+
+
         // Xác thực lại người dùng bằng mật khẩu cũ
         AuthCredential credential = EmailAuthProvider.credential(
           email: user.email!,
@@ -41,10 +56,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
         // Nếu xác thực thành công, tiến hành đổi mật khẩu
         await user.updatePassword(newPassword);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Change Password Successfully!')),
         );
-        Helper.navigateAndReplace(context, LoginPage());
+        // Helper.navigateAndReplace(context, LoginPage());
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('You are not logged in yet')),
@@ -57,7 +73,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         );
       } else if (e.code == 'requires-recent-login') {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You need to log in again to change your password!')),
+          SnackBar(
+              content:
+                  Text('You need to log in again to change your password!')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -80,12 +98,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   KSizedBox.heightSpace,
-                  
                   Row(
                     children: [
-                      IconButton(onPressed: (){
-                        Navigator.of(context).pop();
-                      }, icon: Icon(Icons.arrow_back)),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.arrow_back)),
                       KSizedBox.smallWidthSpace,
                       Text(
                         'Create New Password',
@@ -99,7 +118,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     text: 'Current Password:',
                     label: 'Enter your current password',
                     controller: _oldPasswordController,
-                    validator: (value) => VValidators.validateEmptyText('Current Password', value),
+                    validator: (value) => VValidators.validateEmptyText(
+                        'Current Password', value),
                     obscureText: true,
                   ),
                   KSizedBox.smallHeightSpace,

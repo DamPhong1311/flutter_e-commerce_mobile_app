@@ -4,27 +4,41 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   //dang ki acc
-  Future<String> createAccountWithEmail(
-      String email, String password, String name) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      User? user = userCredential.user;
+ Future<String> createAccountWithEmail(
+    String email, String password, String name) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    User? user = userCredential.user;
 
-      // add lên firestore
-      if (user != null) {
-        await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
-          "uid": user.uid,
-          "name": name,
-          "email": email,
-          "createdAt": FieldValue.serverTimestamp(),
-        });
-      }
-
-      return 'Account Created';
-    } on FirebaseAuthException catch (e) {
-      return e.message.toString();
+    if (user != null) {
+      await user.sendEmailVerification(); // Gửi email xác thực
+      return 'Please check your email to verify your account';
     }
+    return 'Unknown error';
+  } on FirebaseAuthException catch (e) {
+    return e.message.toString();
+  }
+}
+
+
+    // Xác thực email trước khi lưu user vào Firestore
+  Future<bool> checkEmailVerification(String name) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user?.reload(); // Cập nhật trạng thái mới nhất
+    user = FirebaseAuth.instance.currentUser;
+    
+    if (user != null && user.emailVerified) {
+      // Nếu đã xác thực, lưu user vào Firestore
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+        "uid": user.uid,
+        "name": name ?? "No Name",
+        "email": user.email,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
+      return true;
+    }
+    return false;
   }
 
 // dang nhap
