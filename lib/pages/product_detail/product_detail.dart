@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductImages.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/BottomActionButtons.dart';
+import 'package:ecommerece_flutter_app/pages/checkout/checkout.dart';
+import 'package:ecommerece_flutter_app/models/cart_item.dart';
 
 import '../../models/product.dart';
 
@@ -37,6 +39,7 @@ class ProductDetail extends StatefulWidget {
     this.imageList,
     this.price,
     required this.product,
+
   });
 
   @override
@@ -46,10 +49,12 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   final cartService = CartService();
   late List<String> imgList = [
+
     widget.product.imageUrl,
     widget.product.imageGallery[0],
     widget.product.imageGallery[1],
     widget.product.imageGallery[2],
+
   ];
 
   int _current = 0;
@@ -61,17 +66,13 @@ class _ProductDetailState extends State<ProductDetail> {
   final Map<String, String> specifications = {
     "CPU": "Intel Core i3 Alder Lake 1215U, 1.2GHz",
     "RAM": "8GB DDR4 3200MHz",
-    "Ổ cứng": "512GB SSD NVMe PCIe",
-    "Màn hình": "14 inch Full HD (1920x1080)",
-    "Card đồ họa": "Intel UHD Graphics",
-    "Hệ điều hành": "Windows 11 Home",
-    "Trọng lượng": "1.47 kg",
-    "Pin": "3 cell, 41Wh",
+    "Solid-state drive": "512GB SSD NVMe PCIe",
+    "screen": "14 inch Full HD (1920x1080)",
+    "GPU": "Intel UHD Graphics",
+    "OS": "Windows 11 Home",
+    "Weight": "1.47 kg",
+    "Battery": "3 cell, 41Wh",
   };
-  void someFunction() {
-    String? userId = AuthService().getUserId();
-    print("User ID: $userId");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,6 @@ class _ProductDetailState extends State<ProductDetail> {
           SingleChildScrollView(
             child: Column(
               children: [
-                // Đặt ProductImages và ProductInformation ở đây
                 ProductImages(
                   imgList: imgList,
                   currentIndex: _current,
@@ -105,33 +105,30 @@ class _ProductDetailState extends State<ProductDetail> {
               ],
             ),
           ),
-          // Đặt WAppBar ở đây để nó hiển thị trên cùng
           Positioned(
-              top: 20,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: Icon(Icons.arrow_back,
-                            color: Helper.isDarkMode(context)
-                                ? Colors.white
-                                : Colors.black)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Product Details',
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              )),
-          // Đặt BottomActionButtons ở đây để nó hiển thị ở dưới cùng
+            top: 20,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.arrow_back,
+                        color: Helper.isDarkMode(context)
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Product Details',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -139,7 +136,6 @@ class _ProductDetailState extends State<ProductDetail> {
             child: BottomActionButtons(
               priceProduct: Helper.formatCurrency(widget.product.priceProduct),
               onAddToCart: () async {
-                // Handle add to cart
                 cartService.addToCart(
                   userId: AuthService().getUserId(),
                   productId: widget.product.id,
@@ -148,14 +144,33 @@ class _ProductDetailState extends State<ProductDetail> {
                   imageUrl: widget.product.imageUrl,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Added to the cart')));
+                  const SnackBar(content: Text('Added to the cart')),
+                );
 
                 await NotificationService.addNotification(
-                    AuthService().getUserId(),
-                    'You have successfully added ${widget.name} to your cart! Check your cart for more details');
+                  AuthService().getUserId(),
+                  'You have successfully added ${widget.product.name} to your cart! Check your cart for more details',
+                );
               },
               onBuyNow: () {
-                // Handle buy now
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckoutPage(
+                    
+                        cartItem: CartItem(
+                          id: widget.product.id,
+                          name: widget.product.name,
+                          price: widget.product.priceProduct,
+                          imageUrl: widget.product.imageUrl,
+                          quantity: 1,
+                          total: widget.product.priceProduct,
+                        ),
+                      
+                      totalPrice: widget.product.priceProduct.toDouble(),
+                    ),
+                  ),
+                );
               },
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -38,20 +39,24 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     return Scaffold(
       appBar: AppBar(title: Text('Verify email')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Please check your email to verify your account.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                checkEmailVerificationAndNavigate(context);
-              },
-              child: Text('Continue'),
-            ),
-          ],
+        child: SizedBox(
+          width: Helper.screenWidth(context)*0.9,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('Please check your email to verify your account.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(height: 180),
+              ElevatedButton(
+                onPressed: () {
+                  checkEmailVerificationAndNavigate(context);
+                },
+                child: Text('Continue'),
+              ),
+            ],
+          ),
         ),
       ),
     );

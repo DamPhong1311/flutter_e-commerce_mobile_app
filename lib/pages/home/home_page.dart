@@ -504,7 +504,7 @@ class SearchHead extends StatelessWidget {
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              labelText: '  Nhập tên sản phẩm',
+              labelText: '  Search',
               labelStyle: Theme.of(context).textTheme.bodySmall,
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
