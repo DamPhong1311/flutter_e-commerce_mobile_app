@@ -61,19 +61,20 @@ class BrandCard extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductDetail(
-                          name: product.name,
-                          priceProduct: Helper.formatCurrency(
-                              product.priceProduct), // Sửa đúng tên biến
-                          oldPrice: Helper.formatCurrency(
-                              product.oldPrice), // Sửa đúng tên biến
-                          salePercent: product.salePercent,
+                          // name: product.name,
+                          // priceProduct: Helper.formatCurrency(
+                          //     product.priceProduct), // Sửa đúng tên biến
+                          // oldPrice: Helper.formatCurrency(
+                          //     product.oldPrice), // Sửa đúng tên biến
+                          // salePercent: product.salePercent,
                           rateProduct:
                               "0.0", // Giữ nguyên hoặc cập nhật nếu có rating
-                          isSale: product.isSale,
-                          idProduct: product.id,
-                          imageUrl: product.imageUrl,
-                          price: product.priceProduct, 
-                          imageList: product.imageGallery,// Sửa đúng tên biến
+                          // isSale: product.isSale,
+                          // idProduct: product.id,
+                          // imageUrl: product.imageUrl,
+                          // price: product.priceProduct, 
+                          // imageList: product.imageGallery,// Sửa đúng tên biến
+                          product: product,
                         ),
                       ),
                     );

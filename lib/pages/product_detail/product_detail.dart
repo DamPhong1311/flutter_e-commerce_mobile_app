@@ -8,30 +8,36 @@ import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.d
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductImages.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/BottomActionButtons.dart';
 
+import '../../models/product.dart';
+
 class ProductDetail extends StatefulWidget {
-  final String name;
+  final String? name;
   final String rateProduct;
   final String totalReviews = "400";
-  final String oldPrice;
-  final String salePercent;
-  final String priceProduct;
-  final bool isSale;
-  final String idProduct;
-  final String imageUrl;
-  final List<String> imageList;
-  final int price;
-  const ProductDetail(
-      {super.key,
-      required this.name,
-      required this.rateProduct,
-      required this.oldPrice,
-      required this.priceProduct,
-      required this.salePercent,
-      required this.isSale,
-      required this.idProduct,
-      required this.imageUrl,
-      required this.price,
-      required this.imageList});
+  final String? oldPrice;
+  final String? salePercent;
+  final String? priceProduct;
+  final bool? isSale;
+  final String? idProduct;
+  final String? imageUrl;
+  final List<String>? imageList;
+  final int? price;
+  final Product product;
+
+  const ProductDetail({
+    super.key,
+    this.name,
+    required this.rateProduct,
+    this.oldPrice,
+    this.salePercent,
+     this.priceProduct,
+    this.isSale,
+    this.idProduct,
+    this.imageUrl,
+    this.imageList,
+    this.price,
+    required this.product,
+  });
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -40,10 +46,10 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   final cartService = CartService();
   late List<String> imgList = [
-    widget.imageUrl,
-    widget.imageList[0],
-    widget.imageList[1],
-    widget.imageList[2],
+    widget.product.imageUrl,
+    widget.product.imageGallery[0],
+    widget.product.imageGallery[1],
+    widget.product.imageGallery[2],
   ];
 
   int _current = 0;
@@ -86,14 +92,14 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                 ),
                 ProductInformation(
-                  name: widget.name,
+                  name: widget.product.name,
                   rateProduct: widget.rateProduct,
                   totalReviews: widget.totalReviews,
-                  priceProduct: widget.priceProduct,
-                  oldPrice: widget.oldPrice,
-                  salePercent: widget.salePercent,
+                  priceProduct: Helper.formatCurrency(widget.product.priceProduct),
+                  oldPrice: Helper.formatCurrency(widget.product.oldPrice),
+                  salePercent: widget.product.salePercent,
                   specifications: specifications,
-                  isSale: widget.isSale,
+                  isSale: widget.product.isSale,
                 ),
                 const SizedBox(height: 100),
               ],
@@ -131,15 +137,15 @@ class _ProductDetailState extends State<ProductDetail> {
             left: 0,
             right: 0,
             child: BottomActionButtons(
-              priceProduct: widget.priceProduct,
+              priceProduct: Helper.formatCurrency(widget.product.priceProduct),
               onAddToCart: () async {
                 // Handle add to cart
                 cartService.addToCart(
                   userId: AuthService().getUserId(),
-                  productId: widget.idProduct,
-                  name: widget.name,
-                  price: widget.price,
-                  imageUrl: widget.imageUrl,
+                  productId: widget.product.id,
+                  name: widget.product.name,
+                  price: widget.product.priceProduct,
+                  imageUrl: widget.product.imageUrl,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Added to the cart')));

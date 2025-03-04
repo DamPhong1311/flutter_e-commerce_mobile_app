@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../models/product.dart';
 import '../../pages/home/home_page.dart';
 import '../constants/colors.dart';
 import '../constants/sized_box.dart';
@@ -10,21 +11,23 @@ class InfoProductContainerVer extends StatelessWidget {
   const InfoProductContainerVer({
     super.key,
     this.isSale = false,
-    required this.imageProduct,
-    required this.nameProduct,
-    required this.priceProduct,
+    this.imageProduct,
+    this.nameProduct,
+     this.priceProduct,
     this.oldPrice,
     this.salePercent,
     required this.rateProduct,
+    required this.product,
   });
 
-  final String imageProduct;
-  final String nameProduct;
-  final String priceProduct;
-  final bool isSale;
+  final String? imageProduct;
+  final String? nameProduct;
+  final String? priceProduct;
+  final bool? isSale;
   final String? oldPrice;
   final String? salePercent;
   final String rateProduct;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,7 @@ class InfoProductContainerVer extends StatelessWidget {
                         color: Colors.white,
                       ),
                       width: double.infinity,
-                      child: Image.network(imageProduct)),
+                      child: Image.network(product.imageUrl)),
                 ),
               ),
               Expanded(
@@ -66,11 +69,13 @@ class InfoProductContainerVer extends StatelessWidget {
                       horizontal: KSpace.horizontalSmallSpace * 2),
                   child: productInfo(
                     context: context,
-                    name: nameProduct,
-                    price: priceProduct,
-                    isSale: isSale,
-                    salePercent: ' $salePercent',
-                    oldPrice: oldPrice,
+                    name: product.name,
+                    price:  Helper.formatCurrency(
+                                      product.priceProduct),
+                    isSale: product.isSale,
+                    salePercent: ' ${product.salePercent}',
+                    oldPrice:  Helper.formatCurrency(
+                                      product.oldPrice),
                     rate: rateProduct,
                   ),
                 ),

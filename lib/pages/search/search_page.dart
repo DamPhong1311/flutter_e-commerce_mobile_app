@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kết quả tìm kiếm cho "${widget.searchQuery}"'),
+        title: Text('Search results for "${widget.searchQuery}"'),
       ),
       body: FutureBuilder<List<Product>>(
         future: _searchResults,
@@ -82,32 +82,34 @@ class _SearchPageState extends State<SearchPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductDetail(
-                            name: product.name,
-                            priceProduct:
-                                Helper.formatCurrency(product.priceProduct),
-                            oldPrice:
-                                Helper.formatCurrency(product.oldPrice),
-                            salePercent: product.salePercent,
+                            // name: product.name,
+                            // priceProduct:
+                            //     Helper.formatCurrency(product.priceProduct),
+                            // oldPrice:
+                            //     Helper.formatCurrency(product.oldPrice),
+                            // salePercent: product.salePercent,
                             rateProduct: '4.8',
-                            isSale: product.isSale,
-                            idProduct: product.id,
-                            imageUrl: product.imageUrl,
-                            price: product.priceProduct,
-                            imageList: product.imageGallery,
+                            // isSale: product.isSale,
+                            // idProduct: product.id,
+                            // imageUrl: product.imageUrl,
+                            // price: product.priceProduct,
+                            // imageList: product.imageGallery,
+                            product: product,
                           ),
                         ),
                       );
                     },
                     child: InfoProductContainerVer(
                       // context: context,
-                      imageProduct: product.imageUrl,
-                      nameProduct: product.name,
-                      priceProduct:
-                          Helper.formatCurrency(product.priceProduct),
-                      isSale: product.isSale,
-                      oldPrice: Helper.formatCurrency(product.oldPrice),
-                      salePercent: product.salePercent,
+                      // imageProduct: product.imageUrl,
+                      // nameProduct: product.name,
+                      // priceProduct:
+                      //     Helper.formatCurrency(product.priceProduct),
+                      // isSale: product.isSale,
+                      // oldPrice: Helper.formatCurrency(product.oldPrice),
+                      // salePercent: product.salePercent,
                       rateProduct: '4.8',
+                      product: product,
                     ),
                   );
                 });

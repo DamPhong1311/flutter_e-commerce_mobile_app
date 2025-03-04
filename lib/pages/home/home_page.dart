@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                       child: BannerIndicatorRow(currentBanner: currentBanner)),
                   KSizedBox.heightSpace,
                   MainTitleAndViewAllButton(
-                      title: 'Sale',
+                      title: 'Hot',
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -144,33 +144,35 @@ class _HomePageState extends State<HomePage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ProductDetail(
-                                                name: product.name,
+                                                // name: product.name,
                                                 rateProduct: '4.8',
-                                                oldPrice: Helper.formatCurrency(
-                                                    product.oldPrice),
-                                                priceProduct:
-                                                    Helper.formatCurrency(
-                                                        product.priceProduct),
-                                                price: product.priceProduct,
-                                                salePercent:
-                                                    product.salePercent,
-                                                isSale: product.isSale,
-                                                idProduct: product.id,
-                                                imageUrl: product.imageUrl,
-                                                imageList: product.imageGallery,
+                                                // oldPrice: Helper.formatCurrency(
+                                                //     product.oldPrice),
+                                                // priceProduct:
+                                                //     Helper.formatCurrency(
+                                                //         product.priceProduct),
+                                                // price: product.priceProduct,
+                                                // salePercent:
+                                                //     product.salePercent,
+                                                // isSale: product.isSale,
+                                                // idProduct: product.id,
+                                                // imageUrl: product.imageUrl,
+                                                // imageList: product.imageGallery,
+                                                product: product,
                                               )));
                                 },
                                 child: InfoProductContainerVer(
                                   // context: context,
-                                  imageProduct: product.imageUrl,
-                                  nameProduct: product.name,
-                                  priceProduct: Helper.formatCurrency(
-                                      product.priceProduct),
-                                  isSale: product.isSale,
-                                  oldPrice:
-                                      Helper.formatCurrency(product.oldPrice),
-                                  salePercent: product.salePercent,
+                                  // imageProduct: product.imageUrl,
+                                  // nameProduct: product.name,
+                                  // priceProduct: Helper.formatCurrency(
+                                  //     product.priceProduct),
+                                  // isSale: product.isSale,
+                                  // oldPrice:
+                                  //     Helper.formatCurrency(product.oldPrice),
+                                  // salePercent: product.salePercent,
                                   rateProduct: '4.8',
+                                  product: product,
                                 ),
                               );
                             });
