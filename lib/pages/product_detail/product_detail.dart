@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductImages.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/BottomActionButtons.dart';
+import 'package:ecommerece_flutter_app/pages/checkout/checkout.dart';
+import 'package:ecommerece_flutter_app/models/cart_item.dart';
 
 class ProductDetail extends StatefulWidget {
   final String name;
@@ -20,18 +22,19 @@ class ProductDetail extends StatefulWidget {
   final String imageUrl;
   final List<String> imageList;
   final int price;
-  const ProductDetail(
-      {super.key,
-      required this.name,
-      required this.rateProduct,
-      required this.oldPrice,
-      required this.priceProduct,
-      required this.salePercent,
-      required this.isSale,
-      required this.idProduct,
-      required this.imageUrl,
-      required this.price,
-      required this.imageList});
+  const ProductDetail({
+    super.key,
+    required this.name,
+    required this.rateProduct,
+    required this.oldPrice,
+    required this.priceProduct,
+    required this.salePercent,
+    required this.isSale,
+    required this.idProduct,
+    required this.imageUrl,
+    required this.price,
+    required this.imageList,
+  });
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -41,9 +44,7 @@ class _ProductDetailState extends State<ProductDetail> {
   final cartService = CartService();
   late List<String> imgList = [
     widget.imageUrl,
-    widget.imageList[0],
-    widget.imageList[1],
-    widget.imageList[2],
+    ...widget.imageList,
   ];
 
   int _current = 0;
@@ -62,10 +63,6 @@ class _ProductDetailState extends State<ProductDetail> {
     "Trọng lượng": "1.47 kg",
     "Pin": "3 cell, 41Wh",
   };
-  void someFunction() {
-    String? userId = AuthService().getUserId();
-    print("User ID: $userId");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +72,6 @@ class _ProductDetailState extends State<ProductDetail> {
           SingleChildScrollView(
             child: Column(
               children: [
-                // Đặt ProductImages và ProductInformation ở đây
                 ProductImages(
                   imgList: imgList,
                   currentIndex: _current,
@@ -99,33 +95,30 @@ class _ProductDetailState extends State<ProductDetail> {
               ],
             ),
           ),
-          // Đặt WAppBar ở đây để nó hiển thị trên cùng
           Positioned(
-              top: 20,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: Icon(Icons.arrow_back,
-                            color: Helper.isDarkMode(context)
-                                ? Colors.white
-                                : Colors.black)),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Product Details',
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              )),
-          // Đặt BottomActionButtons ở đây để nó hiển thị ở dưới cùng
+            top: 20,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.arrow_back,
+                        color: Helper.isDarkMode(context)
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'Product Details',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             bottom: 0,
             left: 0,
@@ -133,7 +126,6 @@ class _ProductDetailState extends State<ProductDetail> {
             child: BottomActionButtons(
               priceProduct: widget.priceProduct,
               onAddToCart: () async {
-                // Handle add to cart
                 cartService.addToCart(
                   userId: AuthService().getUserId(),
                   productId: widget.idProduct,
@@ -142,14 +134,33 @@ class _ProductDetailState extends State<ProductDetail> {
                   imageUrl: widget.imageUrl,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Added to the cart')));
+                  const SnackBar(content: Text('Added to the cart')),
+                );
 
                 await NotificationService.addNotification(
-                    AuthService().getUserId(),
-                    'You have successfully added ${widget.name} to your cart! Check your cart for more details');
+                  AuthService().getUserId(),
+                  'You have successfully added ${widget.name} to your cart! Check your cart for more details',
+                );
               },
               onBuyNow: () {
-                // Handle buy now
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CheckoutPage(
+                      cartItems: [
+                        CartItem(
+                          id: widget.idProduct,
+                          name: widget.name,
+                          price: widget.price,
+                          imageUrl: widget.imageUrl,
+                          quantity: 1,
+                          total: widget.price,
+                        ),
+                      ],
+                      totalPrice: widget.price.toDouble(),
+                    ),
+                  ),
+                );
               },
             ),
           ),

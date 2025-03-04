@@ -1,9 +1,10 @@
-import 'package:ecommerece_flutter_app/common/helper/helper.dart';
-import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/models/cart_item.dart';
+import 'package:ecommerece_flutter_app/pages/checkout/addAddress.dart'; // Import trang thêm/sửa địa chỉ
 
 class CheckoutPage extends StatefulWidget {
   final List<CartItem> cartItems;
@@ -25,6 +26,43 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   String _paymentMethod = 'Credit Card';
+  List<Map<String, dynamic>> _addresses = [];
+  Map<String, dynamic>? _selectedAddress;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  // Lấy danh sách địa chỉ từ Firestore
+  Future<void> _loadAddresses() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      final snapshot = await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('addresses')
+          .get();
+      setState(() {
+        _addresses = snapshot.docs.map((doc) => doc.data()).toList();
+      });
+    }
+  }
+
+  // Chọn địa chỉ
+  void _selectAddress(Map<String, dynamic> address) {
+    setState(() {
+      _selectedAddress = address;
+      _nameController.text = address['name'];
+      _phoneController.text = address['phone'];
+      _addressController.text =
+          '${address['detail']}, ${address['ward']}, ${address['district']}, ${address['province']}';
+    });
+  }
 
   void _placeOrder() {
     if (_formKey.currentState!.validate()) {
@@ -119,6 +157,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  // Hiển thị danh sách địa chỉ đã lưu
+                  if (_addresses.isNotEmpty) ...[
+                    const Text(
+                      'Saved Addresses',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ..._addresses.map((address) => _buildAddressCard(address)),
+                    const SizedBox(height: 20),
+                  ],
+                  // Nút "Thêm địa chỉ mới"
+                  ElevatedButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddEditAddressPage(),
+                        ),
+                      );
+                      _loadAddresses(); // Tải lại danh sách địa chỉ sau khi thêm/sửa
+                    },
+                    child: const Text('Thêm địa chỉ mới'),
+                  ),
+                  const SizedBox(height: 20),
                   // Form nhập thông tin thanh toán
                   Card(
                     elevation: 4,
@@ -207,8 +272,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                      height: 100), // Khoảng cách để nút không bị che
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -277,7 +341,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'Quantity : ${item.quantity}',
+                  'Số lượng: ${item.quantity}',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[600],
@@ -295,6 +359,34 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Widget để hiển thị địa chỉ dưới dạng card
+  Widget _buildAddressCard(Map<String, dynamic> address) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListTile(
+        title: Text(
+          address['name'],
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Text(
+          '${address['detail']}, ${address['ward']}, ${address['district']}, ${address['province']}\n${address['phone']}',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.check, color: Colors.green),
+          onPressed: () => _selectAddress(address),
+        ),
       ),
     );
   }
