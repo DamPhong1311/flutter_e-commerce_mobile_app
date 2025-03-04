@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerece_flutter_app/models/address_model.dart';
 
 class AddressCard extends StatelessWidget {
-  final Address address;
+  final Map<String, dynamic> address;
   final VoidCallback onEdit;
+  final VoidCallback onDelete;
+  final VoidCallback onSelect;
 
   const AddressCard({
     Key? key,
     required this.address,
     required this.onEdit,
+    required this.onDelete,
+    required this.onSelect,
   }) : super(key: key);
 
   @override
@@ -25,21 +28,29 @@ class AddressCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  address.name,
+                  address['name'],
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.edit, color: Colors.blue),
-                  onPressed: onEdit,
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      onPressed: onEdit,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: onDelete,
+                    ),
+                  ],
                 ),
               ],
             ),
             const SizedBox(height: 5),
             Text(
-              address.phone,
+              address['phone'],
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
@@ -47,11 +58,16 @@ class AddressCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              address.fullAddress,
+              '${address['detail']}, ${address['ward']}, ${address['district']}, ${address['province']}',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
               ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: onSelect,
+              child: const Text('Chọn địa chỉ này'),
             ),
           ],
         ),
