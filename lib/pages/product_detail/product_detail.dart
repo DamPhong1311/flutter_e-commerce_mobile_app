@@ -2,6 +2,8 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/cart_service.dart';
 import 'package:ecommerece_flutter_app/services/notification_service.dart';
+import 'package:ecommerece_flutter_app/services/propose_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/ProductInformation.dart';
@@ -13,31 +15,31 @@ import 'package:ecommerece_flutter_app/models/cart_item.dart';
 import '../../models/product.dart';
 
 class ProductDetail extends StatefulWidget {
-  final String? name;
+  // final String? name;
   final String rateProduct;
   final String totalReviews = "400";
-  final String? oldPrice;
-  final String? salePercent;
-  final String? priceProduct;
-  final bool? isSale;
-  final String? idProduct;
-  final String? imageUrl;
-  final List<String>? imageList;
-  final int? price;
+  // final String? oldPrice;
+  // final String? salePercent;
+  // final String? priceProduct;
+  // final bool? isSale;
+  // final String? idProduct;
+  // final String? imageUrl;
+  // final List<String>? imageList;
+  // final int? price;
   final Product product;
 
   const ProductDetail({
     super.key,
-    this.name,
+    // this.name,
     required this.rateProduct,
-    this.oldPrice,
-    this.salePercent,
-     this.priceProduct,
-    this.isSale,
-    this.idProduct,
-    this.imageUrl,
-    this.imageList,
-    this.price,
+    // this.oldPrice,
+    // this.salePercent,
+    //  this.priceProduct,
+    // this.isSale,
+    // this.idProduct,
+    // this.imageUrl,
+    // this.imageList,
+    // this.price,
     required this.product,
 
   });
@@ -48,6 +50,7 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   final cartService = CartService();
+  final User? user = FirebaseAuth.instance.currentUser;
   late List<String> imgList = [
 
     widget.product.imageUrl,
@@ -73,6 +76,14 @@ class _ProductDetailState extends State<ProductDetail> {
     "Weight": "1.47 kg",
     "Battery": "3 cell, 41Wh",
   };
+
+  @override
+  void initState() {
+    super.initState();
+    if (user != null) {
+      ProposeService().logUserInteraction(user!.uid, widget.product.id);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

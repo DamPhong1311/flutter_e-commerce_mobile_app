@@ -15,6 +15,8 @@ import 'package:ecommerece_flutter_app/common/widgets/main_title_view_all_butotn
 import 'package:ecommerece_flutter_app/pages/cart/cart_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart';
+import 'package:ecommerece_flutter_app/services/auth_service.dart';
+import 'package:ecommerece_flutter_app/services/propose_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
@@ -32,17 +34,26 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>  {
   late ScrollController scrollController;
   int currentBanner = 0;
   final TextEditingController _searchController = TextEditingController();
-  final ProductService _productService = ProductService();
-  late Future<List<Product>> _productsFuture;
+  List<Product> recommendedProducts = [];
+
   @override
   void initState() {
-    _productsFuture = _productService.getProducts();
+    loadRecommendedProducts();
     scrollController = ScrollController();
     super.initState();
+  }
+
+  Future<void> loadRecommendedProducts() async {
+    List<Product> products = await ProposeService()
+        .getRecommendedProducts(AuthService().getUserId());
+        print("Loaded products: ${products.length}");
+    setState(() {
+      recommendedProducts = products;
+    });
   }
 
   void _scrollToTop() {
@@ -55,137 +66,137 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadRecommendedProducts(); // Load lại danh sách mỗi khi trang hiển thị
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        controller: scrollController,
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            _headerContainer(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _textAndCartButton(context),
-                  KSizedBox.mediumSpace,
-                  SearchHead(searchController: _searchController),
-                  KSizedBox.mediumSpace,
-                  MainTitle(title: 'Popular Category'),
-                  KSizedBox.smallHeightSpace,
-                  KSizedBox.smallHeightSpace,
-                  ListViewHorizontal(),
-                  KSizedBox.mediumSpace,
-                ],
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) {
+          await loadRecommendedProducts(); // Cập nhật danh sách khi quay lại
+        }
+      },
+      child: Scaffold(
+        body: SingleChildScrollView(
+          controller: scrollController,
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              _headerContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _textAndCartButton(context),
+                    KSizedBox.mediumSpace,
+                    SearchHead(searchController: _searchController),
+                    KSizedBox.mediumSpace,
+                    MainTitle(title: 'Popular Category'),
+                    KSizedBox.smallHeightSpace,
+                    KSizedBox.smallHeightSpace,
+                    ListViewHorizontal(onUpdate:() => loadRecommendedProducts()),
+                    KSizedBox.mediumSpace,
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // KSizedBox.smallHeightSpace,
-                  KSizedBox.smallHeightSpace,
-                  _banner(context),
-                  Center(
-                      child: BannerIndicatorRow(currentBanner: currentBanner)),
-                  KSizedBox.heightSpace,
-                  MainTitleAndViewAllButton(
-                      title: 'Hot',
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ViewAllPage()));
-                      }),
-                  KSizedBox.smallHeightSpace,
-                  KSizedBox.smallHeightSpace,
-                  FutureBuilder<List<Product>>(
-                      future: _productsFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text("Lỗi: ${snapshot.error}"));
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return Center(child: Text("Không có sản phẩm nào"));
-                        }
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // KSizedBox.smallHeightSpace,
+                    KSizedBox.smallHeightSpace,
+                    _banner(context),
+                    Center(
+                        child:
+                            BannerIndicatorRow(currentBanner: currentBanner)),
+                    KSizedBox.heightSpace,
+                    MainTitleAndViewAllButton(
+                        title: 'Hot',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ViewAllPage()));
+                        }),
+                    KSizedBox.smallHeightSpace,
+                    KSizedBox.smallHeightSpace,
+                    FutureBuilder<List<Product>>(
+                        future: ProposeService()
+                            .getRecommendedProducts(AuthService().getUserId()),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text("Lỗi: ${snapshot.error}"));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return Center(child: Text("Không có sản phẩm nào"));
+                          }
 
-                        List<Product> products = snapshot.data!;
-                        return GridView.builder(
-                            itemCount: products.length,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  Helper.screenWidth(context) > 600 ? 4 : 2,
-                              mainAxisSpacing:
-                                  Helper.screenWidth(context) > 600 ? 20 : 5,
-                              crossAxisSpacing:
-                                  Helper.screenWidth(context) > 600 ? 20 : 5,
-                              mainAxisExtent: Helper.screenWidth(context) > 600
-                                  ? Helper.screenHeight(context) * 0.27
-                                  : Helper.screenWidth(context) < 390
-                                      ? Helper.screenHeight(context) * 0.43
-                                      : Helper.screenHeight(context) * 0.33,
-                            ),
+                          List<Product> products = snapshot.data!;
+                          return GridView.builder(
+                              itemCount: products.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount:
+                                    Helper.screenWidth(context) > 600 ? 4 : 2,
+                                mainAxisSpacing:
+                                    Helper.screenWidth(context) > 600 ? 20 : 5,
+                                crossAxisSpacing:
+                                    Helper.screenWidth(context) > 600 ? 20 : 5,
+                                mainAxisExtent: Helper.screenWidth(context) >
+                                        600
+                                    ? Helper.screenHeight(context) * 0.27
+                                    : Helper.screenWidth(context) < 390
+                                        ? Helper.screenHeight(context) * 0.43
+                                        : Helper.screenHeight(context) * 0.33,
+                              ),
 
-                            //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
+                              //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
 
-                            itemBuilder: (_, index) {
-                              final product = products[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetail(
-                                                // name: product.name,
-                                                rateProduct: '4.8',
-                                                // oldPrice: Helper.formatCurrency(
-                                                //     product.oldPrice),
-                                                // priceProduct:
-                                                //     Helper.formatCurrency(
-                                                //         product.priceProduct),
-                                                // price: product.priceProduct,
-                                                // salePercent:
-                                                //     product.salePercent,
-                                                // isSale: product.isSale,
-                                                // idProduct: product.id,
-                                                // imageUrl: product.imageUrl,
-                                                // imageList: product.imageGallery,
-                                                product: product,
-                                              )));
-                                },
-                                child: InfoProductContainerVer(
-                                  // context: context,
-                                  // imageProduct: product.imageUrl,
-                                  // nameProduct: product.name,
-                                  // priceProduct: Helper.formatCurrency(
-                                  //     product.priceProduct),
-                                  // isSale: product.isSale,
-                                  // oldPrice:
-                                  //     Helper.formatCurrency(product.oldPrice),
-                                  // salePercent: product.salePercent,
-                                  rateProduct: '4.8',
-                                  product: product,
-                                ),
-                              );
-                            });
-                      })
-                ],
-              ),
-            )
-          ],
+                              itemBuilder: (_, index) {
+                                final product = products[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ProductDetail(
+                                                  // name: product.name,
+                                                  rateProduct: '4.8',
+                                              
+                                                  product: product,
+                                                )));
+                                  },
+                                  child: InfoProductContainerVer(
+                                
+                                    rateProduct: '4.8',
+                                    product: product,
+                                  ),
+                                );
+                              });
+                        })
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _scrollToTop,
-        child: Icon(Icons.arrow_upward),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _scrollToTop,
+          child: Icon(Icons.arrow_upward),
+        ),
       ),
     );
   }
@@ -381,7 +392,8 @@ class ImageContainer extends StatelessWidget {
 }
 
 class ListViewHorizontal extends StatelessWidget {
-  ListViewHorizontal({super.key});
+   final VoidCallback onUpdate;
+  ListViewHorizontal({super.key, required this.onUpdate});
 
   final List<CategoryItem> categories = [
     CategoryItem(
@@ -409,9 +421,11 @@ class ListViewHorizontal extends StatelessWidget {
         itemBuilder: (_, index) {
           final category = categories[index];
           return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => category.page));
+            onTap: () async {
+              await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => category.page)
+                );
+              onUpdate();
             },
             child: ListViewChild(category: category),
           );
@@ -474,7 +488,8 @@ class CategoryItem {
   final String icon;
   final Widget page;
 
-  CategoryItem({required this.name, required this.icon, required this.page});
+
+  CategoryItem({ required this.name, required this.icon, required this.page});
 }
 
 class SearchHead extends StatelessWidget {
@@ -508,7 +523,7 @@ class SearchHead extends StatelessWidget {
               labelStyle: Theme.of(context).textTheme.bodySmall,
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
-                onPressed: () {
+                onPressed: () async {
                   String searchQuery = _searchController.text.trim();
                   if (searchQuery.isNotEmpty) {
                     Navigator.push(
@@ -518,6 +533,7 @@ class SearchHead extends StatelessWidget {
                             SearchPage(searchQuery: searchQuery),
                       ),
                     );
+                    
                   }
                 },
               ),

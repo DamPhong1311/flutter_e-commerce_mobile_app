@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/firebase_options.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'common/theme/theme.dart';
+import 'pages/intro/splash.dart';
 import 'services/theme_provider_service.dart';
 
 Future<void> main() async {
@@ -51,10 +54,20 @@ class MyApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.dartTheme,
       debugShowCheckedModeBanner: false,
-      // home: Splash(),
-      home: NavPage(),
+      scrollBehavior: MyCustomScrollBehavior(),
+      home: Splash(),
+      // home: NavPage(),
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch, // Hỗ trợ vuốt trên điện thoại
+        PointerDeviceKind.mouse, // Hỗ trợ vuốt bằng chuột trên Web
+        PointerDeviceKind.trackpad, // Hỗ trợ vuốt bằng trackpad
+      };
 }
 
 class CheckUser extends StatefulWidget {
