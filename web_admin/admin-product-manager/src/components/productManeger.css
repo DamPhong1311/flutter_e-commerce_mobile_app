@@ -1,0 +1,171 @@
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề */
+h2 {
+  color: #007bff;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Nút thêm sản phẩm */
+button {
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* Nút 'Add' */
+button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+button:first-child:hover {
+  background-color: #0056b3;
+}
+
+/* Nút 'Edit' và 'Delete' */
+button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+button:last-child:hover {
+  background-color: #c82333;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+/* Header Table */
+th {
+  padding: 16px;
+  background-color: #007bff;
+  color: white;
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Các ô trong table */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Ảnh sản phẩm */
+img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Modals */
+.modal-dialog {
+  max-width: 600px; /* Giới hạn chiều rộng modal */
+  margin: 20px auto; /* Căn giữa modal */
+}
+
+.modal-body {
+  padding: 20px;
+  max-height: 500px; /* Giới hạn chiều cao modal */
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+}
+
+/* Các ô Form trong modal */
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  align-items: center;
+  margin-bottom: 15px; /* Thêm khoảng cách giữa các input */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+/* Căn giữa tickbox "on sale" */
+.form-check {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin-bottom: 15px; /* Khoảng cách dưới cùng */
+}
+
+/* Căn chỉnh các phần input của modal */
+.modal-body {
+  padding: 20px;
+}
+
+.form-control {
+  font-size: 14px;
+}
+
+/* Thêm các khoảng cách hợp lý cho các ô form */
+input[type="text"], textarea, select {
+  margin-bottom: 15px;
+}
+
+/* Phần footer trong modal */
+.modal-footer {
+  padding: 15px;
+  justify-content: space-between;
+}
+/* productManager.css */
+
+/* Đặt các bộ lọc thành hàng ngang */
+.filter-container {
+  display: flex;
+  gap: 20px; /* Khoảng cách giữa các bộ lọc */
+  flex-wrap: wrap; /* Nếu không đủ không gian, bộ lọc sẽ xuống dòng */
+  justify-content: flex-start; /* Căn chỉnh các bộ lọc về phía trái */
+  margin-bottom: 20px;
+}
+
+/* Đặt chiều rộng của thanh tìm kiếm dài hơn */
+.search-bar {
+  width: 60%; /* Kéo dài thanh tìm kiếm */
+  margin-bottom: 20px;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+}
+
+/* Tối ưu hóa thanh tìm kiếm */
+.form-control {
+  max-width: 400px;
+  margin: 0 auto 20px auto;
+  display: block;
+}
+
