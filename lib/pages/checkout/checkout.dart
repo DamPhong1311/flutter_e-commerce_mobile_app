@@ -1,3 +1,4 @@
+import 'package:ecommerece_flutter_app/pages/checkout/payment_success.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,114 +43,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
   }
 
-  void _showAddressSelectionDialog() async {
-    final addresses = await _addressService.getAddresses();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Select Address"),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: addresses.length,
-              itemBuilder: (context, index) {
-                final address = addresses[index];
-                return ListTile(
-                  title: Text(address.name),
-                  subtitle: Text(address.fullAddress),
-                  onTap: () {
-                    setState(() {
-                      _selectedAddress = address;
-                    });
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: _navigateToAddAddress,
-              child: const Text("Add New Address"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _placeOrder() async {
-    if (_selectedAddress == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please add shipping address!")),
-      );
-      return;
-    }
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Confirm Order"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Are you sure you want to place this order?"),
-              const SizedBox(height: 16),
-              Text(
-                  "Total: ${Helper.formatCurrency(widget.totalPrice.toInt())}"),
-              const SizedBox(height: 8),
-              Text("Payment Method: $_paymentMethod"),
-              const SizedBox(height: 8),
-              Text("Address: ${_selectedAddress!.fullAddress}"),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                String userId = AuthService()
-                    .getUserId(); // Giả sử có userId, bạn có thể lấy từ FirebaseAuth
-                await FirebaseFirestore.instance.collection('users').doc(userId).collection('ordered').add({
-              
-                  "address": _selectedAddress!.toMap(),
-                  "paymentMethod": _paymentMethod,
-                  "totalPrice": widget.totalPrice,
-                  "status": "Pending",
-                });
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Check Out Success!")),
-                );
-                 await NotificationService.addNotification(
-                  AuthService().getUserId(),
-                  'You have successfully ordered ${widget.cartItem.name}! Thank you!',
-                );
-                Navigator.pop(context);
-              },
-              child: const Text("Confirm"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -290,6 +184,115 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
         ],
       ),
+    );
+  }
+
+
+  void _showAddressSelectionDialog() async {
+    final addresses = await _addressService.getAddresses();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Select Address"),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: addresses.length,
+              itemBuilder: (context, index) {
+                final address = addresses[index];
+                return ListTile(
+                  title: Text(address.name),
+                  subtitle: Text(address.fullAddress),
+                  onTap: () {
+                    setState(() {
+                      _selectedAddress = address;
+                    });
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: _navigateToAddAddress,
+              child: const Text("Add New Address"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _placeOrder() async {
+    if (_selectedAddress == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please add shipping address!")),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Confirm Order"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Are you sure you want to place this order?"),
+              const SizedBox(height: 16),
+              Text(
+                  "Total: ${Helper.formatCurrency(widget.totalPrice.toInt())}"),
+              const SizedBox(height: 8),
+              Text("Payment Method: $_paymentMethod"),
+              const SizedBox(height: 8),
+              Text("Address: ${_selectedAddress!.fullAddress}"),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                
+                String userId = AuthService()
+                    .getUserId(); 
+                await FirebaseFirestore.instance.collection('users').doc(userId).collection('ordered').add({
+              
+                  "address": _selectedAddress!.toMap(),
+                  "paymentMethod": _paymentMethod,
+                  "totalPrice": widget.totalPrice,
+                  "status": "Pending",
+                });
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentSuccessScreen()));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Check Out Success!")),
+                );
+                 await NotificationService.addNotification(
+                  AuthService().getUserId(),
+                  'You have successfully ordered ${widget.cartItem.name}! Thank you!',
+                );
+                
+              },
+              child: const Text("Confirm"),
+            ),
+          ],
+        );
+      },
     );
   }
 

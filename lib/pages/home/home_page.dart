@@ -18,6 +18,7 @@ import 'package:ecommerece_flutter_app/pages/product_detail/product_detail.dart'
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/propose_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../../common/widgets/custom_shapes/circular_container.dart';
 import '../../common/widgets/gridview_products.dart';
@@ -34,7 +35,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>  {
+class _HomePageState extends State<HomePage> {
   late ScrollController scrollController;
   int currentBanner = 0;
   final TextEditingController _searchController = TextEditingController();
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage>  {
   Future<void> loadRecommendedProducts() async {
     List<Product> products = await ProposeService()
         .getRecommendedProducts(AuthService().getUserId());
-        print("Loaded products: ${products.length}");
+    print("Loaded products: ${products.length}");
     setState(() {
       recommendedProducts = products;
     });
@@ -65,7 +66,6 @@ class _HomePageState extends State<HomePage>  {
       );
     }
   }
-
 
   @override
   void didChangeDependencies() {
@@ -99,7 +99,8 @@ class _HomePageState extends State<HomePage>  {
                     MainTitle(title: 'Popular Category'),
                     KSizedBox.smallHeightSpace,
                     KSizedBox.smallHeightSpace,
-                    ListViewHorizontal(onUpdate:() => loadRecommendedProducts()),
+                    ListViewHorizontal(
+                        onUpdate: () => loadRecommendedProducts()),
                     KSizedBox.mediumSpace,
                   ],
                 ),
@@ -116,8 +117,65 @@ class _HomePageState extends State<HomePage>  {
                         child:
                             BannerIndicatorRow(currentBanner: currentBanner)),
                     KSizedBox.heightSpace,
+
+                    KSizedBox.smallHeightSpace,
+                    KSizedBox.smallHeightSpace,
+                    MainTitle(title: 'Recommend'),
+                    KSizedBox.smallHeightSpace,
+                    KSizedBox.smallHeightSpace,
+                    FutureBuilder<List<Product>>(
+                        future: ProposeService()
+                            .getRecommendedProducts(AuthService().getUserId()),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text("Lỗi: ${snapshot.error}"));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return Center(child: Text("Không có sản phẩm nào"));
+                          }
+
+                          List<Product> products = snapshot.data!;
+                          return SizedBox(
+                            height: 300,
+                            child: ListView.builder(
+                                itemCount: products.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                            
+                                scrollDirection: Axis.horizontal,
+                                //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
+                                itemBuilder: (_, index) {
+                                  final product = products[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => ProductDetail(
+                                                      // name: product.name,
+                                                      rateProduct: '4.8',
+                                                                
+                                                      product: product,
+                                                    )));
+                                      },
+                                      child: InfoProductContainerVer(
+                                        rateProduct: '4.8',
+                                        product: product,
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          );
+                        }),
+                    KSizedBox.heightSpace,
                     MainTitleAndViewAllButton(
-                        title: 'Hot',
+                        title: 'All',
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -125,10 +183,8 @@ class _HomePageState extends State<HomePage>  {
                                   builder: (context) => const ViewAllPage()));
                         }),
                     KSizedBox.smallHeightSpace,
-                    KSizedBox.smallHeightSpace,
                     FutureBuilder<List<Product>>(
-                        future: ProposeService()
-                            .getRecommendedProducts(AuthService().getUserId()),
+                        future: ProductService().getProducts(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -175,12 +231,11 @@ class _HomePageState extends State<HomePage>  {
                                             builder: (context) => ProductDetail(
                                                   // name: product.name,
                                                   rateProduct: '4.8',
-                                              
+
                                                   product: product,
                                                 )));
                                   },
                                   child: InfoProductContainerVer(
-                                
                                     rateProduct: '4.8',
                                     product: product,
                                   ),
@@ -392,7 +447,7 @@ class ImageContainer extends StatelessWidget {
 }
 
 class ListViewHorizontal extends StatelessWidget {
-   final VoidCallback onUpdate;
+  final VoidCallback onUpdate;
   ListViewHorizontal({super.key, required this.onUpdate});
 
   final List<CategoryItem> categories = [
@@ -422,9 +477,8 @@ class ListViewHorizontal extends StatelessWidget {
           final category = categories[index];
           return GestureDetector(
             onTap: () async {
-              await Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => category.page)
-                );
+              await Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => category.page));
               onUpdate();
             },
             child: ListViewChild(category: category),
@@ -488,8 +542,7 @@ class CategoryItem {
   final String icon;
   final Widget page;
 
-
-  CategoryItem({ required this.name, required this.icon, required this.page});
+  CategoryItem({required this.name, required this.icon, required this.page});
 }
 
 class SearchHead extends StatelessWidget {
@@ -533,7 +586,6 @@ class SearchHead extends StatelessWidget {
                             SearchPage(searchQuery: searchQuery),
                       ),
                     );
-                    
                   }
                 },
               ),
