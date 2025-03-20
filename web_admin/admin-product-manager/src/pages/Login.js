@@ -14,7 +14,7 @@ const Login = () => {
     setError("");  // Reset lỗi trước mỗi lần đăng nhập
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if (userCredential.user.email === "devillhardgamer@gmail.com") {
+      if (userCredential.user.email === "devillhardgamer@gmail.com", "phong9173123@gmail.com") {
         navigate("/dashboard");
       } else {
         setError("Bạn không có quyền truy cập!");

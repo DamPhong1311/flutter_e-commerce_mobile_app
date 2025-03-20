@@ -3,6 +3,8 @@ import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../nav_page.dart';
+
 class PaymentSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                        MaterialPageRoute(builder: (context) => NavPage()));
                   },
                   child: Text('Continue Shopping'),
                 ),

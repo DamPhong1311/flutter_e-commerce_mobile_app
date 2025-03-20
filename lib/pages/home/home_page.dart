@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                     KSizedBox.smallHeightSpace,
                     ListViewHorizontal(
                         onUpdate: () => loadRecommendedProducts()),
-                    KSizedBox.mediumSpace,
+                    // KSizedBox.mediumSpace,
                   ],
                 ),
               ),
@@ -110,19 +110,17 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // KSizedBox.smallHeightSpace,
-                    KSizedBox.smallHeightSpace,
+                 
                     _banner(context),
                     Center(
                         child:
                             BannerIndicatorRow(currentBanner: currentBanner)),
                     KSizedBox.heightSpace,
 
-                    KSizedBox.smallHeightSpace,
-                    KSizedBox.smallHeightSpace,
                     MainTitle(title: 'Recommend'),
                     KSizedBox.smallHeightSpace,
                     KSizedBox.smallHeightSpace,
+
                     FutureBuilder<List<Product>>(
                         future: ProposeService()
                             .getRecommendedProducts(AuthService().getUserId()),
@@ -140,33 +138,47 @@ class _HomePageState extends State<HomePage> {
 
                           List<Product> products = snapshot.data!;
                           return SizedBox(
-                            height: 300,
+                            height: Helper.screenWidth(context) > 600
+                                ? Helper.screenHeight(context) * 0.27
+                                : Helper.screenWidth(context) < 390
+                                    ? Helper.screenHeight(context) * 0.43
+                                    : Helper.screenHeight(context) * 0.35,
                             child: ListView.builder(
                                 itemCount: products.length,
                                 shrinkWrap: true,
                                 padding: EdgeInsets.symmetric(horizontal: 5),
-                            
                                 scrollDirection: Axis.horizontal,
-                                //làm dạng ngang và nếu điện thoại nhỏ sẽ đổi sang dạng đó
                                 itemBuilder: (_, index) {
                                   final product = products[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(right: 10.0),
                                     child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
+                                      onTap: () async {
+                                        await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => ProductDetail(
+                                                builder: (context) =>
+                                                    ProductDetail(
                                                       // name: product.name,
                                                       rateProduct: '4.8',
-                                                                
+
                                                       product: product,
                                                     )));
+                                        loadRecommendedProducts();
                                       },
-                                      child: InfoProductContainerVer(
-                                        rateProduct: '4.8',
-                                        product: product,
+                                      child: SizedBox(
+                                        width: Helper.screenWidth(context) > 600
+                                            ? Helper.screenWidth(context) *
+                                                0.25
+                                            : Helper.screenWidth(context) < 390
+                                                ? Helper.screenWidth(context) *
+                                                    0.5
+                                                : Helper.screenWidth(context) *
+                                                    0.51,
+                                        child: InfoProductContainerVer(
+                                          rateProduct: '4.8',
+                                          product: product,
+                                        ),
                                       ),
                                     ),
                                   );
@@ -208,9 +220,9 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisCount:
                                     Helper.screenWidth(context) > 600 ? 4 : 2,
                                 mainAxisSpacing:
-                                    Helper.screenWidth(context) > 600 ? 20 : 5,
+                                    Helper.screenWidth(context) > 600 ? 12 : 5,
                                 crossAxisSpacing:
-                                    Helper.screenWidth(context) > 600 ? 20 : 5,
+                                    Helper.screenWidth(context) > 600 ? 20 : 3,
                                 mainAxisExtent: Helper.screenWidth(context) >
                                         600
                                     ? Helper.screenHeight(context) * 0.27
@@ -224,8 +236,8 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (_, index) {
                                 final product = products[index];
                                 return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
+                                  onTap: () async {
+                                    await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ProductDetail(
@@ -234,6 +246,7 @@ class _HomePageState extends State<HomePage> {
 
                                                   product: product,
                                                 )));
+                                    loadRecommendedProducts();
                                   },
                                   child: InfoProductContainerVer(
                                     rateProduct: '4.8',
@@ -256,23 +269,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SizedBox _banner(BuildContext context) {
-    return SizedBox(
-      height: Helper.screenHeight(context) * (1 / 3),
-      width: Helper.screenHeight(context) * 0.85,
-      child: CarouselSlider(
-          options: CarouselOptions(
-              viewportFraction: 1,
-              onPageChanged: (index, _) {
-                setState(() {
-                  currentBanner = index;
-                });
-              }),
-          items: [
-            ImageContainer(image: 'assets/banners/promo_banner1.png'),
-            ImageContainer(image: 'assets/banners/promo_banner2.png'),
-            ImageContainer(image: 'assets/banners/promo_banner3.png'),
-          ]),
+  Center _banner(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        height: Helper.screenHeight(context) * 0.3,
+        width: Helper.screenWidth(context),
+        child: CarouselSlider(
+            options: CarouselOptions(
+                viewportFraction: 1,
+                onPageChanged: (index, _) {
+                  setState(() {
+                    currentBanner = index;
+                  });
+                }),
+            items: [
+              ImageContainer(image: 'assets/banners/promo_banner1.png'),
+              ImageContainer(image: 'assets/banners/promo_banner2.png'),
+              ImageContainer(image: 'assets/banners/promo_banner3.png'),
+            ]),
+      ),
     );
   }
 

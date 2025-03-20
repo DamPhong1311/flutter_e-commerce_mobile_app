@@ -88,65 +88,67 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox.expand(
-          child: FractionallySizedBox(
-            widthFactor: 0.9,
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  KSizedBox.heightSpace,
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(Icons.arrow_back)),
-                      KSizedBox.smallWidthSpace,
-                      Text(
-                        'Create New Password',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    ],
-                  ),
-                  KSizedBox.heightSpace,
-                  KSizedBox.heightSpace,
-                  _textFormField(
-                    text: 'Current Password:',
-                    label: 'Enter your current password',
-                    controller: _oldPasswordController,
-                    validator: (value) => VValidators.validateEmptyText(
-                        'Current Password', value),
-                    obscureText: true,
-                  ),
-                  KSizedBox.smallHeightSpace,
-                  _textFormField(
-                    text: 'New Password:',
-                    label: 'Enter your new password',
-                    controller: _newPasswordController,
-                    validator: (value) => VValidators.validatePassword(value),
-                    obscureText: true,
-                  ),
-                  KSizedBox.smallHeightSpace,
-                  _textFormField(
-                    text: 'Confirm Password:',
-                    label: 'Enter your confirm password',
-                    controller: _confirmPasswordController,
-                    validator: (value) {
-                      if (value != _newPasswordController.text) {
-                        return 'Passwords do not match!';
-                      }
-                      return null;
-                    },
-                    obscureText: true,
-                  ),
-                  KSizedBox.heightSpace,
-                  _updateButton(context),
-                ],
-              ),
+      appBar: AppBar(
+        
+        title: Text('Change Your Password'),
+      ),
+      body: SizedBox.expand(
+        child: FractionallySizedBox(
+          widthFactor: 0.9,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+               
+                // Row(
+                //   children: [
+                //     IconButton(
+                //         onPressed: () {
+                //           Navigator.of(context).pop();
+                //         },
+                //         icon: Icon(Icons.arrow_back)),
+                //     KSizedBox.smallWidthSpace,
+                //     Text(
+                //       'Create New Password',
+                //       style: Theme.of(context).textTheme.headlineMedium,
+                //     ),
+                //   ],
+                // ),
+                // KSizedBox.heightSpace,
+                KSizedBox.heightSpace,
+                _textFormField(
+                  text: 'Current Password:',
+                  label: 'Enter your current password',
+                  controller: _oldPasswordController,
+                  validator: (value) => VValidators.validateEmptyText(
+                      'Current Password', value),
+                  obscureText: true,
+                ),
+                KSizedBox.smallHeightSpace,
+                _textFormField(
+                  text: 'New Password:',
+                  label: 'Enter your new password',
+                  controller: _newPasswordController,
+                  validator: (value) => VValidators.validatePassword(value),
+                  obscureText: true,
+                ),
+                KSizedBox.smallHeightSpace,
+                _textFormField(
+                  text: 'Confirm Password:',
+                  label: 'Enter your confirm password',
+                  controller: _confirmPasswordController,
+                  validator: (value) {
+                    if (value != _newPasswordController.text) {
+                      return 'Passwords do not match!';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                ),
+                KSizedBox.heightSpace,
+                _updateButton(context),
+              ],
             ),
           ),
         ),
