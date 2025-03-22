@@ -18,7 +18,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 0), () {
+    Timer(Duration(seconds: 1), () {
       // Chuyển sang màn hình chính sau 3 giây
       Navigator.pushReplacement(
         context,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/pages/home/home_page.dart';
@@ -27,11 +28,11 @@ class PaymentSuccessScreen extends StatelessWidget {
                         Icon(Icons.check_circle,
                             color: Colors.green, size: 100),
                         SizedBox(height: 20),
-                        Text('Payment Success!',
+                        Text('Payment_Success'.tr(),
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold)),
                         SizedBox(height: 10),
-                        Text('Your item will be shipped soon.'),
+                        Text('Payment_Success_Notification'.tr()),
                       ],
                     ),
                   ),
@@ -47,7 +48,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => NavPage()));
                   },
-                  child: Text('Continue Shopping'),
+                  child: Text('Continue_Shopping'.tr()),
                 ),
               ),
             ]),

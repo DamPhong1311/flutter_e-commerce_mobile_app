@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/app_bar.dart';
 import 'package:ecommerece_flutter_app/common/widgets/app_bar/cart_button.dart';
@@ -19,7 +20,7 @@ class NotificationPage extends StatelessWidget {
         children: [
           Expanded(
             child: WAppBar(
-              title: Text('Notification'),
+              title: Text('Notification'.tr()),
               actions: [
                 WCartButton.cartButton(
                     context: context,
@@ -39,7 +40,7 @@ class NotificationPage extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text("No notifications yet."));
+                  return Center(child: Text("No_notifications_yet".tr()));
                 }
 
                 List<NotificationModel> notifications = snapshot.data!;

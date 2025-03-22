@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/constants/space.dart';
@@ -51,7 +52,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadRecommendedProducts() async {
     List<Product> products = await ProposeService()
         .getRecommendedProducts(AuthService().getUserId());
-    print("Loaded products: ${products.length}");
+    // print("Loaded products: ${products.length}");
     setState(() {
       recommendedProducts = products;
     });
@@ -96,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     KSizedBox.mediumSpace,
                     SearchHead(searchController: _searchController),
                     KSizedBox.mediumSpace,
-                    MainTitle(title: 'Popular Category'),
+                    MainTitle(title: 'Popular_Category'.tr()),
                     KSizedBox.smallHeightSpace,
                     KSizedBox.smallHeightSpace,
                     ListViewHorizontal(
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                             BannerIndicatorRow(currentBanner: currentBanner)),
                     KSizedBox.heightSpace,
 
-                    MainTitle(title: 'Recommend'),
+                    MainTitle(title: 'Recommend'.tr()),
                     KSizedBox.smallHeightSpace,
                     KSizedBox.smallHeightSpace,
 
@@ -187,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                         }),
                     KSizedBox.heightSpace,
                     MainTitleAndViewAllButton(
-                        title: 'All',
+                        title: 'All'.tr(),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -297,7 +298,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Good day for shopping!',
+              'Welcome_Text_Home_Page'.tr(),
               style: Theme.of(context)
                   .textTheme
                   .labelMedium!
@@ -470,11 +471,11 @@ class ListViewHorizontal extends StatelessWidget {
         name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
     CategoryItem(name: 'PC', icon: 'assets/icons/pc.jpeg', page: PcPage()),
     CategoryItem(
-        name: 'Smartphone',
+        name: 'Smartphone'.tr(),
         icon: 'assets/icons/smartphone.jpg',
         page: SmartphonePage()),
     CategoryItem(
-        name: 'Accessories',
+        name: 'Accessories'.tr(),
         icon: 'assets/icons/usb.jpg',
         page: AccessoriesPage()),
   ];
@@ -587,7 +588,7 @@ class SearchHead extends StatelessWidget {
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              labelText: '  Search',
+              labelText: 'Search'.tr(),
               labelStyle: Theme.of(context).textTheme.bodySmall,
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),

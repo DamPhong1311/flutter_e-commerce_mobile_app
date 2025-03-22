@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/constants/space.dart';
@@ -83,7 +84,7 @@ class _HomePageState extends State<StoreScreen> {
                   KSizedBox.mediumSpace,
                   SearchHead(searchController: _searchController),
                   KSizedBox.mediumSpace,
-                  MainTitle(title: 'Brand Category'),
+                  MainTitle(title: 'Brand_Category'.tr()),
                   KSizedBox.smallHeightSpace,
                   KSizedBox.smallHeightSpace,
                   ListViewHorizontal(),
@@ -96,7 +97,7 @@ class _HomePageState extends State<StoreScreen> {
               ),
             ),
             MainTitleAndViewAllButton(
-                title: 'Sale',
+                title: 'Sale'.tr(),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -226,7 +227,7 @@ WAppBar _textAndCartButton(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Store',
+            'Store'.tr(),
             style: Theme.of(context)
                 .textTheme
                 .headlineMedium!
@@ -497,7 +498,7 @@ class SearchHead extends StatelessWidget {
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
-              labelText: '  Nhập tên sản phẩm',
+              labelText: 'Search'.tr(),
               labelStyle: Theme.of(context).textTheme.bodySmall,
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),

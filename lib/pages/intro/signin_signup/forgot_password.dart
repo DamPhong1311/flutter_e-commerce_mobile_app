@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/validators/validators.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,18 +50,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   KSizedBox.heightSpace,
                   Text(
-                    'Forgot Password',
+                    'Forgot_Password'.tr(),
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   KSizedBox.smallHeightSpace,
                   Text(
-                    'Enter your email for verification. We will send a reset link.',
+                    'Forgot_Password_decribe'.tr(),
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   KSizedBox.heightSpace,
                   _textFormField(
-                    text: 'Email:',
-                    label: 'Enter your email',
+                    text: 'Email'.tr(),
+                    label: 'Enter_your_email'.tr(),
                     controller: _emailController,
                   ),
                   KSizedBox.heightSpace,
@@ -76,7 +77,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   ElevatedButton _continueButton(BuildContext context) => ElevatedButton(
         onPressed: _resetPassword,
-        child: Text('Continue'),
+        child: Text('Continue'.tr()),
       );
 
   Column _textFormField({

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
@@ -43,7 +44,7 @@ class _CartPageState extends State<CartPage> {
                               )),
                           KSizedBox.smallWidthSpace,
                           Text(
-                            "Your Cart",
+                            "Your_Cart".tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
@@ -102,7 +103,7 @@ class _CartPageState extends State<CartPage> {
                   onPressed: () {
                     cartService.clearCart(AuthService().getUserId());
                   },
-                  child: Text('Delete all product')))
+                  child: Text('Delete_all_product'.tr())))
         ],
       ),
     );

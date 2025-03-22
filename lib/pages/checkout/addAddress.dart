@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/checkout_service.dart';
 import 'package:flutter/material.dart';
@@ -50,19 +51,19 @@ class _AddAddressPageState extends State<AddAddressPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Address")),
+      appBar: AppBar(title: Text("Add_Address".tr())),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: "Full Name"),
+              decoration: InputDecoration(labelText: "Full_Name".tr()),
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: _phoneController,
-              decoration: const InputDecoration(labelText: "Phone Number"),
+              decoration: InputDecoration(labelText: "Phone_Number".tr()),
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 10),
@@ -73,7 +74,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   .toList(),
               onChanged: (value) =>
                   setState(() => _province = value.toString()),
-              decoration: const InputDecoration(labelText: "Province/City"),
+              decoration:  InputDecoration(labelText: "Province_City".tr()),
             ),
             const SizedBox(height: 10),
             DropdownButtonFormField(
@@ -83,7 +84,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   .toList(),
               onChanged: (value) =>
                   setState(() => _district = value.toString()),
-              decoration: const InputDecoration(labelText: "District"),
+              decoration:  InputDecoration(labelText: "District".tr()),
             ),
             const SizedBox(height: 10),
             DropdownButtonFormField(
@@ -92,12 +93,12 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                   .toList(),
               onChanged: (value) => setState(() => _ward = value.toString()),
-              decoration: const InputDecoration(labelText: "Ward"),
+              decoration:  InputDecoration(labelText: "Ward".tr()),
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: _detailController,
-              decoration: const InputDecoration(labelText: "Detail"),
+              decoration: InputDecoration(labelText: "Detail".tr()),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -111,7 +112,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text("Save Address",
+                child: Text("Save_Address".tr(),
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

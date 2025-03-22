@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
@@ -37,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 KSizedBox.heightSpace,
                 Text(
-                  'Sign Up to MyShop',
+                  'Sign_Up_to_MyShop'.tr(),
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 KSizedBox.heightSpace,
@@ -104,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                     child: Text(
-                      'Create Account',
+                      'Create_Account'.tr(),
                     )),
                 KSizedBox.smallHeightSpace,
                 KSizedBox.smallHeightSpace,
@@ -113,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     },
-                    child: Text('Sign In'))
+                    child: Text('Sign_In'.tr()))
               ],
             ),
           ),
@@ -177,7 +178,7 @@ class ConfirmPasswordTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Confirm Password', style: Theme.of(context).textTheme.titleLarge),
+        Text('Confirm_Password'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) {
@@ -191,7 +192,7 @@ class ConfirmPasswordTextField extends StatelessWidget {
           },
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your confirm password',
+            labelText: 'Enter_your_confirm_password'.tr(),
           ),
           obscureText: true,
         ),
@@ -216,13 +217,13 @@ class PasswordTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Password', style: Theme.of(context).textTheme.titleLarge),
+        Text('Password'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) => VValidators.validatePassword(value),
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your password',
+            labelText: 'Enter_your_password'.tr(),
           ),
           obscureText: true,
         ),
@@ -247,13 +248,13 @@ class EmailTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Email', style: Theme.of(context).textTheme.titleLarge),
+        Text('Email'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) => VValidators.validateEmail(value),
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your email',
+            labelText: 'Enter_your_email'.tr(),
           ),
         ),
         SizedBox(
@@ -277,14 +278,14 @@ class NameTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Name', style: Theme.of(context).textTheme.titleLarge),
+        Text('Name'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) =>
               VValidators.validateEmptyText(controller.text, value),
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your name',
+            labelText: 'Enter_your_name'.tr(),
           ),
         ),
         SizedBox(

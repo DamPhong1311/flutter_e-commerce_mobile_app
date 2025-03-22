@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:flutter/material.dart';
@@ -19,25 +20,25 @@ class CreateNewPasswordPage extends StatelessWidget {
             children: [
               KSizedBox.heightSpace,
               Text(
-                'Create New Password',
+                'Create_New_Password'.tr(),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               KSizedBox.smallHeightSpace,
               KSizedBox.smallHeightSpace,
               Text(
-                'Enter your email id for the verification process, we will send 4 digit to your email',
+                'Create_New_Pass_Describe'.tr(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               KSizedBox.heightSpace,
               _textFormField(
-                  text: 'New Password: ',
-                  label: 'Enter your new password',
+                  text: 'New_Password'.tr(),
+                  label: 'Enter_your_new_password'.tr(),
                   context: context),
               KSizedBox.smallHeightSpace,
               KSizedBox.smallHeightSpace,
               _textFormField(
-                  text: 'Confirm Password: ',
-                  label: 'Enter your confirm password',
+                  text: 'Confirm_Password'.tr(),
+                  label: 'Enter_your_confirm_password'.tr(),
                   context: context),
               KSizedBox.heightSpace,
               _updateButton(context),
@@ -75,6 +76,6 @@ class CreateNewPasswordPage extends StatelessWidget {
         Helper.navigateAndReplace(context, LoginPage());
       },
       child: Text(
-        'Continue',
+        'Continue'.tr(),
       ));
 }

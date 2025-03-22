@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +35,7 @@ class BottomActionButtons extends StatelessWidget {
                 size: 24,
               ),
               label: Text(
-                "Thêm vào giỏ hàng",
+                "Add_to_cart".tr(),
                 style: TextStyle(
                   color: KColors.primaryColor,
                   fontSize: 16,
@@ -70,7 +71,7 @@ class BottomActionButtons extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Mua ngay",
+                    "Buy_now".tr(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,

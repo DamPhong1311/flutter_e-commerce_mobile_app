@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -96,7 +97,7 @@ class ProductInformation extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text("Specifications", style: Theme.of(context).textTheme.titleLarge),
+          Text("Specifications".tr(), style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 10),
           ...specifications.entries.map((entry) {
             return Padding(

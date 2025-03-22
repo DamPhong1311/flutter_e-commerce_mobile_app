@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/pages/checkout/payment_success.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage> {
   Address? _selectedAddress;
-  String _paymentMethod = "Cash on delivery";
+  String _paymentMethod = "Cash_on_delivery".tr();
   final AddressService _addressService = AddressService();
 
   void _navigateToAddAddress() async {
@@ -43,15 +44,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Check Out"),
-     
+        title: Text("Check_Out".tr()),
         elevation: 1,
-        iconTheme: IconThemeData(color: Helper.isDarkMode(context) ? KColors.dartModeColor : Colors.black),
+        iconTheme: IconThemeData(
+            color: Helper.isDarkMode(context)
+                ? KColors.dartModeColor
+                : Colors.black),
       ),
       body: Column(
         children: [
@@ -61,12 +63,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 children: [
                   // Danh sách sản phẩm
                   Container(
-                
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Product",
+                        Text("Product".tr(),
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         _buildCartItem(widget.cartItem)
@@ -76,7 +77,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   const SizedBox(height: 10),
                   // Địa chỉ giao hàng
                   Container(
-              
                     padding: const EdgeInsets.all(12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,19 +91,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   children: [
                                     Text(
                                         "${_selectedAddress!.name} - ${_selectedAddress!.phone}",
-                                        style:Theme.of(context).textTheme.titleMedium),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium),
                                     Text(
                                         "${_selectedAddress!.detail}, ${_selectedAddress!.ward}, ${_selectedAddress!.district}, ${_selectedAddress!.province}",
-                                        style: Theme.of(context).textTheme.labelLarge),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
                                   ],
                                 )
-                              : const Text(
-                                  "Empty address, please add a new address"),
+                              : Text("add_address_empty".tr()),
                         ),
                         GestureDetector(
                           onTap: _showAddressSelectionDialog,
-                          child: const Icon(Icons.arrow_forward_ios,
-                              size: 16),
+                          child: const Icon(Icons.arrow_forward_ios, size: 16),
                         ),
                       ],
                     ),
@@ -111,19 +113,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   const SizedBox(height: 10),
                   // Phương thức thanh toán
                   Container(
-                   
                     padding: const EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Payment",
+                        Text("Payment".tr(),
                             style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<String>(
                           value: _paymentMethod,
                           items: [
-                            "Cash on delivery",
-                            "Visa",
+                            "Cash_on_delivery".tr(),
+                            "Visa".tr(),
                           ]
                               .map((method) => DropdownMenuItem(
                                     value: method,
@@ -156,7 +157,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     Text("Total",
+                    Text("Total".tr(),
                         style: Theme.of(context).textTheme.titleMedium),
                     Text(
                       Helper.formatCurrency(widget.totalPrice.toInt()),
@@ -176,7 +177,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 12),
                   ),
-                  child: Text("Place Order",
+                  child: Text("Place_Order".tr(),
                       style: Theme.of(context).textTheme.headlineSmall),
                 ),
               ],
@@ -187,14 +188,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
-
   void _showAddressSelectionDialog() async {
     final addresses = await _addressService.getAddresses();
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Select Address"),
+          title: Text("Select_Address".tr()),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView.builder(
@@ -220,11 +220,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Cancel"),
+              child: Text("Cancel".tr()),
             ),
             TextButton(
               onPressed: _navigateToAddAddress,
-              child: const Text("Add New Address"),
+              child: Text("Add_New_Address".tr()),
             ),
           ],
         );
@@ -235,7 +235,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _placeOrder() async {
     if (_selectedAddress == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please add shipping address!")),
+        SnackBar(content: Text("Please_add_shipping_address!".tr())),
       );
       return;
     }
@@ -244,19 +244,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Confirm Order"),
+          title: Text("Confirm_Order".tr()),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Are you sure you want to place this order?"),
+              Text("Confirm_notification".tr()),
               const SizedBox(height: 16),
-              Text(
-                  "Total: ${Helper.formatCurrency(widget.totalPrice.toInt())}"),
+              Text("total_price".tr(
+                  args: [Helper.formatCurrency(widget.totalPrice.toInt())])),
               const SizedBox(height: 8),
-              Text("Payment Method: $_paymentMethod"),
+              Text("payment_method".tr(namedArgs: {"method": _paymentMethod})),
               const SizedBox(height: 8),
-              Text("Address: ${_selectedAddress!.fullAddress}"),
+              Text("address"
+                  .tr(namedArgs: {"address": _selectedAddress!.fullAddress})),
             ],
           ),
           actions: [
@@ -264,31 +265,35 @@ class _CheckoutPageState extends State<CheckoutPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Cancel"),
+              child: Text("Cancel".tr()),
             ),
             TextButton(
               onPressed: () async {
-                
-                String userId = AuthService()
-                    .getUserId(); 
-                await FirebaseFirestore.instance.collection('users').doc(userId).collection('ordered').add({
-              
+                String userId = AuthService().getUserId();
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userId)
+                    .collection('ordered')
+                    .add({
                   "address": _selectedAddress!.toMap(),
                   "paymentMethod": _paymentMethod,
                   "totalPrice": widget.totalPrice,
                   "status": "Pending",
                 });
-                Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentSuccessScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PaymentSuccessScreen()));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Check Out Success!")),
+                   SnackBar(content: Text("Check_Out_Success".tr())),
                 );
-                 await NotificationService.addNotification(
+                await NotificationService.addNotification(
                   AuthService().getUserId(),
-                  'You have successfully ordered ${widget.cartItem.name}! Thank you!',
+                 "You have successfully ordered ${widget.cartItem.name}! Thank you!"
+                  
                 );
-                
               },
-              child: const Text("Confirm"),
+              child: Text("Confirm".tr()),
             ),
           ],
         );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:ecommerece_flutter_app/pages/store/store.dart';
 import 'package:flutter/material.dart';
@@ -52,19 +53,19 @@ class _NavPageState extends State<NavPage> {
                 icon: Icon(
                   Icons.home,
                 ),
-                label: 'Home',
+                label: 'Home'.tr(),
                 backgroundColor: Colors.transparent),
             BottomNavigationBarItem(
                 icon: Icon(Icons.store),
-                label: 'Store',
+                label: 'Store'.tr(),
                 backgroundColor: Colors.transparent),
             BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),
-                label: 'Notification',
+                label: 'Notification'.tr(),
                 backgroundColor: Colors.transparent),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'Account',
+                label: 'Account'.tr(),
                 backgroundColor: Colors.transparent)
           ]),
      

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/constants/sized_box.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/pages/account/change_password.dart';
@@ -60,7 +61,7 @@ class _AccountPageState extends State<AccountPage> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your Account"),
+        title: Text("Your_Account".tr()),
         centerTitle: true,
         actions: [
           IconButton(
@@ -84,10 +85,11 @@ class _AccountPageState extends State<AccountPage> {
                 CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.blueAccent,
-                  child: const Icon(Icons.person, size: 50, color: Colors.white),
+                  child:
+                      const Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 KSizedBox.heightSpace,
-            
+
                 // Thông tin tài khoản
                 Card(
                   shape: RoundedRectangleBorder(
@@ -97,28 +99,40 @@ class _AccountPageState extends State<AccountPage> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        buildInfoRow("Your Id:", id, Icons.person),
+                        buildInfoRow("Your_Id".tr(), id, Icons.person),
                         KSizedBox.smallHeightSpace,
                         KSizedBox.smallHeightSpace,
-                        buildInfoRow("Your Name:", name, Icons.person),
+                        buildInfoRow("Your_Name".tr(), name, Icons.person),
                         KSizedBox.smallHeightSpace,
                         KSizedBox.smallHeightSpace,
-                        buildInfoRow("Your Email:", email, Icons.email),
+                        buildInfoRow("Your_Email".tr(), email, Icons.email),
                       ],
                     ),
                   ),
                 ),
-            
+
                 KSizedBox.smallHeightSpace,
                 KSizedBox.smallHeightSpace,
-            
+
                 // Nút đổi mật khẩu
-                NavButtonAccountPage(context: context,onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder:(_) => ChangePasswordPage()));
-                }, text: "Change Your Password" ),
+                NavButtonAccountPage(
+                    context: context,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ChangePasswordPage()));
+                    },
+                    text: "Change_Your_Password".tr()),
                 KSizedBox.smallHeightSpace,
-                NavButtonAccountPage(context: context, onPressed: (){ Navigator.push(context, MaterialPageRoute(builder:(_) => AboutUsPage()));}, text: "About Us"),
-            
+                NavButtonAccountPage(
+                    context: context,
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => AboutUsPage()));
+                    },
+                    text: "About_Us".tr()),
+
                 KSizedBox.smallHeightSpace,
                 KSizedBox.smallHeightSpace,
                 // Nút đăng xuất
@@ -129,39 +143,66 @@ class _AccountPageState extends State<AccountPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 12),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text(
-                    'Log Out',
+                  child: Text(
+                    'Log_Out'.tr(),
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),
+                KSizedBox.heightSpace,
+
+                // 🌍 Nút Đổi Ngôn Ngữ
+                IconButton(
+                  icon: const Icon(Icons.language,
+                      size: 30, color: Colors.blueAccent),
+                  onPressed: () {
+                    _toggleLanguage(context);
+                  },
+                ),
+                Text(
+                  "Switch_Language".tr(),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500),
+                ),
               ],
             ),
           ),
         ),
       ),
-      
     );
   }
 
-  TextButton NavButtonAccountPage({required BuildContext context, required VoidCallback onPressed,required String text}) {
+  void _toggleLanguage(BuildContext context) {
+    Locale currentLocale = context.locale;
+
+    if (currentLocale.languageCode == 'en') {
+      context.setLocale(const Locale('vi')); // Chuyển sang Tiếng Việt
+    } else {
+      context.setLocale(const Locale('en')); // Chuyển sang Tiếng Anh
+    }
+  }
+
+  TextButton NavButtonAccountPage(
+      {required BuildContext context,
+      required VoidCallback onPressed,
+      required String text}) {
     return TextButton(
-              onPressed: onPressed,
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blueAccent),
-              ),
-            );
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.blueAccent),
+      ),
+    );
   }
 
   // Widget để tạo hàng thông tin
@@ -172,17 +213,16 @@ class _AccountPageState extends State<AccountPage> {
         Expanded(
           flex: 3,
           child: Text(label,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ),
-     
         KSizedBox.smallWidthSpace,
         KSizedBox.smallWidthSpace,
         Expanded(
           flex: 5,
           child: Text(
             value,
-            style: const TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w400),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),

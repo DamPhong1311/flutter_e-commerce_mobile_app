@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:device_preview/device_preview.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/firebase_options.dart';
 
@@ -27,15 +28,25 @@ Future<void> main() async {
   // .then(
   //  (FirebaseApp value) => Get.put(AuthenticationRepository()),
   // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()), // Đưa ThemeProvider vào đây
       ],
-    child: DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(), // Wrap your app
+    child: EasyLocalization(
+      supportedLocales: const [
+        Locale("vi"), // tieng viet
+        Locale("en") // tieng anh
+      ],
+      path: "assets/translations",
+       fallbackLocale: Locale('en'), //mặc định nếu k thấy ngôn ngữ
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => MyApp(), // Wrap your app
+      ),
     ),),
   );
   // runApp(MyApp());
@@ -48,13 +59,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
      final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
-      locale: DevicePreview.locale(context),
+
+      // locale: DevicePreview.locale(context),
+      locale: context.locale,
+
       builder: DevicePreview.appBuilder,
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.dartTheme,
       debugShowCheckedModeBanner: false,
       scrollBehavior: MyCustomScrollBehavior(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
       home: Splash(),
       // home: NavPage(),
     );

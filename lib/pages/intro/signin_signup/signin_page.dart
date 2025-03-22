@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/nav_page.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/forgot_password.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signup_page.dart';
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 KSizedBox.heightSpace,
                 Text(
-                  'Sign In to MyShop',
+                  'Sign_In_to_MyShop'.tr(),
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 KSizedBox.heightSpace,
@@ -82,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
             });
           },
         ),
-        Text("Show Password"),
+        Text("Show_Password".tr()),
       ],
     );
   }
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               .then((value) {
             if (value == 'Login Successfull') {
               ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Login Successfull')));
+                  const SnackBar(content: Text('Login_Successfull')));
 
               Navigator.restorablePushAndRemoveUntil(
                 context,
@@ -116,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
       child: Text(
-        'Sign In',
+        'Sign_In'.tr(),
       ));
 
   OutlinedButton _registerButton(BuildContext context) => OutlinedButton(
@@ -124,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => RegisterPage()));
       },
-      child: Text('Create Account'));
+      child: Text('Create_Account'.tr()));
 
   Align _forgotPasswordButton(BuildContext context) {
     return Align(
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Helper.navigateAndReplace(context, ForgotPasswordPage());
           },
-          child: Text('Forgot password?',
+          child: Text('Forgot_password'.tr(),
               style: Theme.of(context).textTheme.titleLarge)),
     );
   }
@@ -172,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Image.asset('assets/icons/google_icon.png'),
             KSizedBox.smallWidthSpace,
-            Text('Login with Google')
+            Text('Login_with_Google'.tr())
           ],
         ));
   }
@@ -191,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              'Or',
+              'Or'.tr(),
               style: Theme.of(context).textTheme.labelMedium,
             )),
         Expanded(
@@ -241,13 +242,13 @@ class EmailTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Email', style: Theme.of(context).textTheme.titleLarge),
+        Text('Email'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) => VValidators.validateEmail(value),
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your email',
+            labelText: 'Enter_your_email'.tr(),
           ),
         ),
         SizedBox(
@@ -273,13 +274,13 @@ class PasswordTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Password', style: Theme.of(context).textTheme.titleLarge),
+        Text('Password'.tr(), style: Theme.of(context).textTheme.titleLarge),
         KSizedBox.smallHeightSpace,
         TextFormField(
           validator: (value) => VValidators.validatePassword(value),
           controller: controller,
           decoration: InputDecoration(
-            labelText: 'Enter your password',
+            labelText: 'Enter_your_password'.tr(),
           ),
           obscureText: isObscured,
         ),

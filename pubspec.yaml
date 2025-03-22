@@ -49,6 +49,7 @@ dependencies:
   intl: ^0.19.0
   google_sign_in: ^6.2.2
   provider: ^6.1.2
+  easy_localization: ^3.0.7+1
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - assets/icons/
     - assets/banners/
     - assets/animations/
+    - assets/translations/
     - assets/images/products/
   #   - images/a_dot_ham.jpeg
 

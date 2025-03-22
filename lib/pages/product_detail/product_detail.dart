@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:ecommerece_flutter_app/services/auth_service.dart';
 import 'package:ecommerece_flutter_app/services/cart_service.dart';
@@ -132,8 +133,8 @@ class _ProductDetailState extends State<ProductDetail> {
                             : Colors.black),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
-                    'Product Details',
+                  Text(
+                    'Product_Details'.tr(),
                     style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -155,12 +156,12 @@ class _ProductDetailState extends State<ProductDetail> {
                   imageUrl: widget.product.imageUrl,
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Added to the cart')),
+                   SnackBar(content: Text('Added_to_the_cart'.tr())),
                 );
 
                 await NotificationService.addNotification(
                   AuthService().getUserId(),
-                  'You have successfully added ${widget.product.name} to your cart! Check your cart for more details',
+                 "You have successfully added ${widget.product.name} to your cart! Check your cart for more details"
                 );
               },
               onBuyNow: () {

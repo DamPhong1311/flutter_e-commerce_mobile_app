@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerece_flutter_app/pages/intro/signin_signup/signin_page.dart';
 import 'package:ecommerece_flutter_app/common/helper/helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,7 +41,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text(
-                    'You signed in with Google. Password change is not allowed!')),
+                    'If_signInWithGG'.tr())),
           );
           return;
         }
@@ -58,7 +59,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         await user.updatePassword(newPassword);
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Change Password Successfully!')),
+          SnackBar(content: Text('Change_Password_Successfully'.tr())),
         );
         // Helper.navigateAndReplace(context, LoginPage());
       } else {
@@ -69,7 +70,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Old password is incorrect!')),
+          SnackBar(content: Text('Old_password_is_incorrect'.tr())),
         );
       } else if (e.code == 'requires-recent-login') {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -90,7 +91,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return Scaffold(
       appBar: AppBar(
         
-        title: Text('Change Your Password'),
+        title: Text('Change_Your_Password'.tr()),
       ),
       body: SizedBox.expand(
         child: FractionallySizedBox(
@@ -118,25 +119,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 // KSizedBox.heightSpace,
                 KSizedBox.heightSpace,
                 _textFormField(
-                  text: 'Current Password:',
-                  label: 'Enter your current password',
+                  text: 'Current_Password'.tr(),
+                  label: 'Enter_your_current_password'.tr(),
                   controller: _oldPasswordController,
                   validator: (value) => VValidators.validateEmptyText(
-                      'Current Password', value),
+                      'Current_Password'.tr(), value),
                   obscureText: true,
                 ),
                 KSizedBox.smallHeightSpace,
                 _textFormField(
-                  text: 'New Password:',
-                  label: 'Enter your new password',
+                  text: 'New_Password'.tr(),
+                  label: 'Enter_your_new_password'.tr(),
                   controller: _newPasswordController,
                   validator: (value) => VValidators.validatePassword(value),
                   obscureText: true,
                 ),
                 KSizedBox.smallHeightSpace,
                 _textFormField(
-                  text: 'Confirm Password:',
-                  label: 'Enter your confirm password',
+                  text: 'Confirm_Password'.tr(),
+                  label: 'Enter_your_confirm_password'.tr(),
                   controller: _confirmPasswordController,
                   validator: (value) {
                     if (value != _newPasswordController.text) {
