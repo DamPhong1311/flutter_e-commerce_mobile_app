@@ -279,19 +279,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   "paymentMethod": _paymentMethod,
                   "totalPrice": widget.totalPrice,
                   "status": "Pending",
+                  "product": {
+                    "name": widget.cartItem.name,
+                    "imageUrl": widget.cartItem.imageUrl,
+                    "price": widget.cartItem.price,
+                    "quantity": widget.cartItem.quantity,
+                    "total": widget.cartItem.total,
+                  },
+                  "createdAt": FieldValue.serverTimestamp(),
                 });
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PaymentSuccessScreen()));
                 ScaffoldMessenger.of(context).showSnackBar(
-                   SnackBar(content: Text("Check_Out_Success".tr())),
+                  SnackBar(content: Text("Check_Out_Success".tr())),
                 );
                 await NotificationService.addNotification(
-                  AuthService().getUserId(),
-                 "You have successfully ordered ${widget.cartItem.name}! Thank you!"
-                  
-                );
+                    AuthService().getUserId(),
+                    "You have successfully ordered ${widget.cartItem.name}! Thank you!");
               },
               child: Text("Confirm".tr()),
             ),
