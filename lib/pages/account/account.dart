@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/theme_provider_service.dart';
+import 'CheckOrderd.dart';
 import 'about_us_page.dart';
 
 class AccountPage extends StatefulWidget {
@@ -125,6 +126,7 @@ class _AccountPageState extends State<AccountPage> {
                     },
                     text: "Change_Your_Password".tr()),
                 KSizedBox.smallHeightSpace,
+
                 NavButtonAccountPage(
                     context: context,
                     onPressed: () {
@@ -132,6 +134,14 @@ class _AccountPageState extends State<AccountPage> {
                           MaterialPageRoute(builder: (_) => AboutUsPage()));
                     },
                     text: "About_Us".tr()),
+                    
+                NavButtonAccountPage(
+                    context: context,
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => OrderListPage()));
+                    },
+                    text: "Ordered".tr()),
 
                 KSizedBox.smallHeightSpace,
                 KSizedBox.smallHeightSpace,
