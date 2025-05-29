@@ -1,171 +1,426 @@
-/* Container */
+/* productManager.css */
+
+/* Base Styles */
+:root {
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary: #7209b7;
+  --success: #06d6a0;
+  --warning: #ffd166;
+  --danger: #ef476f;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --gray: #6c757d;
+  --light-gray: #e9ecef;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Container & Layout */
 .container {
-  max-width: 1200px;
-  margin: auto;
-  background-color: #f8f9fa;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 25px;
 }
 
-/* Tiêu đề */
-h2 {
-  color: #007bff;
-  font-size: 28px;
-  margin-bottom: 30px;
-  font-weight: 600;
+/* Header & Titles */
+.text-center {
   text-align: center;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--light-gray);
+  position: relative;
 }
 
-/* Nút thêm sản phẩm */
-button {
-  padding: 8px 15px;
+.text-center::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* Buttons */
+.btn {
+  font-weight: 600;
+  transition: var(--transition);
+  padding: 10px 18px;
+  border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-  margin-top: 15px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-button:hover {
-  background-color: #0056b3;
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
 }
 
-/* Nút 'Add' */
-button:first-child {
-  background-color: #007bff;
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-dark), #5e02a0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+  background: var(--light);
+  color: var(--gray);
+  border: 1px solid var(--light-gray);
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: var(--dark);
+  border-color: #ced4da;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
   color: white;
 }
 
-button:first-child:hover {
-  background-color: #0056b3;
+.btn-warning:hover {
+  background: linear-gradient(135deg, #ffa01a, #e6b800);
 }
 
-/* Nút 'Edit' và 'Delete' */
-button:last-child {
-  background-color: #dc3545;
+.btn-danger {
+  background: linear-gradient(135deg, #ff6b6b, var(--danger));
   color: white;
 }
 
-button:last-child:hover {
-  background-color: #c82333;
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff5252, #d43d63);
 }
 
-/* Table */
-table {
+/* Table Styling */
+.table-container {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  margin-top: 25px;
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+  margin: 0;
 }
 
-/* Header Table */
-th {
-  padding: 16px;
-  background-color: #007bff;
+.table th {
+  background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
   color: white;
+  font-weight: 600;
+  padding: 16px 20px;
   text-align: left;
-  font-size: 16px;
-  font-weight: bold;
+  position: sticky;
+  top: 0;
 }
 
-/* Các ô trong table */
-td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  font-size: 14px;
+.table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--light-gray);
+  vertical-align: middle;
 }
 
-tr:hover {
-  background-color: #f1f1f1;
+.table tr:last-child td {
+  border-bottom: none;
 }
 
-/* Ảnh sản phẩm */
-img {
+.table tr:nth-child(even) {
+  background-color: #fafcff;
+}
+
+.table tr:hover {
+  background-color: #f0f4ff;
+}
+
+.table img {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 5px;
+  border-radius: 6px;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Modals */
-.modal-dialog {
-  max-width: 600px; /* Giới hạn chiều rộng modal */
-  margin: 20px auto; /* Căn giữa modal */
-}
-
-.modal-body {
-  padding: 20px;
-  max-height: 500px; /* Giới hạn chiều cao modal */
-  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
-}
-
-/* Các ô Form trong modal */
-form input, form select, form textarea {
+/* Form & Inputs */
+.form-control {
+  border-radius: var(--border-radius);
+  border: 1px solid #dee2e6;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  transition: var(--transition);
+  font-size: 15px;
   width: 100%;
-  padding: 10px;
-  align-items: center;
-  margin-bottom: 15px; /* Thêm khoảng cách giữa các input */
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
-/* Căn giữa tickbox "on sale" */
-.form-check {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center; /* Căn giữa theo chiều ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  margin-bottom: 15px; /* Khoảng cách dưới cùng */
 }
 
-/* Căn chỉnh các phần input của modal */
-.modal-body {
-  padding: 20px;
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+  outline: none;
 }
 
-.form-control {
-  font-size: 14px;
-}
-
-/* Thêm các khoảng cách hợp lý cho các ô form */
-input[type="text"], textarea, select {
-  margin-bottom: 15px;
-}
-
-/* Phần footer trong modal */
-.modal-footer {
-  padding: 15px;
-  justify-content: space-between;
-}
-/* productManager.css */
-
-/* Đặt các bộ lọc thành hàng ngang */
-.filter-container {
-  display: flex;
-  gap: 20px; /* Khoảng cách giữa các bộ lọc */
-  flex-wrap: wrap; /* Nếu không đủ không gian, bộ lọc sẽ xuống dòng */
-  justify-content: flex-start; /* Căn chỉnh các bộ lọc về phía trái */
-  margin-bottom: 20px;
-}
-
-/* Đặt chiều rộng của thanh tìm kiếm dài hơn */
-.search-bar {
-  width: 60%; /* Kéo dài thanh tìm kiếm */
-  margin-bottom: 20px;
-}
-
-.modal-footer button {
-  padding: 10px 20px;
-}
-
-/* Tối ưu hóa thanh tìm kiếm */
-.form-control {
-  max-width: 400px;
-  margin: 0 auto 20px auto;
+.form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
   display: block;
+  color: var(--dark);
+  font-size: 15px;
 }
 
+.form-group {
+  margin-bottom: 22px;
+}
+
+/* Search Bar */
+.search-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.search-container .form-control {
+  flex: 1;
+  max-width: 400px;
+  margin-bottom: 0;
+  background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 16px center;
+  padding-left: 45px;
+  background-size: 18px;
+}
+
+/* Fixed Modal Styling */
+.modal-content {
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: white;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  padding: 18px 24px;
+  border: none;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.modal-body {
+  padding: 25px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--light-gray);
+  padding: 18px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Responsive modal dialog */
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 90%;
+    margin: 1.75rem auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 992px) {
+  .modal-dialog {
+    max-width: 800px;
+  }
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge-yes {
+  background: rgba(6, 214, 160, 0.15);
+  color: #06a17a;
+}
+
+.status-badge-no {
+  background: rgba(239, 71, 111, 0.15);
+  color: #c53155;
+}
+
+/* Price Formatting */
+.price-cell {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Utility Classes */
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.ms-2 {
+  margin-left: 0.5rem;
+}
+
+/* Checkbox Styling */
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+  margin-right: 8px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.form-check-label {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+/* Form Layout Fixes */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.form-col {
+  padding-right: 5px;
+  padding-left: 5px;
+  flex: 1 0 0%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  
+  .table th, 
+  .table td {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .table img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-container .form-control {
+    max-width: 100%;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .action-buttons .btn {
+    width: 100%;
+  }
+  
+  .modal-body {
+    padding: 15px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+}
+
+/* Scrollbar styling for modal */
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

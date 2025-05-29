@@ -1,9 +1,15 @@
+// src/components/ProductManager.js
+
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";                    // ← added
 import { db } from "../firebaseConfigs";
 import { collection, addDoc, updateDoc, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { Button, Form, Table, Modal } from "react-bootstrap";
-import "./productManeger.css"
+import "./productManeger.css";
+
 const ProductManager = () => {
+  const navigate = useNavigate();                                   // ← added
+
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // Thêm state cho từ khóa tìm kiếm
@@ -121,6 +127,13 @@ const ProductManager = () => {
     <div className="container mt-4">
       <h2 className="text-center mb-4">Product Management</h2>
       
+      {/* Added button to navigate to UserManager */}
+      <div className="mb-3 text-end">
+        <Button variant="secondary" onClick={() => navigate("/dashboard/users")}>
+          Manage Users
+        </Button>
+      </div>
+      
       {/* Thanh tìm kiếm */}
       <Form.Control
         type="text"
@@ -224,7 +237,7 @@ const ProductManager = () => {
               <Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
-              <Form.Check label="On Sale"  type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
+              <Form.Check label="On Sale" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -290,7 +303,7 @@ const ProductManager = () => {
               <Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
-              <Form.Check label="On Sale" type="checkbox"  name="isSale" checked={formData.isSale} onChange={handleChange} />
+              <Form.Check label="On Sale" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
             </Form.Group>
           </Form>
         </Modal.Body>
