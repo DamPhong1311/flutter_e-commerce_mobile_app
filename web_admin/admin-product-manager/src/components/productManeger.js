@@ -173,9 +173,15 @@ const ProductManager = () => {
               <td>{product.store}</td>
               <td>{product.isSale ? "Yes" : "No"}</td>
               <td>
-                <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>Edit</Button>
-                <Button variant="danger" size="sm" className="ms-2" onClick={() => handleDelete(product.id)}>Delete</Button>
-              </td>
+  <div className="action-buttons">
+    <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>
+      Edit
+    </Button>
+    <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>
+      Delete
+    </Button>
+  </div>
+</td>
             </tr>
           ))}
         </tbody>

@@ -1,6 +1,12 @@
-/* productManager.css */
+/*======================
+  Combined CSS cho cả
+  ProductManager và UserManager
+======================*/
 
-/* Base Styles */
+/*---------------------------------
+  1. Variables chung (Color Scheme, 
+  Border, Shadow, Transition, v.v.)
+---------------------------------*/
 :root {
   --primary: #4361ee;
   --primary-dark: #3a56d4;
@@ -17,6 +23,9 @@
   --transition: all 0.3s ease;
 }
 
+/*---------------------------------
+  2. Base Styles
+---------------------------------*/
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f5f7fb;
@@ -24,14 +33,15 @@ body {
   line-height: 1.6;
 }
 
-/* Container & Layout */
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 25px;
 }
 
-/* Header & Titles */
+/*---------------------------------
+  3. Header & Titles (dùng chung)
+---------------------------------*/
 .text-center {
   text-align: center;
   color: var(--primary);
@@ -54,7 +64,9 @@ body {
   border-radius: 2px;
 }
 
-/* Buttons */
+/*---------------------------------
+  4. Buttons & chung về btn
+---------------------------------*/
 .btn {
   font-weight: 600;
   transition: var(--transition);
@@ -69,48 +81,104 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Primary Button */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
 }
-
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--primary-dark), #5e02a0);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+/* Secondary Button */
 .btn-secondary {
   background: var(--light);
   color: var(--gray);
   border: 1px solid var(--light-gray);
 }
-
 .btn-secondary:hover {
   background: white;
   color: var(--dark);
   border-color: #ced4da;
 }
 
+/* Warning Button */
 .btn-warning {
   background: linear-gradient(135deg, #ffb347, #ffcc33);
   color: white;
 }
-
 .btn-warning:hover {
   background: linear-gradient(135deg, #ffa01a, #e6b800);
 }
 
+/* Danger Button */
 .btn-danger {
   background: linear-gradient(135deg, #ff6b6b, var(--danger));
   color: white;
 }
-
 .btn-danger:hover {
   background: linear-gradient(135deg, #ff5252, #d43d63);
 }
 
-/* Table Styling */
+/* Small Button */
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/*---------------------------------
+  5. Form & Inputs (dùng chung)
+---------------------------------*/
+.form-control {
+  border-radius: var(--border-radius);
+  border: 1px solid #dee2e6;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  transition: var(--transition);
+  font-size: 15px;
+  width: 100%;
+}
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+  outline: none;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  color: var(--dark);
+  font-size: 15px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+/* Checkbox Styling */
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+  margin-right: 8px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.form-check-label {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+/*---------------------------------
+  6. Table Styling (dùng cho ProductManager)
+---------------------------------*/
 .table-container {
   background: white;
   border-radius: var(--border-radius);
@@ -141,18 +209,22 @@ body {
   vertical-align: middle;
 }
 
+/* No border-bottom cho row cuối cùng */
 .table tr:last-child td {
   border-bottom: none;
 }
 
+/* Alternating row color */
 .table tr:nth-child(even) {
   background-color: #fafcff;
 }
 
+/* Hover effect */
 .table tr:hover {
   background-color: #f0f4ff;
 }
 
+/* Ảnh trong table */
 .table img {
   width: 60px;
   height: 60px;
@@ -162,53 +234,51 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* Form & Inputs */
-.form-control {
-  border-radius: var(--border-radius);
-  border: 1px solid #dee2e6;
-  padding: 12px 16px;
-  margin-bottom: 18px;
-  transition: var(--transition);
-  font-size: 15px;
-  width: 100%;
-}
-
-.form-control:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-  outline: none;
-}
-
-.form-label {
+/* ProductManager: Price cell (khoanh vùng) */
+.price-cell {
   font-weight: 600;
-  margin-bottom: 8px;
-  display: block;
-  color: var(--dark);
-  font-size: 15px;
+  color: var(--primary);
 }
 
-.form-group {
-  margin-bottom: 22px;
+/* ProductManager: Status badge (nếu cần) */
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.status-badge-yes {
+  background: rgba(6, 214, 160, 0.15);
+  color: #06a17a;
+}
+.status-badge-no {
+  background: rgba(239, 71, 111, 0.15);
+  color: #c53155;
 }
 
-/* Search Bar */
+/*---------------------------------
+  7. Search Bar chung (dùng cho cả 2 trang)
+---------------------------------*/
 .search-container {
   display: flex;
   gap: 15px;
   margin-bottom: 25px;
   align-items: center;
+  position: relative; /* để làm nền icon bên trong */
 }
-
 .search-container .form-control {
   flex: 1;
   max-width: 400px;
   margin-bottom: 0;
   background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 16px center;
-  padding-left: 45px;
   background-size: 18px;
+  padding-left: 45px;
 }
 
-/* Fixed Modal Styling */
+/*---------------------------------
+  8. Modal & Form Dialog (dùng cho ProductManager)
+---------------------------------*/
 .modal-content {
   border-radius: var(--border-radius);
   border: none;
@@ -250,177 +320,242 @@ body {
   flex-shrink: 0;
 }
 
-/* Responsive modal dialog */
+/* Responsive modal */
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 90%;
     margin: 1.75rem auto;
   }
 }
-
 @media (min-width: 768px) {
   .modal-dialog {
     max-width: 700px;
   }
 }
-
 @media (min-width: 992px) {
   .modal-dialog {
     max-width: 800px;
   }
 }
 
-/* Action Buttons */
-.action-buttons {
-  display: flex;
-  gap: 10px;
+/* Scrollbar trong modal */
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
-/* Status Badges */
+/*---------------------------------
+  9. ProductManager Enhancements 
+  (Action Buttons, Responsive, v.v.)
+---------------------------------*/
+/* Căn chỉnh 2 nút Edit/Delete nằm cạnh nhau gọn gàng */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center; /* hoặc flex-start tuỳ ý */
+}
+.action-buttons .btn {
+  width: 70px; /* cố định width cho consistency */
+  padding: 6px 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Khi cần hiển thị status badge (nếu dùng) */
 .status-badge {
   display: inline-block;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
 }
 
-.status-badge-yes {
-  background: rgba(6, 214, 160, 0.15);
-  color: #06a17a;
-}
-
-.status-badge-no {
-  background: rgba(239, 71, 111, 0.15);
-  color: #c53155;
-}
-
-/* Price Formatting */
-.price-cell {
-  font-weight: 600;
-  color: var(--primary);
-}
-
-/* Utility Classes */
-.mb-3 {
-  margin-bottom: 1rem;
-}
-
-.mt-3 {
-  margin-top: 1rem;
-}
-
-.mt-4 {
-  margin-top: 1.5rem;
-}
-
-.mb-4 {
-  margin-bottom: 1.5rem;
-}
-
-.ms-2 {
-  margin-left: 0.5rem;
-}
-
-/* Checkbox Styling */
-.form-check-input {
-  width: 20px;
-  height: 20px;
-  margin-top: 0;
-  margin-right: 8px;
-  border-radius: 4px;
-  border: 1px solid #ced4da;
-}
-
-.form-check-input:checked {
-  background-color: var(--primary);
-  border-color: var(--primary);
-}
-
-.form-check-label {
-  font-weight: 500;
-  color: var(--dark);
-}
-
-/* Form Layout Fixes */
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -5px;
-  margin-left: -5px;
-}
-
-.form-col {
-  padding-right: 5px;
-  padding-left: 5px;
-  flex: 1 0 0%;
-}
-
-/* Responsive Adjustments */
+/* ProductManager Responsive Adjustments */
 @media (max-width: 992px) {
   .table-responsive {
     overflow-x: auto;
   }
-  
   .table th, 
   .table td {
     padding: 12px 15px;
     font-size: 14px;
   }
-  
   .table img {
     width: 50px;
     height: 50px;
   }
 }
-
 @media (max-width: 768px) {
   .container {
     padding: 15px;
   }
-  
-  .search-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .search-container .form-control {
-    max-width: 100%;
-  }
-  
-  .action-buttons {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
   .action-buttons .btn {
-    width: 100%;
-  }
-  
-  .modal-body {
-    padding: 15px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
+    width: 60px;
   }
 }
 
-/* Scrollbar styling for modal */
-.modal-body::-webkit-scrollbar {
-  width: 8px;
+/*---------------------------------
+ 10. UserManager Styles 
+---------------------------------*/
+.user-manager-container {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin-top: 20px;
+}
+.user-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.user-card {
+  background: #f9fafc;
+  border: 1px solid var(--light-gray);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.user-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
 }
 
-.modal-body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
 }
 
-.modal-body::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
+.user-info {
+  flex: 1;
 }
 
-.modal-body::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+.user-name {
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 3px;
+}
+
+.user-email {
+  font-size: 13px;
+  color: var(--gray);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Khi nhấn mở user-details */
+.user-details {
+  background: #f8f9ff;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin-top: 15px;
+  border: 1px solid var(--light-gray);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #eaeef7;
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--light-gray);
+}
+.order-id {
+  font-weight: 600;
+  color: var(--dark);
+}
+.order-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.status-pending {
+  background: rgba(255, 193, 7, 0.15);
+  color: #c8a415;
+}
+.status-delivered {
+  background: rgba(6, 214, 160, 0.15);
+  color: #06a17a;
+}
+
+.order-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.order-info-item {
+  font-size: 14px;
+}
+.order-info-label {
+  font-weight: 600;
+  color: var(--gray);
+  margin-bottom: 3px;
+}
+.order-info-value {
+  color: var(--dark);
+}
+
+.order-address {
+  background: #f8f9ff;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive cho UserManager */
+@media (max-width: 768px) {
+  .user-list {
+    grid-template-columns: 1fr;
+  }
+  .order-info {
+    grid-template-columns: 1fr;
+  }
 }
