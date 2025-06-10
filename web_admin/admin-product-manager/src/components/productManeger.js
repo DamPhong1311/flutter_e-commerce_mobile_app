@@ -1,18 +1,16 @@
-// src/components/ProductManager.js
-
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";                    // ← added
+import { useNavigate } from "react-router-dom";
 import { db } from "../firebaseConfigs";
 import { collection, addDoc, updateDoc, doc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { Button, Form, Table, Modal } from "react-bootstrap";
 import "./productManeger.css";
 
 const ProductManager = () => {
-  const navigate = useNavigate();                                   // ← added
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // Thêm state cho từ khóa tìm kiếm
+  const [searchTerm, setSearchTerm] = useState("");
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editData, setEditData] = useState(null);
@@ -35,19 +33,18 @@ const ProductManager = () => {
     const unsubscribe = onSnapshot(collection(db, "products"), (snapshot) => {
       const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setProducts(productList);
-      setFilteredProducts(productList); // Set danh sách sản phẩm đã lọc ban đầu là tất cả sản phẩm
+      setFilteredProducts(productList);
       setCategories([...new Set(productList.map((p) => p.category))]);
       setStores([...new Set(productList.map((p) => p.store))]);
     });
     return () => unsubscribe();
   }, []);
 
-  // Hàm tìm kiếm
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
     if (value.trim() === "") {
-      setFilteredProducts(products); // Nếu không có từ khóa tìm kiếm, hiển thị tất cả sản phẩm
+      setFilteredProducts(products);
     } else {
       const filtered = products.filter((product) =>
         product.name.toLowerCase().includes(value.toLowerCase())
@@ -79,7 +76,7 @@ const ProductManager = () => {
   const handleClose = () => setShow(false);
   const handleEditShow = (product) => {
     setEditData(product);
-    setFormData(product); // Set formData with the selected product's data
+    setFormData(product);
     setEditShow(true);
   };
   const handleEditClose = () => setEditShow(false);
@@ -96,8 +93,8 @@ const ProductManager = () => {
     const imageGalleryArray = formData.imageGallery.split("\n").map((url) => url.trim());
     const newProduct = {
       ...formData,
-      priceProduct: parseFloat(formData.priceProduct), // Convert priceProduct to number
-      oldPrice: parseFloat(formData.oldPrice), // Convert oldPrice to number
+      priceProduct: parseFloat(formData.priceProduct),
+      oldPrice: parseFloat(formData.oldPrice),
       imageGallery: imageGalleryArray,
     };
     await addDoc(collection(db, "products"), newProduct);
@@ -105,35 +102,30 @@ const ProductManager = () => {
   };
 
   const handleEditSubmit = async () => {
-    const imageGalleryArray = typeof formData.imageGallery === "string" 
-      ? formData.imageGallery.split("\n").map((url) => url.trim()) 
-      : formData.imageGallery; // Nếu imageGallery là mảng, không cần chia tách lại
-  
+    const imageGalleryArray = typeof formData.imageGallery === "string"
+      ? formData.imageGallery.split("\n").map((url) => url.trim())
+      : formData.imageGallery;
     const updatedProduct = {
       ...formData,
       priceProduct: parseFloat(formData.priceProduct),
       oldPrice: parseFloat(formData.oldPrice),
       imageGallery: imageGalleryArray,
     };
-  
     if (editData && editData.id) {
       await updateDoc(doc(db, "products", editData.id), updatedProduct);
       setEditShow(false);
     }
   };
-  
 
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Product Management</h2>
-      
-      {/* Added button to navigate to UserManager */}
+      {/* Nút chuyển sang UserManager */}
       <div className="mb-3 text-end">
         <Button variant="secondary" onClick={() => navigate("/dashboard/users")}>
           Manage Users
         </Button>
       </div>
-      
       {/* Thanh tìm kiếm */}
       <Form.Control
         type="text"
@@ -142,9 +134,14 @@ const ProductManager = () => {
         onChange={handleSearchChange}
         className="mb-3"
       />
-      
-      <Button variant="primary" onClick={handleShow}>+ Add Product</Button>
-
+      {/* Nút Add Product và Xem biểu đồ */}
+      <div className="mb-3 d-flex gap-2">
+        <Button variant="primary" onClick={handleShow}>+ Add Product</Button>
+        <Button variant="info" onClick={() => navigate("/dashboard/best-seller-chart")}>
+          Chart
+        </Button>
+      </div>
+      {/* Bảng sản phẩm */}
       <Table striped bordered hover className="mt-3">
         <thead>
           <tr>
@@ -166,27 +163,26 @@ const ProductManager = () => {
               <td><img src={product.imageUrl} alt={product.name} width="50" /></td>
               <td>{product.name}</td>
               <td>{product.description}</td>
-              <td>{product.priceProduct.toLocaleString()}đ</td>
-              <td>{product.oldPrice.toLocaleString()}đ</td>
+              <td>{product.priceProduct?.toLocaleString()}đ</td>
+              <td>{product.oldPrice?.toLocaleString()}đ</td>
               <td>{product.salePercent}</td>
               <td>{product.category}</td>
               <td>{product.store}</td>
               <td>{product.isSale ? "Yes" : "No"}</td>
               <td>
-  <div className="action-buttons">
-    <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>
-      Edit
-    </Button>
-    <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>
-      Delete
-    </Button>
-  </div>
-</td>
+                <div className="action-buttons">
+                  <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>
+                    Edit
+                  </Button>
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>
+                    Delete
+                  </Button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
-
       {/* Modal Add Product */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -252,7 +248,6 @@ const ProductManager = () => {
           <Button variant="primary" onClick={handleSubmit}>Save</Button>
         </Modal.Footer>
       </Modal>
-
       {/* Modal Edit Product */}
       <Modal show={editShow} onHide={handleEditClose} centered>
         <Modal.Header closeButton>
@@ -323,3 +318,4 @@ const ProductManager = () => {
 };
 
 export default ProductManager;
+

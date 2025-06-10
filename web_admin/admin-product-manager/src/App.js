@@ -1,9 +1,7 @@
-// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login        from "./pages/Login";
-import Dashboard    from "./pages/Dashboard";
-import UserManager  from "./components/userManager";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -14,9 +12,6 @@ function App() {
 
         {/* Dashboard shell */}
         <Route path="/dashboard/*" element={<Dashboard />} />
-
-        {/* Direct route to UserManager (if you ever want to link here directly) */}
-        <Route path="/dashboard/users" element={<UserManager />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
