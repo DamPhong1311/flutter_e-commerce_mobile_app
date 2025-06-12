@@ -29,6 +29,9 @@ const ProductManager = () => {
     isSale: false,
   });
 
+  // Thêm state cho nút scroll top
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "products"), (snapshot) => {
       const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -39,6 +42,19 @@ const ProductManager = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  // Xử lý hiện nút scroll top
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -120,10 +136,13 @@ const ProductManager = () => {
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Product Management</h2>
-      {/* Nút chuyển sang UserManager */}
-      <div className="mb-3 text-end">
+      {/* Nút chuyển sang UserManager và Chart */}
+      <div className="mb-3 text-end d-flex justify-content-end gap-2">
         <Button variant="secondary" onClick={() => navigate("/dashboard/users")}>
           Manage Users
+        </Button>
+        <Button variant="secondary" onClick={() => navigate("/dashboard/best-seller-chart")}>
+          Chart
         </Button>
       </div>
       {/* Thanh tìm kiếm */}
@@ -134,12 +153,9 @@ const ProductManager = () => {
         onChange={handleSearchChange}
         className="mb-3"
       />
-      {/* Nút Add Product và Xem biểu đồ */}
+      {/* Nút Add Product */}
       <div className="mb-3 d-flex gap-2">
         <Button variant="primary" onClick={handleShow}>+ Add Product</Button>
-        <Button variant="info" onClick={() => navigate("/dashboard/best-seller-chart")}>
-          Chart
-        </Button>
       </div>
       {/* Bảng sản phẩm */}
       <Table striped bordered hover className="mt-3">
@@ -313,9 +329,30 @@ const ProductManager = () => {
           <Button variant="primary" onClick={handleEditSubmit}>Save</Button>
         </Modal.Footer>
       </Modal>
+      {/* Nút scroll lên đầu trang */}
+      {showScrollTop && (
+        <Button
+          variant="primary"
+          style={{
+            position: "fixed",
+            bottom: 32,
+            right: 32,
+            zIndex: 9999,
+            borderRadius: "50%",
+            width: 48,
+            height: 48,
+            fontSize: 24,
+            padding: 0,
+            boxShadow: "0 2px 8px #888",
+          }}
+          onClick={handleScrollTop}
+          aria-label="Scroll to top"
+        >
+          ↑
+        </Button>
+      )}
     </div>
   );
 };
 
 export default ProductManager;
-

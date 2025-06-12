@@ -641,3 +641,39 @@ body {
 @media (max-width: 900px) {
   .metrics-row { flex-direction: column; gap: 16px; }
 }
+.chart-header-row {
+  background: #f7f8fa;
+  border-radius: 10px;
+  padding: 18px 28px 18px 28px;
+  box-shadow: 0 2px 12px #e3e8f0;
+  margin-bottom: 28px;
+}
+
+.chart-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #4f8cff;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.back-btn {
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  padding: 8px 22px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(90deg, #4f8cff 0%, #8f5aff 100%);
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #e3e8f0;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.back-btn:hover, .back-btn:focus {
+  background: linear-gradient(90deg, #8f5aff 0%, #4f8cff 100%);
+  color: #fff !important;
+  box-shadow: 0 4px 16px #d1d9e6;
+}
