@@ -111,5 +111,14 @@
     "_____Notification_PAGE_____": "",
     "Notification": "Thông báo",
     "No_notifications_yet": "Chưa có thông báo nào.",
-    "Switch_Language": "Đổi ngôn ngữ"
+    "Switch_Language": "Đổi ngôn ngữ",
+
+    "Order_Placed": "Đơn hàng đã đặt",
+    "Cancel_order": "Hủy đơn hàng",
+    "Ask_Confirm": "Bạn có chắc muốn hủy đơn hàng này không?",
+    "Confirm_CheckOdered": "Xác nhận hủy đơn",
+    "Order_Canceled": "Đơn hàng đã được hủy.",
+    "No_Order": "Bạn chưa có đơn hàng nào.",
+    "Yes": "Có",
+    "No": "Không"
 }

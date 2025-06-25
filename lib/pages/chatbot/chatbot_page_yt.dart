@@ -4,15 +4,13 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 import 'package:ecommerece_flutter_app/common/constants/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/product.dart';
 import '../product_detail/product_detail.dart';
 
-
 const String openRouterApiKey =
-    'Bearer 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';
+    'Bearer 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';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -25,7 +23,7 @@ class _ChatPageState extends State<ChatPage> {
   final ChatUser _currentUser =
       ChatUser(id: '1', firstName: 'Phong', lastName: 'Dam');
   final ChatUser _gptChatUser =
-      ChatUser(id: '2', firstName: 'Chat', lastName: 'GPT');
+      ChatUser(id: '2', firstName: 'Chat', lastName: 'Bot');
 
   List<ChatMessage> _messages = [];
   List<ChatUser> _typingUsers = [];
@@ -45,7 +43,7 @@ class _ChatPageState extends State<ChatPage> {
         currentUser: _currentUser,
         typingUsers: _typingUsers,
         messageOptions: MessageOptions(
-          currentUserContainerColor: Colors.black,
+          currentUserContainerColor: const Color.fromARGB(98, 0, 0, 0),
           containerColor: KColors.primaryColor,
           textColor: Colors.white,
           parsePatterns: [
@@ -85,11 +83,34 @@ class _ChatPageState extends State<ChatPage> {
     try {
       final productLines = await fetchProductPromptLines();
 
-      final systemPrompt = '''
-Bạn là trợ lý bán hàng cho một app thương mại điện tử. 
-Chỉ được giới thiệu những sản phẩm sau đây, đính kèm mô tả, giá và link:
+      final productTextList = productLines.map((product) {
+        final id = product['id'];
+        final name = product['name'];
+        final desc = product['description'];
+        final price = product['price'];
+        final sale = product['salePercent'];
 
-${productLines.map((e) => "- $e").join("\n")}
+        return '''
+Sản phẩm:
+- name: $name
+- Price: ${price}đ
+- Discount: $sale%
+- Link: product://detail/$id
+''';
+      }).join("\n");
+
+      final systemPrompt = '''
+You are a helpful e-commerce assistant.
+
+Only recommend products from the list below (just 3 product each respone). For each product, when introducing it to the user:
+- Write a short, friendly description
+- Include the price (write as: "Price: ... VND")
+- If there's a discount, include it too (e.g., "Discount: 20%")
+- Most importantly: attach the product link using the exact format: product://detail/[product_id]
+    - The link **must match the product being described**, do NOT invent or mix up product IDs.
+
+Here is the product list:
+$productTextList
 ''';
 
       final messageHistory = [
@@ -116,7 +137,7 @@ ${productLines.map((e) => "- $e").join("\n")}
         }),
       );
 
-      final decoded = jsonDecode(response.body);
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200 && decoded['choices'] != null) {
         final reply = decoded['choices'][0]['message']['content'];
@@ -142,25 +163,25 @@ ${productLines.map((e) => "- $e").join("\n")}
     }
   }
 
-  Future<List<String>> fetchProductPromptLines() async {
+  Future<List<Map<String, dynamic>>> fetchProductPromptLines() async {
     final snapshot =
-        await FirebaseFirestore.instance.collection('products').limit(5).get();
+        await FirebaseFirestore.instance.collection('products').limit(100).get();
 
-    List<String> lines = [];
+    List<Map<String, dynamic>> productDataList = [];
 
     for (var doc in snapshot.docs) {
       final data = doc.data();
-      final name = data['name'] ?? '';
-      final desc = data['description'] ?? '';
-      final price = data['priceProduct'] ?? '';
-      final salePercent = data['salePercent'] ?? '';
-      final productLink = "product://detail/${doc.id}";
-
-      lines.add(
-          "$name - $desc. Giá: ${price}đ. Giảm giá: $salePercent. Link: $productLink.");
+      productDataList.add({
+        "id": doc.id,
+        "name": data['name'] ?? '',
+        "description": data['description'] ?? '',
+        "price": data['priceProduct'] ?? '',
+        "salePercent": data['salePercent'] ?? '',
+        "link": "product://detail/${doc.id}",
+      });
     }
 
-    return lines;
+    return productDataList;
   }
 
   void _handleError(String errorMessage) {

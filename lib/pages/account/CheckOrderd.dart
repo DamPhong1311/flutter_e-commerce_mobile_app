@@ -118,7 +118,7 @@ class OrderListPage extends StatelessWidget {
                         Text(
                             ' Payment Method: ${data['paymentMethod']}'),
                         const SizedBox(height: 5),
-                        Text(' Total Price: ${data['totalPrice']} VNĐ'),
+                        Text(' Total Price: ${data['totalPrice'] ?? 0} VNĐ'),
                         const SizedBox(height: 5),
                         if (data['address'] != null)
                           Text(

@@ -112,5 +112,15 @@
     "_____Notification_PAGE_____":"",
     "Notification": "Notification",
     "No_notifications_yet": "No notifications yet.",
-    "Switch_Language": "Switch Language"
+    "Switch_Language": "Switch Language",
+
+    
+    "Order_Placed": "Orders",
+    "Cancel_order": "Cancel Order",
+    "Ask_Confirm": "Are you sure you want to cancel this order?",
+    "Confirm_CheckOdered": "Confirm Cancellation",
+    "Order_Canceled": "Order has been canceled.",
+    "No_Order": "You have no orders yet.",
+    "Yes": "Yes",
+    "No": "No"
 }
