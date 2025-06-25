@@ -18,14 +18,14 @@ class CartItem {
 
   // Chuyển từ Map<String, dynamic> thành CartItem
   factory CartItem.fromMap(Map<String, dynamic> data) {
-    return CartItem(
-      id: data['id'],
-      name: data['name'],
-      price:  (data['price'] as num).toInt(),
-      imageUrl: data['imageUrl'],
-      quantity: data['quantity'],
-      total:  (data['total'] as num).toInt(),
-    );
+     return CartItem(
+    id: data['id'] ?? '',
+    name: data['name'] ?? '',
+    price: (data['price'] as num?)?.toInt() ?? 0,
+    imageUrl: data['imageUrl'] ?? '',
+    quantity: data['quantity'] ?? 1,
+    total: (data['total'] as num?)?.toInt() ?? 0,
+  );
   }
 
   // Chuyển từ CartItem thành Map<String, dynamic> (nếu cần lưu vào Firestore)

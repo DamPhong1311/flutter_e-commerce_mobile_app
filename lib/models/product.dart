@@ -11,7 +11,7 @@ class Product {
   final String salePercent;
   final String store;
 
-  Product( {
+  Product({
     required this.imageGallery,
     required this.isSale,
     required this.oldPrice,
@@ -28,17 +28,16 @@ class Product {
   // Chuyển từ Firestore Map sang Object
   factory Product.fromMap(Map<String, dynamic> data, String documentId) {
     return Product(
-      id: documentId,
-      category: data['category'] ?? '',
-      description: data['description'] ?? '',
-      imageUrl: data['imageUrl'] ?? '',
-      imageGallery: List<String>.from(data['imageGallery'] ?? []),
-      isSale: data['isSale'] ?? false,
-      name: data['name'] ?? '',
-      oldPrice: (data['oldPrice'] as num).toInt(),
-      priceProduct: (data['priceProduct'] as num).toInt(),
-      salePercent: data['salePercent'] ?? '',
-      store: data['store'] ?? ''
-    );
+        id: documentId,
+        category: data['category'] ?? '',
+        description: data['description'] ?? '',
+        imageUrl: data['imageUrl'] ?? '',
+        imageGallery: List<String>.from(data['imageGallery'] ?? []),
+        isSale: data['isSale'] ?? false,
+        name: data['name'] ?? '',
+        oldPrice: (data['oldPrice'] as num?)?.toInt() ?? 0,
+        priceProduct: (data['priceProduct'] as num?)?.toInt() ?? 0,
+        salePercent: data['salePercent'] ?? '',
+        store: data['store'] ?? '');
   }
 }

@@ -4,6 +4,7 @@ import 'package:ecommerece_flutter_app/pages/store/store.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/account/account.dart';
+import 'pages/chatbot/chatbot_page_yt.dart';
 import 'pages/home/home_page.dart';
 import 'pages/notification/notification_page.dart';
 
@@ -24,15 +25,8 @@ class _NavPageState extends State<NavPage> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    pages = [
-      HomePage(),
-      StoreScreen(),
-      NotificationPage(),
-      AccountPage()
-    ];
+    pages = [HomePage(), StoreScreen(), ChatPage(), NotificationPage(), AccountPage()];
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +54,10 @@ class _NavPageState extends State<NavPage> {
                 label: 'Store'.tr(),
                 backgroundColor: Colors.transparent),
             BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'ChatBot',
+                backgroundColor: Colors.transparent),
+            BottomNavigationBarItem(
                 icon: Icon(Icons.notifications),
                 label: 'Notification'.tr(),
                 backgroundColor: Colors.transparent),
@@ -68,7 +66,6 @@ class _NavPageState extends State<NavPage> {
                 label: 'Account'.tr(),
                 backgroundColor: Colors.transparent)
           ]),
-     
     );
   }
 }

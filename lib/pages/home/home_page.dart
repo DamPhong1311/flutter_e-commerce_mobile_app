@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
   Center _banner(BuildContext context) {
     return Center(
       child: SizedBox(
-        height: Helper.screenHeight(context) * 0.3,
+        height: Helper.screenHeight(context) * 0.2,
         width: Helper.screenWidth(context),
         child: CarouselSlider(
             options: CarouselOptions(
@@ -467,17 +467,10 @@ class ListViewHorizontal extends StatelessWidget {
   ListViewHorizontal({super.key, required this.onUpdate});
 
   final List<CategoryItem> categories = [
-    CategoryItem(
-        name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
+    CategoryItem(name: 'Laptop', icon: 'assets/icons/laptop.jpg', page: LaptopPage()),
     CategoryItem(name: 'PC', icon: 'assets/icons/pc.jpeg', page: PcPage()),
-    CategoryItem(
-        name: 'Smartphone'.tr(),
-        icon: 'assets/icons/smartphone.jpg',
-        page: SmartphonePage()),
-    CategoryItem(
-        name: 'Accessories'.tr(),
-        icon: 'assets/icons/usb.jpg',
-        page: AccessoriesPage()),
+    CategoryItem(name: 'Smartphone'.tr(), icon: 'assets/icons/smartphone.jpg', page: SmartphonePage()),
+    CategoryItem(name: 'Accessories'.tr(), icon: 'assets/icons/usb.jpg', page: AccessoriesPage()),
   ];
 
   @override
@@ -485,25 +478,26 @@ class ListViewHorizontal extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: KSpace.horizontalSpace),
       height: 80,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: categories.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, index) {
-          final category = categories[index];
-          return GestureDetector(
-            onTap: () async {
-              await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => category.page));
-              onUpdate();
-            },
-            child: ListViewChild(category: category),
+      child: Row(
+        children: categories.map((category) {
+          return Expanded(
+            child: GestureDetector(
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => category.page),
+                );
+                onUpdate();
+              },
+              child: ListViewChild(category: category),
+            ),
           );
-        },
+        }).toList(),
       ),
     );
   }
 }
+
 
 class ListViewChild extends StatelessWidget {
   const ListViewChild({super.key, required this.category});

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/constants/colors.dart';
 import '../../services/theme_provider_service.dart';
 import 'CheckOrderd.dart';
 import 'about_us_page.dart';
@@ -131,17 +132,16 @@ class _AccountPageState extends State<AccountPage> {
                     context: context,
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => AboutUsPage()));
+                          MaterialPageRoute(builder: (_) => OrderListPage()));
                     },
-                    text: "About_Us".tr()),
-                    
+                    text: "Ordered".tr()),
                 NavButtonAccountPage(
                     context: context,
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => OrderListPage()));
+                          MaterialPageRoute(builder: (_) => AboutUsPage()));
                     },
-                    text: "Ordered".tr()),
+                    text: "About_Us".tr()),
 
                 KSizedBox.smallHeightSpace,
                 KSizedBox.smallHeightSpace,
@@ -166,7 +166,8 @@ class _AccountPageState extends State<AccountPage> {
                         color: Colors.white),
                   ),
                 ),
-                KSizedBox.heightSpace,
+                KSizedBox.smallHeightSpace,
+                KSizedBox.smallHeightSpace,
 
                 // 🌍 Nút Đổi Ngôn Ngữ
                 IconButton(
@@ -199,19 +200,32 @@ class _AccountPageState extends State<AccountPage> {
     }
   }
 
-  TextButton NavButtonAccountPage(
+  Column NavButtonAccountPage(
       {required BuildContext context,
       required VoidCallback onPressed,
       required String text}) {
-    return TextButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Colors.blueAccent),
-      ),
+    return Column(
+      children: [
+        TextButton(
+          onPressed: onPressed,
+          child: Align(
+            alignment: Alignment.centerLeft, //test
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blueAccent),
+            ),
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? KColors.dartModeColor
+              : const Color.fromARGB(132, 0, 0, 0),
+        ),
+      ],
     );
   }
 
