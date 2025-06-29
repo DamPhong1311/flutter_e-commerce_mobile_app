@@ -1,146 +1,226 @@
+/* BestSellerChart - Professional Modern UI */
 .bestseller-dashboard {
-  background: #f6f8fc;
-  border-radius: 18px;
-  box-shadow: 0 6px 32px #e3e8f7;
-  padding: 36px 18px 28px 18px;
-  margin-bottom: 32px;
+  background: linear-gradient(135deg, #f6f8fc 60%, #e9f0ff 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #dbeafe;
+  padding: 40px 24px 32px 24px;
+  margin-bottom: 36px;
+  min-height: 100vh;
 }
 .bestseller-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
+  gap: 0;
 }
 .bestseller-title {
-  font-weight: 800;
-  font-size: 2rem;
+  font-weight: 900;
+  font-size: 2.3rem;
   color: #3a56d4;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   margin: 0;
+  text-shadow: 0 2px 8px #e3e8f7;
+  flex: 1;
+  text-align: center;
+}
+.back-btn {
+  font-weight: 700;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #4f8cff 60%, #8f5aff 100%);
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 8px #e3e8f7;
+  transition: background 0.2s, box-shadow 0.2s;
+  min-width: 120px;
+}
+.back-btn:hover {
+  background: linear-gradient(90deg, #3a56d4 60%, #8f5aff 100%);
+  color: #fff !important;
+  box-shadow: 0 6px 24px #d0d8f7;
 }
 .bestseller-filter-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 }
 .bestseller-filter-form {
   display: flex;
-  align-items: center;
-  gap: 28px;
+  align-items: flex-end;
+  gap: 32px;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px #e3e8f7;
-  padding: 18px 32px;
-  min-width: 420px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px #e3e8f7;
+  padding: 18px 28px;
+  min-width: 340px;
   max-width: 700px;
+  border: 1.5px solid #e0e7ff;
+  flex-wrap: wrap;
 }
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+}
+.filter-group label {
+  font-weight: 700;
+  color: #4f8cff;
+  font-size: 1rem;
+  margin-bottom: 0;
 }
 .filter-date {
-  min-width: 140px;
-  max-width: 180px;
-  border-radius: 6px;
-  border: 1px solid #dee2e6;
+  min-width: 110px;
+  max-width: 150px;
+  border-radius: 8px;
+  border: 1.5px solid #b6c6f5;
   font-size: 15px;
-  padding: 7px 12px;
+  padding: 8px 10px;
+  background: #f7faff;
+  transition: border 0.2s;
+}
+.filter-date:focus {
+  border: 1.5px solid #4f8cff;
+  outline: none;
+  background: #f0f6ff;
+}
+.filter-btn-group {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.filter-apply-btn,
+.filter-clear-btn {
+  min-width: 100px;
+  height: 40px;
+  font-weight: 700;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 6px #e3e8f7;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  padding: 0 18px;
+}
+.filter-apply-btn {
+  background: linear-gradient(90deg, #4f8cff 60%, #8f5aff 100%);
+  color: #fff !important;
+  border: none;
+}
+.filter-apply-btn:hover {
+  background: linear-gradient(90deg, #3a56d4 60%, #8f5aff 100%);
+  color: #fff !important;
 }
 .filter-clear-btn {
-  min-width: 90px;
-  font-weight: 600;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
-  background: #f7f7fa;
-  color: #3a56d4;
-  transition: background 0.2s;
+  border: 1.5px solid #e0e0e0;
+  background: linear-gradient(90deg, #e9eefd 60%, #f7f7fa 100%);
+  color: #4f8cff;
 }
 .filter-clear-btn:hover {
-  background: #e9eefd;
-  color: #222;
+  background: linear-gradient(90deg, #4f8cff 60%, #8f5aff 100%);
+  color: #fff;
+  border: 1.5px solid #4f8cff;
 }
 .bestseller-filter-error {
   display: flex;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .bestseller-chart-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 16px #e3e8f7;
-  padding: 28px 18px 18px 18px;
-  margin-bottom: 24px;
+  background: linear-gradient(120deg, #fff 80%, #f6f8fc 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #e3e8f7;
+  padding: 32px 22px 22px 22px;
+  margin-bottom: 28px;
   min-height: 420px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1.5px solid #e0e7ff;
 }
 .bestseller-chart-card:hover {
-  box-shadow: 0 6px 32px #d0d8f7;
+  box-shadow: 0 12px 36px #d0d8f7;
+  transform: translateY(-2px) scale(1.01);
 }
 .bestseller-chart-title {
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 800;
+  font-size: 1.35rem;
   color: #4f8cff;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   text-align: center;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.7px;
+  text-shadow: 0 1px 4px #e3e8f7;
 }
 .bestseller-chart-empty {
   text-align: center;
   margin-top: 80px;
-  color: #888;
-  font-size: 17px;
+  color: #b0b0b0;
+  font-size: 18px;
   font-style: italic;
+  letter-spacing: 0.2px;
 }
 .dashboard-metrics {
-  margin-top: 40px;
-  background: #fff;
-  border-radius: 14px;
+  margin-top: 44px;
+  background: linear-gradient(120deg, #fff 80%, #f6f8fc 100%);
+  border-radius: 16px;
   box-shadow: 0 2px 12px #e3e8f7;
-  padding: 28px 18px 18px 18px;
+  padding: 32px 22px 22px 22px;
+  border: 1.5px solid #e0e7ff;
 }
 .metrics-row {
   display: flex;
-  gap: 22px;
-  margin-bottom: 18px;
+  gap: 28px;
+  margin-bottom: 22px;
   justify-content: center;
 }
 .metric-card {
   flex: 1;
-  background: #f7faff;
-  border-radius: 10px;
-  box-shadow: 0 1px 6px #e3e8f7;
-  padding: 22px 0 16px 0;
+  background: linear-gradient(120deg, #f7faff 80%, #e9eefd 100%);
+  border-radius: 12px;
+  box-shadow: 0 1px 8px #e3e8f7;
+  padding: 28px 0 18px 0;
   text-align: center;
   transition: box-shadow 0.2s, transform 0.2s;
+  border-left: 6px solid #e0e7ff;
+  border-right: 6px solid transparent;
 }
-.metric-card.primary { border-left: 5px solid #4f8cff; }
-.metric-card.info { border-left: 5px solid #8f5aff; }
-.metric-card.success { border-left: 5px solid #06d6a0; }
-.metric-card.warning { border-left: 5px solid #ffd166; }
+.metric-card.primary { border-left: 6px solid #4f8cff; }
+.metric-card.info { border-left: 6px solid #8f5aff; }
+.metric-card.success { border-left: 6px solid #06d6a0; }
+.metric-card.warning { border-left: 6px solid #ffd166; }
+.metric-card:hover {
+  box-shadow: 0 6px 24px #d0d8f7;
+  transform: translateY(-2px) scale(1.02);
+}
 .metric-value {
-  font-size: 2.1rem;
-  font-weight: 700;
+  font-size: 2.2rem;
+  font-weight: 800;
   color: #3a56d4;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  text-shadow: 0 1px 4px #e3e8f7;
 }
 .metric-label {
-  font-size: 1.1rem;
+  font-size: 1.13rem;
   color: #666;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+  font-weight: 600;
+  letter-spacing: 0.25px;
 }
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .bestseller-dashboard { padding: 18px 4px; }
   .bestseller-chart-card { min-height: 340px; }
-  .metrics-row { flex-direction: column; gap: 12px; }
+  .dashboard-metrics { padding: 18px 4px; }
+}
+@media (max-width: 992px) {
+  .metrics-row { flex-direction: column; gap: 16px; }
+  .bestseller-header { flex-direction: column; gap: 12px; }
 }
 @media (max-width: 768px) {
   .bestseller-dashboard { padding: 8px 0; }
   .bestseller-title { font-size: 1.3rem; }
-  .bestseller-chart-title { font-size: 18px; }
-  .dashboard-metrics { padding: 14px 4px; }
+  .bestseller-chart-title { font-size: 1.05rem; }
+  .dashboard-metrics { padding: 10px 2px; }
+  .bestseller-filter-form { flex-direction: column; gap: 12px; padding: 10px 6px; min-width: unset; }
+  .filter-btn-group { width: 100%; justify-content: flex-end; }
 }

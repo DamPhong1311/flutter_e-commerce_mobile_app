@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { db, collection, getDocs } from "../firebaseConfigs";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
 import { Button, Form, Alert } from "react-bootstrap";
@@ -20,22 +20,25 @@ const BestSellerChart = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [uniqueProducts, setUniqueProducts] = useState(0);
 
-  // Bộ lọc thời gian
+  // Filter state
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [filterError, setFilterError] = useState("");
+  const [hasFiltered, setHasFiltered] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  // Only fetch when filter is applied
+  const handleFilter = (e) => {
+    if (e) e.preventDefault();
     if ((startDate && !endDate) || (!startDate && endDate)) {
-      setFilterError("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.");
+      setFilterError("Please select both start and end date.");
       return;
     }
     setFilterError("");
+    setHasFiltered(true);
     fetchBestSellers();
-    // eslint-disable-next-line
-  }, [startDate, endDate]);
+  };
 
   const fetchBestSellers = async () => {
     const usersSnapshot = await getDocs(collection(db, "users"));
@@ -45,9 +48,9 @@ const BestSellerChart = () => {
     const userPurchaseMap = {};
 
     for (const userDoc of usersSnapshot.docs) {
-      // Lấy tất cả ordered của user này
+      // Get all orders of this user
       const orderedSnapshot = await getDocs(collection(db, "users", userDoc.id, "ordered"));
-      // Lọc theo thời gian nếu có
+      // Filter by date if needed
       const orders = orderedSnapshot.docs.filter(orderDoc => {
         const orderData = orderDoc.data();
         if (!orderData.createdAt) return false;
@@ -74,7 +77,7 @@ const BestSellerChart = () => {
       orders.forEach(orderDoc => {
         const orderData = orderDoc.data();
         const product = orderData.product;
-        // Nếu product là mảng (nhiều sản phẩm trong 1 đơn)
+        // If product is array (multiple products in one order)
         if (Array.isArray(product)) {
           product.forEach(prod => {
             const id = prod.id || prod.productId || prod.name || "unknown";
@@ -85,7 +88,7 @@ const BestSellerChart = () => {
             userProductCount += quantity;
           });
         } else if (product) {
-          // Nếu chỉ có 1 sản phẩm
+          // If only one product
           const id = product.id || product.productId || product.name || "unknown";
           const quantity = Number(product.quantity) || 1;
           const price = Number(product.price) || 0;
@@ -138,24 +141,46 @@ const BestSellerChart = () => {
     setUniqueProducts(Object.keys(productCount).length);
   };
 
+  // For single bar, add a dummy bar to make it touch the bottom
+  const topUserChartData =
+    topUserData.length === 1
+      ? [{ ...topUserData[0] }, { name: "", total: 0 }]
+      : topUserData;
+
+  // When page loads, do not fetch data until filter or clear filter is clicked
+  // Clear filter resets all data and filter state
+  const handleClearFilter = () => {
+    setStartDate("");
+    setEndDate("");
+    setFilterError("");
+    setHasFiltered(false);
+    setData([]);
+    setTopUserData([]);
+    setTotalProducts(0);
+    setTotalOrderAmount(0);
+    setTotalUsers(0);
+    setUniqueProducts(0);
+  };
+
   return (
     <div className="bestseller-dashboard">
       <div className="bestseller-header">
-        <h2 className="bestseller-title">Thống kê bán hàng</h2>
         <Button
           variant="secondary"
           className="back-btn"
           onClick={() => navigate("/dashboard/products")}
         >
-          ← Quản lý sản phẩm
+          ← Product Management
         </Button>
+        <h2 className="bestseller-title">Sales Statistics</h2>
+        <div style={{ width: 120 }} />
       </div>
 
-      {/* Bộ lọc thời gian */}
+      {/* Filter */}
       <div className="bestseller-filter-row">
-        <Form className="bestseller-filter-form">
+        <Form className="bestseller-filter-form" onSubmit={handleFilter}>
           <div className="filter-group">
-            <Form.Label>Từ ngày</Form.Label>
+            <Form.Label>From date</Form.Label>
             <Form.Control
               type="date"
               value={startDate}
@@ -164,7 +189,7 @@ const BestSellerChart = () => {
             />
           </div>
           <div className="filter-group">
-            <Form.Label>Đến ngày</Form.Label>
+            <Form.Label>To date</Form.Label>
             <Form.Control
               type="date"
               value={endDate}
@@ -172,13 +197,23 @@ const BestSellerChart = () => {
               className="filter-date"
             />
           </div>
-          <Button
-            variant="outline-secondary"
-            className="filter-clear-btn"
-            onClick={() => { setStartDate(""); setEndDate(""); }}
-          >
-            Xóa lọc
-          </Button>
+          <div className="filter-btn-group">
+            <Button
+              variant="primary"
+              className="filter-apply-btn"
+              type="submit"
+            >
+              Filter
+            </Button>
+            <Button
+              variant="outline-secondary"
+              className="filter-clear-btn"
+              type="button"
+              onClick={handleClearFilter}
+            >
+              Clear
+            </Button>
+          </div>
         </Form>
       </div>
       {filterError && (
@@ -188,20 +223,20 @@ const BestSellerChart = () => {
       )}
 
       <div className="row g-4">
-        {/* Biểu đồ sản phẩm bán chạy */}
+        {/* Best seller products chart */}
         <div className="col-lg-6 col-12">
           <div className="bestseller-chart-card">
-            <div className="bestseller-chart-title">Top 4 sản phẩm bán chạy</div>
-            {data.length === 0 ? (
+            <div className="bestseller-chart-title">Top Best Selling Products</div>
+            {!hasFiltered || data.length === 0 ? (
               <div className="bestseller-chart-empty">
-                Không có dữ liệu để hiển thị biểu đồ.
+                No data to display chart.
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height={340}>
+              <ResponsiveContainer width="100%" height={380}>
                 <BarChart
-                  data={data}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
-                  barSize={48}
+                  data={data.length === 1 ? [{ ...data[0] }, { name: "", orders: 0 }] : data}
+                  margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
+                  maxBarSize={60}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
@@ -227,7 +262,7 @@ const BestSellerChart = () => {
                     }}
                     formatter={(value, name) => [
                       value,
-                      name === "orders" ? "Số lượng bán" : name,
+                      name === "orders" ? "Quantity Sold" : name,
                     ]}
                     labelFormatter={(label, payload) => {
                       if (!payload || !payload.length) return label;
@@ -245,7 +280,7 @@ const BestSellerChart = () => {
                   <Bar
                     dataKey="orders"
                     fill="url(#colorBar)"
-                    name="Số lượng bán"
+                    name="Quantity Sold"
                     radius={[8, 8, 0, 0]}
                     label={{
                       position: "top",
@@ -264,20 +299,20 @@ const BestSellerChart = () => {
             )}
           </div>
         </div>
-        {/* Biểu đồ top user */}
+        {/* Top user chart */}
         <div className="col-lg-6 col-12">
           <div className="bestseller-chart-card">
-            <div className="bestseller-chart-title">Top 4 khách hàng mua nhiều nhất</div>
-            {topUserData.length === 0 ? (
+            <div className="bestseller-chart-title">Top Customers with Highest Purchases</div>
+            {!hasFiltered || topUserData.length === 0 ? (
               <div className="bestseller-chart-empty">
-                Không có dữ liệu để hiển thị biểu đồ.
+                No data to display chart.
               </div>
             ) : (
-              <ResponsiveContainer width="100%" height={340}>
+              <ResponsiveContainer width="100%" height={380}>
                 <BarChart
-                  data={topUserData}
-                  margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
-                  barSize={48}
+                  data={topUserChartData}
+                  margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
+                  maxBarSize={60}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis
@@ -302,8 +337,8 @@ const BestSellerChart = () => {
                       fontSize: 15,
                     }}
                     formatter={(value, name) => [
-                      value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
-                      name === "total" ? "Tổng tiền mua" : name,
+                      value.toLocaleString("en-US", { style: "currency", currency: "USD" }),
+                      name === "total" ? "Total Purchased" : name,
                     ]}
                     labelFormatter={(label, payload) => {
                       if (!payload || !payload.length) return label;
@@ -313,7 +348,7 @@ const BestSellerChart = () => {
                         <span>
                           {fullName || label}
                           <br />
-                          Số sản phẩm đã mua: {productCount ?? 0}
+                          Products bought: {productCount ?? 0}
                         </span>
                       );
                     }}
@@ -328,13 +363,13 @@ const BestSellerChart = () => {
                   <Bar
                     dataKey="total"
                     fill="url(#colorBarUser)"
-                    name="Tổng tiền mua"
+                    name="Total Purchased"
                     radius={[8, 8, 0, 0]}
                     label={{
                       position: "top",
                       fontWeight: 600,
                       fill: "#8f5aff",
-                      formatter: (value) => value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+                      formatter: (value) => value.toLocaleString("en-US", { style: "currency", currency: "USD" }),
                     }}
                   />
                   <defs>
@@ -350,28 +385,28 @@ const BestSellerChart = () => {
         </div>
       </div>
 
-      {/* Thống kê tổng */}
+      {/* Metrics */}
       <div className="dashboard-metrics mt-5">
         <div className="metrics-row">
           <div className="metric-card primary">
             <div className="metric-value">{totalProducts}</div>
-            <div className="metric-label">Tổng sản phẩm</div>
+            <div className="metric-label">Total Products</div>
           </div>
           <div className="metric-card info">
             <div className="metric-value">
-              {totalOrderAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
+              {totalOrderAmount.toLocaleString("en-US", { style: "currency", currency: "USD" })}
             </div>
-            <div className="metric-label">Tổng tiền đơn hàng</div>
+            <div className="metric-label">Total Order Amount</div>
           </div>
         </div>
         <div className="metrics-row">
           <div className="metric-card success">
             <div className="metric-value">{totalUsers}</div>
-            <div className="metric-label">Khách có đơn hàng</div>
+            <div className="metric-label">Customers with Orders</div>
           </div>
           <div className="metric-card warning">
             <div className="metric-value">{uniqueProducts}</div>
-            <div className="metric-label">Sản phẩm khác nhau đã bán</div>
+            <div className="metric-label">Unique Products Sold</div>
           </div>
         </div>
       </div>
