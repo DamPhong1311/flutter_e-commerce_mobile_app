@@ -381,3 +381,121 @@ h2.text-center::after {
 .modal-fullscreen-custom .modal-body {
   overflow-y: auto;
 }
+/* Custom styling for modal */
+.custom-chart-modal .modal-dialog {
+  position: fixed;         /* Fixed positioning to ensure it's an overlay */
+  top: 50%;                /* Vertically center the modal */
+  left: 50%;               /* Horizontally center the modal */
+  transform: translate(-50%, -50%); /* Ensure exact centering */
+  max-width: 80%;
+  margin: 0;               /* Remove any margin */
+  display: block;          /* Ensure block-level positioning */
+}
+
+.chart-modal-header {
+  background-color: #4f8cff;
+  color: white;
+  font-weight: bold;
+  padding: 15px 20px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+.chart-modal-body {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Ensures body height is flexible but within view */
+}
+
+/* Styling for the chart container */
+.chart-container {
+  width: 100%;  /* Ensure full width within modal */
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .custom-chart-modal .modal-dialog {
+    max-width: 95%;
+  }
+}
+.dashboard-metrics {
+  width: 100%;
+  margin: 0 auto 32px auto;
+  max-width: 900px;
+}
+.metrics-row {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+.metric-card {
+  flex: 1 1 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #eee;
+  padding: 32px 0 24px 0;
+  text-align: center;
+  min-width: 180px;
+}
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4361ee;
+}
+.metric-label {
+  font-size: 1.1rem;
+  color: #222;
+  margin-top: 8px;
+  font-weight: 500;
+}
+.metric-card.primary .metric-value { color: #4361ee; }
+.metric-card.info .metric-value { color: #17a2b8; }
+.metric-card.success .metric-value { color: #06d6a0; }
+.metric-card.warning .metric-value { color: #ffb347; }
+
+@media (max-width: 900px) {
+  .metrics-row { flex-direction: column; gap: 16px; }
+}
+.chart-header-row {
+  background: #f7f8fa;
+  border-radius: 10px;
+  padding: 18px 28px 18px 28px;
+  box-shadow: 0 2px 12px #e3e8f0;
+  margin-bottom: 28px;
+}
+
+.chart-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #4f8cff;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.back-btn {
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  padding: 8px 22px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(90deg, #4f8cff 0%, #8f5aff 100%);
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #e3e8f0;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.back-btn:hover, .back-btn:focus {
+  background: linear-gradient(90deg, #8f5aff 0%, #4f8cff 100%);
+  color: #fff !important;
+  box-shadow: 0 4px 16px #d1d9e6;
+}

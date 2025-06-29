@@ -129,6 +129,9 @@ const ProductManager = () => {
         <Button variant="secondary" onClick={() => navigate("/dashboard/users")}>
           Manage Users
         </Button>
+        <Button variant="info" onClick={() => navigate("/dashboard/best-seller-chart")}>
+            Charts
+          </Button>
       </div>
       <Form.Control
         type="text"
