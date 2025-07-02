@@ -137,7 +137,8 @@ const UserManager = () => {
                         </div>
                       </div>
                       
-                      {o.status === "Pending" || o.status === "Đang chờ" && (
+                      {/* SỬA LỖI TẠI ĐÂY: Thêm dấu ngoặc () để nhóm điều kiện logic */}
+                      {(o.status === "Pending" || o.status === "Đang chờ") && (
                         <div className="order-actions">
                           <Button 
                             className="btn-sm"
