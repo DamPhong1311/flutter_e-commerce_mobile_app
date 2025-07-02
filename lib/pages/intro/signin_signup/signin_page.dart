@@ -98,11 +98,9 @@ class _LoginPageState extends State<LoginPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Login_Successfull')));
 
-              Navigator.restorablePushAndRemoveUntil(
-                context,
-                (context, arguments) =>
-                    MaterialPageRoute(builder: (_) => NavPage()),
-                (route) => false, // Xóa tất cả các route trước đó
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => NavPage()),
+                (route) => false,
               );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
