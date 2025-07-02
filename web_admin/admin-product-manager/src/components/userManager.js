@@ -35,7 +35,7 @@ const UserManager = () => {
   }, [selectedUser]);
 
   const handleStatusChange = async (uid, oid) => {
-    await updateDoc(doc(db, `users/${uid}/ordered`, oid), { status: "Delivered" });
+    await updateDoc(doc(db, `users/${uid}/ordered`, oid), { status: "Đã giao" });
   };
   
   const handleSelectUser = (user) => {
@@ -61,9 +61,9 @@ const UserManager = () => {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="text-center mb-0" style={{border: 'none', padding: 0, textAlign: 'left'}}>User Management</h2>
+        <h2 className="text-center mb-0" style={{border: 'none', padding: 0, textAlign: 'left'}}>Quản lý người dùng</h2>
         <Button variant="secondary" onClick={() => navigate("/dashboard/products")}>
-          ← Product Management
+          ← Quản lý sản phẩm
         </Button>
       </div>
 
@@ -71,7 +71,7 @@ const UserManager = () => {
         <div className="user-list-panel">
           <input
             type="text"
-            placeholder="Search by name or email..."
+            placeholder="Tìm theo tên hoặc email..."
             value={searchTerm}
             onChange={(e) => setSearch(e.target.value)}
             className="form-control mb-3"
@@ -92,7 +92,7 @@ const UserManager = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center p-4 text-muted">No users found.</div>
+              <div className="text-center p-4 text-muted">Không tìm thấy người dùng.</div>
             )}
           </div>
         </div>
@@ -100,51 +100,51 @@ const UserManager = () => {
         <div className="user-detail-panel">
           {selectedUser ? (
             <div className="user-details-content">
-              <h4 className="mb-3">Orders History ({selectedUser.orders.length})</h4>
+              <h4 className="mb-3">Lịch sử đơn hàng ({selectedUser.orders.length})</h4>
               
               {selectedUser.orders.length === 0 ? (
-                <div className="text-center py-5 text-muted">This user has no orders.</div>
+                <div className="text-center py-5 text-muted">Người dùng này chưa có đơn hàng.</div>
               ) : (
                 <div className="orders-list">
                   {selectedUser.orders.map((o) => (
                     <div key={o.id} className="order-card">
                       <div className="order-header">
-                        <div className="order-id">Order #{o.id.substring(0, 8).toUpperCase()}</div>
-                        <div className={`order-status ${o.status === "Pending" ? "status-pending" : "status-delivered"}`}>
-                          {o.status}
+                        <div className="order-id">Đơn hàng #{o.id.substring(0, 8).toUpperCase()}</div>
+                        <div className={`order-status ${o.status === "Pending" || o.status === "Đang chờ" ? "status-pending" : "status-delivered"}`}>
+                          {o.status === "Pending" ? "Đang chờ" : o.status}
                         </div>
                       </div>
                       
                       <div className="order-info">
                         <div className="order-info-item">
-                          <div className="order-info-label">Total Amount</div>
+                          <div className="order-info-label">Tổng tiền</div>
                           <div className="order-info-value">{o.totalPrice.toLocaleString()}đ</div>
                         </div>
                         <div className="order-info-item">
-                          <div className="order-info-label">Payment Method</div>
+                          <div className="order-info-label">Phương thức thanh toán</div>
                           <div className="order-info-value">{o.paymentMethod}</div>
                         </div>
                         <div className="order-info-item">
-                          <div className="order-info-label">Order Date</div>
+                          <div className="order-info-label">Ngày đặt hàng</div>
                           <div className="order-info-value">{new Date(o.timestamp?.toDate()).toLocaleDateString()}</div>
                         </div>
                       </div>
                       
                       <div className="order-address">
-                        <div className="order-info-label">Delivery Address</div>
+                        <div className="order-info-label">Địa chỉ giao hàng</div>
                         <div className="order-info-value">
                           {`${o.address.detail}, ${o.address.ward}, ${o.address.district}, ${o.address.province}`}
                         </div>
                       </div>
                       
-                      {o.status === "Pending" && (
+                      {o.status === "Pending" || o.status === "Đang chờ" && (
                         <div className="order-actions">
                           <Button 
                             className="btn-sm"
                             variant="success"
                             onClick={() => handleStatusChange(selectedUser.id, o.id)}
                           >
-                            ✓ Confirm Delivery
+                            ✓ Xác nhận đã giao
                           </Button>
                         </div>
                       )}
@@ -156,8 +156,8 @@ const UserManager = () => {
           ) : (
             <div className="user-detail-placeholder">
               <div className="placeholder-icon">👤</div>
-              <h4>Select a user</h4>
-              <p>Click on a user from the list to view their details and order history.</p>
+              <h4>Chọn một người dùng</h4>
+              <p>Nhấp vào một người dùng từ danh sách để xem chi tiết và lịch sử đơn hàng của họ.</p>
             </div>
           )}
         </div>

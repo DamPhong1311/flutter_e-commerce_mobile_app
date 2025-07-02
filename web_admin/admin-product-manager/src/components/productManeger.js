@@ -123,19 +123,19 @@ const ProductManager = () => {
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4">Product Management</h2>
+      <h2 className="text-center mb-4">Quản lý Sản phẩm</h2>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <Button variant="primary" onClick={handleShow}>+ Add Product</Button>
+        <Button variant="primary" onClick={handleShow}>+ Thêm sản phẩm</Button>
         <Button variant="secondary" onClick={() => navigate("/dashboard/users")}>
-          Manage Users
+          Quản lý người dùng
         </Button>
         <Button variant="secondary" onClick={() => navigate("/dashboard/best-seller-chart")}>
-            Charts
+            Biểu đồ
           </Button>
       </div>
       <Form.Control
         type="text"
-        placeholder="Search by product name"
+        placeholder="Tìm kiếm theo tên sản phẩm"
         value={searchTerm}
         onChange={handleSearchChange}
         className="mb-3"
@@ -145,8 +145,8 @@ const ProductManager = () => {
       <Table striped bordered hover responsive className="table-container">
         <thead>
           <tr>
-            <th>Image</th><th>Product Name</th><th>Description</th><th>Price</th><th>Old Price</th>
-            <th>Sale Percent</th><th>Category</th><th>Store</th><th>On Sale</th><th>Actions</th>
+            <th>Ảnh</th><th>Tên sản phẩm</th><th>Mô tả</th><th>Giá</th><th>Giá cũ</th>
+            <th>% Giảm giá</th><th>Danh mục</th><th>Cửa hàng</th><th>Đang bán</th><th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -157,11 +157,11 @@ const ProductManager = () => {
               <td>{product.priceProduct?.toLocaleString()}đ</td>
               <td>{product.oldPrice?.toLocaleString()}đ</td>
               <td>{product.salePercent}</td><td>{product.category}</td>
-              <td>{product.store}</td><td>{product.isSale ? "Yes" : "No"}</td>
+              <td>{product.store}</td><td>{product.isSale ? "Có" : "Không"}</td>
               <td>
                 <div className="action-buttons">
-                  <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>Edit</Button>
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>Delete</Button>
+                  <Button variant="warning" size="sm" onClick={() => handleEditShow(product)}>Sửa</Button>
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>Xoá</Button>
                 </div>
               </td>
             </tr>
@@ -176,61 +176,61 @@ const ProductManager = () => {
         dialogClassName="modal-fullscreen-custom"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Product</Modal.Title>
+          <Modal.Title>Thêm sản phẩm</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Tên</Form.Label>
               <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
             </Form.Group>
             <Row className="mb-3">
               <Col md={6}>
                 <Form.Group>
-                  <Form.Label>Category</Form.Label>
+                  <Form.Label>Danh mục</Form.Label>
                   <Form.Control as="select" name="category" value={formData.category} onChange={handleChange}>
-                    <option value="">Select or Enter New</option>
+                    <option value="">Chọn hoặc nhập mới</option>
                     {categories.map((cat, index) => (<option key={index} value={cat}>{cat}</option>))}
                   </Form.Control>
-                  <Form.Control className="mt-2" type="text" name="category" placeholder="Or enter new category" onChange={handleChange} />
+                  <Form.Control className="mt-2" type="text" name="category" placeholder="Hoặc nhập danh mục mới" onChange={handleChange} />
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group>
-                  <Form.Label>Store</Form.Label>
+                  <Form.Label>Cửa hàng</Form.Label>
                   <Form.Control as="select" name="store" value={formData.store} onChange={handleChange}>
-                    <option value="">Select or Enter New</option>
+                    <option value="">Chọn hoặc nhập mới</option>
                     {stores.map((store, index) => (<option key={index} value={store}>{store}</option>))}
                   </Form.Control>
-                  <Form.Control className="mt-2" type="text" name="store" placeholder="Or enter new store" onChange={handleChange} />
+                  <Form.Control className="mt-2" type="text" name="store" placeholder="Hoặc nhập cửa hàng mới" onChange={handleChange} />
                 </Form.Group>
               </Col>
             </Row>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Mô tả</Form.Label>
               <Form.Control as="textarea" rows={2} name="description" value={formData.description} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image URL</Form.Label>
+              <Form.Label>URL hình ảnh</Form.Label>
               <Form.Control type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image Gallery (One per line)</Form.Label>
+              <Form.Label>Thư viện ảnh (Mỗi URL một dòng)</Form.Label>
               <Form.Control as="textarea" rows={2} name="imageGallery" value={formData.imageGallery} onChange={handleChange} />
             </Form.Group>
             <Row className="mb-3">
-              <Col md={4}><Form.Group><Form.Label>Price</Form.Label><Form.Control type="number" name="priceProduct" value={formData.priceProduct} onChange={handleChange} /></Form.Group></Col>
-              <Col md={4}><Form.Group><Form.Label>Old Price</Form.Label><Form.Control type="number" name="oldPrice" value={formData.oldPrice} onChange={handleChange} /></Form.Group></Col>
-              <Col md={4}><Form.Group><Form.Label>Sale Percent</Form.Label><Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>Giá</Form.Label><Form.Control type="number" name="priceProduct" value={formData.priceProduct} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>Giá cũ</Form.Label><Form.Control type="number" name="oldPrice" value={formData.oldPrice} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>% Giảm giá</Form.Label><Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} /></Form.Group></Col>
             </Row>
             <Form.Group>
-              <Form.Check label="On Sale" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
+              <Form.Check label="Đang bán" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-          <Button variant="primary" onClick={handleSubmit}>Save Product</Button>
+          <Button variant="secondary" onClick={handleClose}>Huỷ</Button>
+          <Button variant="primary" onClick={handleSubmit}>Lưu sản phẩm</Button>
         </Modal.Footer>
       </Modal>
 
@@ -241,61 +241,61 @@ const ProductManager = () => {
         dialogClassName="modal-fullscreen-custom"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Product</Modal.Title>
+          <Modal.Title>Sửa sản phẩm</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Tên</Form.Label>
               <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
             </Form.Group>
             <Row className="mb-3">
               <Col md={6}>
                 <Form.Group>
-                  <Form.Label>Category</Form.Label>
+                  <Form.Label>Danh mục</Form.Label>
                   <Form.Control as="select" name="category" value={formData.category} onChange={handleChange}>
-                    <option value="">Select or Enter New</option>
+                    <option value="">Chọn hoặc nhập mới</option>
                     {categories.map((cat, index) => (<option key={index} value={cat}>{cat}</option>))}
                   </Form.Control>
-                  <Form.Control className="mt-2" type="text" name="category" placeholder="Or enter new category" onChange={handleChange} />
+                  <Form.Control className="mt-2" type="text" name="category" placeholder="Hoặc nhập danh mục mới" onChange={handleChange} />
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group>
-                  <Form.Label>Store</Form.Label>
+                  <Form.Label>Cửa hàng</Form.Label>
                   <Form.Control as="select" name="store" value={formData.store} onChange={handleChange}>
-                    <option value="">Select or Enter New</option>
+                    <option value="">Chọn hoặc nhập mới</option>
                     {stores.map((store, index) => (<option key={index} value={store}>{store}</option>))}
                   </Form.Control>
-                  <Form.Control className="mt-2" type="text" name="store" placeholder="Or enter new store" onChange={handleChange} />
+                  <Form.Control className="mt-2" type="text" name="store" placeholder="Hoặc nhập cửa hàng mới" onChange={handleChange} />
                 </Form.Group>
               </Col>
             </Row>
             <Form.Group className="mb-3">
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Mô tả</Form.Label>
               <Form.Control as="textarea" rows={2} name="description" value={formData.description} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image URL</Form.Label>
+              <Form.Label>URL hình ảnh</Form.Label>
               <Form.Control type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Image Gallery (One per line)</Form.Label>
+              <Form.Label>Thư viện ảnh (Mỗi URL một dòng)</Form.Label>
               <Form.Control as="textarea" rows={2} name="imageGallery" value={formData.imageGallery} onChange={handleChange} />
             </Form.Group>
             <Row className="mb-3">
-              <Col md={4}><Form.Group><Form.Label>Price</Form.Label><Form.Control type="number" name="priceProduct" value={formData.priceProduct} onChange={handleChange} /></Form.Group></Col>
-              <Col md={4}><Form.Group><Form.Label>Old Price</Form.Label><Form.Control type="number" name="oldPrice" value={formData.oldPrice} onChange={handleChange} /></Form.Group></Col>
-              <Col md={4}><Form.Group><Form.Label>Sale Percent</Form.Label><Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>Giá</Form.Label><Form.Control type="number" name="priceProduct" value={formData.priceProduct} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>Giá cũ</Form.Label><Form.Control type="number" name="oldPrice" value={formData.oldPrice} onChange={handleChange} /></Form.Group></Col>
+              <Col md={4}><Form.Group><Form.Label>% Giảm giá</Form.Label><Form.Control type="text" name="salePercent" value={formData.salePercent} onChange={handleChange} /></Form.Group></Col>
             </Row>
             <Form.Group>
-              <Form.Check label="On Sale" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
+              <Form.Check label="Đang bán" type="checkbox" name="isSale" checked={formData.isSale} onChange={handleChange} />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleEditClose}>Cancel</Button>
-          <Button variant="primary" onClick={handleEditSubmit}>Save Changes</Button>
+          <Button variant="secondary" onClick={handleEditClose}>Huỷ</Button>
+          <Button variant="primary" onClick={handleEditSubmit}>Lưu thay đổi</Button>
         </Modal.Footer>
       </Modal>
     </div>

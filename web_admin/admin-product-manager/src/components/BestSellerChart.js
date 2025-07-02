@@ -32,7 +32,7 @@ const BestSellerChart = () => {
   const handleFilter = (e) => {
     if (e) e.preventDefault();
     if ((startDate && !endDate) || (!startDate && endDate)) {
-      setFilterError("Please select both start and end date.");
+      setFilterError("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc.");
       return;
     }
     setFilterError("");
@@ -170,9 +170,9 @@ const BestSellerChart = () => {
           className="back-btn"
           onClick={() => navigate("/dashboard/products")}
         >
-          ← Product Management
+          ← Quản lý sản phẩm
         </Button>
-        <h2 className="bestseller-title">Sales Statistics</h2>
+        <h2 className="bestseller-title">Thống kê Doanh số</h2>
         <div style={{ width: 120 }} />
       </div>
 
@@ -180,7 +180,7 @@ const BestSellerChart = () => {
       <div className="bestseller-filter-row">
         <Form className="bestseller-filter-form" onSubmit={handleFilter}>
           <div className="filter-group">
-            <Form.Label>From date</Form.Label>
+            <Form.Label>Từ ngày</Form.Label>
             <Form.Control
               type="date"
               value={startDate}
@@ -189,7 +189,7 @@ const BestSellerChart = () => {
             />
           </div>
           <div className="filter-group">
-            <Form.Label>To date</Form.Label>
+            <Form.Label>Đến ngày</Form.Label>
             <Form.Control
               type="date"
               value={endDate}
@@ -203,7 +203,7 @@ const BestSellerChart = () => {
               className="filter-apply-btn"
               type="submit"
             >
-              Filter
+              Lọc
             </Button>
             <Button
               variant="outline-secondary"
@@ -211,7 +211,7 @@ const BestSellerChart = () => {
               type="button"
               onClick={handleClearFilter}
             >
-              Clear
+              Xoá
             </Button>
           </div>
         </Form>
@@ -226,10 +226,10 @@ const BestSellerChart = () => {
         {/* Best seller products chart */}
         <div className="col-lg-6 col-12">
           <div className="bestseller-chart-card">
-            <div className="bestseller-chart-title">Top Best Selling Products</div>
+            <div className="bestseller-chart-title">Top Sản phẩm Bán chạy nhất</div>
             {!hasFiltered || data.length === 0 ? (
               <div className="bestseller-chart-empty">
-                No data to display chart.
+                Không có dữ liệu để hiển thị biểu đồ.
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={380}>
@@ -262,7 +262,7 @@ const BestSellerChart = () => {
                     }}
                     formatter={(value, name) => [
                       value,
-                      name === "orders" ? "Quantity Sold" : name,
+                      name === "orders" ? "Số lượng đã bán" : name,
                     ]}
                     labelFormatter={(label, payload) => {
                       if (!payload || !payload.length) return label;
@@ -280,7 +280,7 @@ const BestSellerChart = () => {
                   <Bar
                     dataKey="orders"
                     fill="url(#colorBar)"
-                    name="Quantity Sold"
+                    name="Số lượng đã bán"
                     radius={[8, 8, 0, 0]}
                     label={{
                       position: "top",
@@ -302,10 +302,10 @@ const BestSellerChart = () => {
         {/* Top user chart */}
         <div className="col-lg-6 col-12">
           <div className="bestseller-chart-card">
-            <div className="bestseller-chart-title">Top Customers with Highest Purchases</div>
+            <div className="bestseller-chart-title">Top Khách hàng Chi tiêu nhiều nhất</div>
             {!hasFiltered || topUserData.length === 0 ? (
               <div className="bestseller-chart-empty">
-                No data to display chart.
+                Không có dữ liệu để hiển thị biểu đồ.
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={380}>
@@ -327,6 +327,7 @@ const BestSellerChart = () => {
                     axisLine={false}
                     tickLine={false}
                     allowDecimals={false}
+                    tickFormatter={(value) => value.toLocaleString("vi-VN")}
                   />
                   <Tooltip
                     contentStyle={{
@@ -337,8 +338,8 @@ const BestSellerChart = () => {
                       fontSize: 15,
                     }}
                     formatter={(value, name) => [
-                      value.toLocaleString("en-US", { style: "currency", currency: "USD" }),
-                      name === "total" ? "Total Purchased" : name,
+                      value.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+                      name === "total" ? "Tổng đã mua" : name,
                     ]}
                     labelFormatter={(label, payload) => {
                       if (!payload || !payload.length) return label;
@@ -348,7 +349,7 @@ const BestSellerChart = () => {
                         <span>
                           {fullName || label}
                           <br />
-                          Products bought: {productCount ?? 0}
+                          Sản phẩm đã mua: {productCount ?? 0}
                         </span>
                       );
                     }}
@@ -363,13 +364,13 @@ const BestSellerChart = () => {
                   <Bar
                     dataKey="total"
                     fill="url(#colorBarUser)"
-                    name="Total Purchased"
+                    name="Tổng đã mua"
                     radius={[8, 8, 0, 0]}
                     label={{
                       position: "top",
                       fontWeight: 600,
                       fill: "#8f5aff",
-                      formatter: (value) => value.toLocaleString("en-US", { style: "currency", currency: "USD" }),
+                      formatter: (value) => value.toLocaleString("vi-VN", { style: "currency", currency: "VND", minimumFractionDigits: 0, maximumFractionDigits: 0 }),
                     }}
                   />
                   <defs>
@@ -390,23 +391,23 @@ const BestSellerChart = () => {
         <div className="metrics-row">
           <div className="metric-card primary">
             <div className="metric-value">{totalProducts}</div>
-            <div className="metric-label">Total Products</div>
+            <div className="metric-label">Tổng sản phẩm</div>
           </div>
           <div className="metric-card info">
             <div className="metric-value">
-              {totalOrderAmount.toLocaleString("en-US", { style: "currency", currency: "USD" })}
+              {totalOrderAmount.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}
             </div>
-            <div className="metric-label">Total Order Amount</div>
+            <div className="metric-label">Tổng giá trị đơn hàng</div>
           </div>
         </div>
         <div className="metrics-row">
           <div className="metric-card success">
             <div className="metric-value">{totalUsers}</div>
-            <div className="metric-label">Customers with Orders</div>
+            <div className="metric-label">Khách hàng có đơn hàng</div>
           </div>
           <div className="metric-card warning">
             <div className="metric-value">{uniqueProducts}</div>
-            <div className="metric-label">Unique Products Sold</div>
+            <div className="metric-label">Sản phẩm đã bán (độc nhất)</div>
           </div>
         </div>
       </div>
